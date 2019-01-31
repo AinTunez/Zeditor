@@ -61,41 +61,44 @@
             this.AddSubconditionBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.editorControl = new System.Windows.Forms.TabControl();
-            this.conditionTab = new System.Windows.Forms.TabPage();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.PassCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.EvaluatorBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.whileTab = new System.Windows.Forms.TabPage();
-            this.WhileCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.exitTab = new System.Windows.Forms.TabPage();
-            this.ExitCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.entryTab = new System.Windows.Forms.TabPage();
             this.EntryCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.exitTab = new System.Windows.Forms.TabPage();
+            this.ExitCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.whileTab = new System.Windows.Forms.TabPage();
+            this.WhileCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.conditionTab = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.EvaluatorBox = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.PassCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.EditorTitleBox = new System.Windows.Forms.TextBox();
             this.SaveBtn = new System.Windows.Forms.Button();
             this.RevertBtn = new System.Windows.Forms.Button();
             this.saveLabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.AddGroupBtn = new System.Windows.Forms.Button();
+            this.DeleteGroupBtn = new System.Windows.Forms.Button();
+            this.CloneGroupBtn = new System.Windows.Forms.Button();
             this.MenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.editorControl.SuspendLayout();
+            this.entryTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EntryCmdBox)).BeginInit();
+            this.exitTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ExitCmdBox)).BeginInit();
+            this.whileTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).BeginInit();
             this.conditionTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).BeginInit();
-            this.whileTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).BeginInit();
-            this.exitTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ExitCmdBox)).BeginInit();
-            this.entryTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.EntryCmdBox)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,9 +109,9 @@
             this.StateGroupBox.DisplayMember = "Key";
             this.StateGroupBox.FormattingEnabled = true;
             this.StateGroupBox.ItemHeight = 16;
-            this.StateGroupBox.Location = new System.Drawing.Point(12, 57);
+            this.StateGroupBox.Location = new System.Drawing.Point(12, 55);
             this.StateGroupBox.Name = "StateGroupBox";
-            this.StateGroupBox.Size = new System.Drawing.Size(96, 516);
+            this.StateGroupBox.Size = new System.Drawing.Size(122, 516);
             this.StateGroupBox.TabIndex = 0;
             this.StateGroupBox.SelectedIndexChanged += new System.EventHandler(this.StateGroupBox_SelectedIndexChanged);
             // 
@@ -119,9 +122,9 @@
             this.StateBox.DisplayMember = "Key";
             this.StateBox.FormattingEnabled = true;
             this.StateBox.ItemHeight = 16;
-            this.StateBox.Location = new System.Drawing.Point(114, 57);
+            this.StateBox.Location = new System.Drawing.Point(140, 55);
             this.StateBox.Name = "StateBox";
-            this.StateBox.Size = new System.Drawing.Size(96, 516);
+            this.StateBox.Size = new System.Drawing.Size(122, 516);
             this.StateBox.TabIndex = 1;
             this.StateBox.SelectedIndexChanged += new System.EventHandler(this.StateBox_SelectedIndexChanged);
             // 
@@ -136,7 +139,7 @@
             this.helpToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(1209, 28);
+            this.MenuStrip.Size = new System.Drawing.Size(1312, 28);
             this.MenuStrip.TabIndex = 2;
             this.MenuStrip.Text = "menuStrip1";
             // 
@@ -228,7 +231,7 @@
             // noHelpForYouToolStripMenuItem
             // 
             this.noHelpForYouToolStripMenuItem.Name = "noHelpForYouToolStripMenuItem";
-            this.noHelpForYouToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.noHelpForYouToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
             this.noHelpForYouToolStripMenuItem.Text = "About";
             this.noHelpForYouToolStripMenuItem.Click += new System.EventHandler(this.noHelpForYouToolStripMenuItem_Click);
             // 
@@ -236,16 +239,16 @@
             // 
             this.label2.Location = new System.Drawing.Point(12, 31);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(96, 23);
+            this.label2.Size = new System.Drawing.Size(122, 23);
             this.label2.TabIndex = 10;
             this.label2.Text = "Groups";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(114, 31);
+            this.label3.Location = new System.Drawing.Point(140, 31);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 23);
+            this.label3.Size = new System.Drawing.Size(122, 23);
             this.label3.TabIndex = 11;
             this.label3.Text = "States";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -253,9 +256,9 @@
             // AddStateBtn
             // 
             this.AddStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddStateBtn.Location = new System.Drawing.Point(114, 588);
+            this.AddStateBtn.Location = new System.Drawing.Point(140, 577);
             this.AddStateBtn.Name = "AddStateBtn";
-            this.AddStateBtn.Size = new System.Drawing.Size(96, 28);
+            this.AddStateBtn.Size = new System.Drawing.Size(122, 28);
             this.AddStateBtn.TabIndex = 12;
             this.AddStateBtn.Text = "Add";
             this.AddStateBtn.UseVisualStyleBackColor = true;
@@ -264,9 +267,9 @@
             // DeleteStateBtn
             // 
             this.DeleteStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteStateBtn.Location = new System.Drawing.Point(114, 656);
+            this.DeleteStateBtn.Location = new System.Drawing.Point(140, 645);
             this.DeleteStateBtn.Name = "DeleteStateBtn";
-            this.DeleteStateBtn.Size = new System.Drawing.Size(96, 28);
+            this.DeleteStateBtn.Size = new System.Drawing.Size(122, 28);
             this.DeleteStateBtn.TabIndex = 13;
             this.DeleteStateBtn.Text = "Delete";
             this.DeleteStateBtn.UseVisualStyleBackColor = true;
@@ -275,9 +278,9 @@
             // CloneStateBtn
             // 
             this.CloneStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CloneStateBtn.Location = new System.Drawing.Point(114, 622);
+            this.CloneStateBtn.Location = new System.Drawing.Point(140, 611);
             this.CloneStateBtn.Name = "CloneStateBtn";
-            this.CloneStateBtn.Size = new System.Drawing.Size(96, 28);
+            this.CloneStateBtn.Size = new System.Drawing.Size(122, 28);
             this.CloneStateBtn.TabIndex = 14;
             this.CloneStateBtn.Text = "Clone";
             this.CloneStateBtn.UseVisualStyleBackColor = true;
@@ -395,7 +398,7 @@
             this.groupBox1.Controls.Add(this.GoTargetBtn);
             this.groupBox1.Controls.Add(this.TargetStateBox);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(236, 31);
+            this.groupBox1.Location = new System.Drawing.Point(277, 31);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(403, 656);
             this.groupBox1.TabIndex = 8;
@@ -414,210 +417,9 @@
             this.editorControl.Location = new System.Drawing.Point(3, 85);
             this.editorControl.Name = "editorControl";
             this.editorControl.SelectedIndex = 0;
-            this.editorControl.Size = new System.Drawing.Size(505, 568);
+            this.editorControl.Size = new System.Drawing.Size(608, 568);
             this.editorControl.TabIndex = 0;
             this.editorControl.SelectedIndexChanged += new System.EventHandler(this.UpdateTitleBox);
-            // 
-            // conditionTab
-            // 
-            this.conditionTab.Controls.Add(this.splitContainer1);
-            this.conditionTab.Location = new System.Drawing.Point(4, 25);
-            this.conditionTab.Name = "conditionTab";
-            this.conditionTab.Size = new System.Drawing.Size(497, 539);
-            this.conditionTab.TabIndex = 3;
-            this.conditionTab.Text = "Condition";
-            this.conditionTab.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox4);
-            this.splitContainer1.Size = new System.Drawing.Size(497, 539);
-            this.splitContainer1.SplitterDistance = 230;
-            this.splitContainer1.TabIndex = 0;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.PassCmdBox);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Location = new System.Drawing.Point(0, 0);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(497, 305);
-            this.groupBox4.TabIndex = 1;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Pass Commands";
-            // 
-            // PassCmdBox
-            // 
-            this.PassCmdBox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 26);
-            this.PassCmdBox.BackBrush = null;
-            this.PassCmdBox.CharHeight = 16;
-            this.PassCmdBox.CharWidth = 8;
-            this.PassCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.PassCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.PassCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PassCmdBox.Font = new System.Drawing.Font("Consolas", 8.25F);
-            this.PassCmdBox.IsReplaceMode = false;
-            this.PassCmdBox.Location = new System.Drawing.Point(3, 18);
-            this.PassCmdBox.Name = "PassCmdBox";
-            this.PassCmdBox.Paddings = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            this.PassCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.PassCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("PassCmdBox.ServiceColors")));
-            this.PassCmdBox.Size = new System.Drawing.Size(491, 284);
-            this.PassCmdBox.TabIndex = 1;
-            this.PassCmdBox.Zoom = 100;
-            this.PassCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.EvaluatorBox);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(0, 0);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(497, 230);
-            this.groupBox3.TabIndex = 0;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Evaluator";
-            // 
-            // EvaluatorBox
-            // 
-            this.EvaluatorBox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.EvaluatorBox.AutoScrollMinSize = new System.Drawing.Size(0, 26);
-            this.EvaluatorBox.BackBrush = null;
-            this.EvaluatorBox.CharHeight = 16;
-            this.EvaluatorBox.CharWidth = 8;
-            this.EvaluatorBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.EvaluatorBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.EvaluatorBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EvaluatorBox.Font = new System.Drawing.Font("Consolas", 8.25F);
-            this.EvaluatorBox.IsReplaceMode = false;
-            this.EvaluatorBox.Location = new System.Drawing.Point(3, 18);
-            this.EvaluatorBox.Name = "EvaluatorBox";
-            this.EvaluatorBox.Paddings = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            this.EvaluatorBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.EvaluatorBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("EvaluatorBox.ServiceColors")));
-            this.EvaluatorBox.Size = new System.Drawing.Size(491, 209);
-            this.EvaluatorBox.TabIndex = 0;
-            this.EvaluatorBox.WordWrap = true;
-            this.EvaluatorBox.Zoom = 100;
-            this.EvaluatorBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
-            // 
-            // whileTab
-            // 
-            this.whileTab.Controls.Add(this.WhileCmdBox);
-            this.whileTab.Location = new System.Drawing.Point(4, 25);
-            this.whileTab.Name = "whileTab";
-            this.whileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.whileTab.Size = new System.Drawing.Size(779, 542);
-            this.whileTab.TabIndex = 2;
-            this.whileTab.Text = "While";
-            this.whileTab.UseVisualStyleBackColor = true;
-            // 
-            // WhileCmdBox
-            // 
-            this.WhileCmdBox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 16);
-            this.WhileCmdBox.BackBrush = null;
-            this.WhileCmdBox.CharHeight = 16;
-            this.WhileCmdBox.CharWidth = 8;
-            this.WhileCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.WhileCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.WhileCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.WhileCmdBox.Font = new System.Drawing.Font("Consolas", 8.25F);
-            this.WhileCmdBox.IsReplaceMode = false;
-            this.WhileCmdBox.Location = new System.Drawing.Point(3, 3);
-            this.WhileCmdBox.Name = "WhileCmdBox";
-            this.WhileCmdBox.Paddings = new System.Windows.Forms.Padding(0);
-            this.WhileCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.WhileCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("WhileCmdBox.ServiceColors")));
-            this.WhileCmdBox.Size = new System.Drawing.Size(773, 539);
-            this.WhileCmdBox.TabIndex = 1;
-            this.WhileCmdBox.Zoom = 100;
-            this.WhileCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
-            // 
-            // exitTab
-            // 
-            this.exitTab.Controls.Add(this.ExitCmdBox);
-            this.exitTab.Location = new System.Drawing.Point(4, 25);
-            this.exitTab.Name = "exitTab";
-            this.exitTab.Padding = new System.Windows.Forms.Padding(3);
-            this.exitTab.Size = new System.Drawing.Size(779, 542);
-            this.exitTab.TabIndex = 1;
-            this.exitTab.Text = "Exit";
-            this.exitTab.UseVisualStyleBackColor = true;
-            // 
-            // ExitCmdBox
-            // 
-            this.ExitCmdBox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.ExitCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 16);
-            this.ExitCmdBox.BackBrush = null;
-            this.ExitCmdBox.CharHeight = 16;
-            this.ExitCmdBox.CharWidth = 8;
-            this.ExitCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.ExitCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.ExitCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ExitCmdBox.Font = new System.Drawing.Font("Consolas", 8.25F);
-            this.ExitCmdBox.IsReplaceMode = false;
-            this.ExitCmdBox.Location = new System.Drawing.Point(3, 3);
-            this.ExitCmdBox.Name = "ExitCmdBox";
-            this.ExitCmdBox.Paddings = new System.Windows.Forms.Padding(0);
-            this.ExitCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.ExitCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("ExitCmdBox.ServiceColors")));
-            this.ExitCmdBox.Size = new System.Drawing.Size(773, 539);
-            this.ExitCmdBox.TabIndex = 1;
-            this.ExitCmdBox.Zoom = 100;
-            this.ExitCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
             // 
             // entryTab
             // 
@@ -625,7 +427,7 @@
             this.entryTab.Location = new System.Drawing.Point(4, 25);
             this.entryTab.Name = "entryTab";
             this.entryTab.Padding = new System.Windows.Forms.Padding(3);
-            this.entryTab.Size = new System.Drawing.Size(779, 542);
+            this.entryTab.Size = new System.Drawing.Size(600, 539);
             this.entryTab.TabIndex = 0;
             this.entryTab.Text = "Entry";
             this.entryTab.UseVisualStyleBackColor = true;
@@ -657,10 +459,211 @@
             this.EntryCmdBox.Paddings = new System.Windows.Forms.Padding(0);
             this.EntryCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.EntryCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("EntryCmdBox.ServiceColors")));
-            this.EntryCmdBox.Size = new System.Drawing.Size(773, 536);
+            this.EntryCmdBox.Size = new System.Drawing.Size(594, 533);
             this.EntryCmdBox.TabIndex = 0;
             this.EntryCmdBox.Zoom = 100;
             this.EntryCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
+            // 
+            // exitTab
+            // 
+            this.exitTab.Controls.Add(this.ExitCmdBox);
+            this.exitTab.Location = new System.Drawing.Point(4, 25);
+            this.exitTab.Name = "exitTab";
+            this.exitTab.Padding = new System.Windows.Forms.Padding(3);
+            this.exitTab.Size = new System.Drawing.Size(600, 539);
+            this.exitTab.TabIndex = 1;
+            this.exitTab.Text = "Exit";
+            this.exitTab.UseVisualStyleBackColor = true;
+            // 
+            // ExitCmdBox
+            // 
+            this.ExitCmdBox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.ExitCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 16);
+            this.ExitCmdBox.BackBrush = null;
+            this.ExitCmdBox.CharHeight = 16;
+            this.ExitCmdBox.CharWidth = 8;
+            this.ExitCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ExitCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.ExitCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ExitCmdBox.Font = new System.Drawing.Font("Consolas", 8.25F);
+            this.ExitCmdBox.IsReplaceMode = false;
+            this.ExitCmdBox.Location = new System.Drawing.Point(3, 3);
+            this.ExitCmdBox.Name = "ExitCmdBox";
+            this.ExitCmdBox.Paddings = new System.Windows.Forms.Padding(0);
+            this.ExitCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.ExitCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("ExitCmdBox.ServiceColors")));
+            this.ExitCmdBox.Size = new System.Drawing.Size(594, 533);
+            this.ExitCmdBox.TabIndex = 1;
+            this.ExitCmdBox.Zoom = 100;
+            this.ExitCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
+            // 
+            // whileTab
+            // 
+            this.whileTab.Controls.Add(this.WhileCmdBox);
+            this.whileTab.Location = new System.Drawing.Point(4, 25);
+            this.whileTab.Name = "whileTab";
+            this.whileTab.Padding = new System.Windows.Forms.Padding(3);
+            this.whileTab.Size = new System.Drawing.Size(600, 539);
+            this.whileTab.TabIndex = 2;
+            this.whileTab.Text = "While";
+            this.whileTab.UseVisualStyleBackColor = true;
+            // 
+            // WhileCmdBox
+            // 
+            this.WhileCmdBox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 16);
+            this.WhileCmdBox.BackBrush = null;
+            this.WhileCmdBox.CharHeight = 16;
+            this.WhileCmdBox.CharWidth = 8;
+            this.WhileCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.WhileCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.WhileCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.WhileCmdBox.Font = new System.Drawing.Font("Consolas", 8.25F);
+            this.WhileCmdBox.IsReplaceMode = false;
+            this.WhileCmdBox.Location = new System.Drawing.Point(3, 3);
+            this.WhileCmdBox.Name = "WhileCmdBox";
+            this.WhileCmdBox.Paddings = new System.Windows.Forms.Padding(0);
+            this.WhileCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.WhileCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("WhileCmdBox.ServiceColors")));
+            this.WhileCmdBox.Size = new System.Drawing.Size(594, 533);
+            this.WhileCmdBox.TabIndex = 1;
+            this.WhileCmdBox.Zoom = 100;
+            this.WhileCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
+            // 
+            // conditionTab
+            // 
+            this.conditionTab.Controls.Add(this.splitContainer1);
+            this.conditionTab.Location = new System.Drawing.Point(4, 25);
+            this.conditionTab.Name = "conditionTab";
+            this.conditionTab.Size = new System.Drawing.Size(600, 539);
+            this.conditionTab.TabIndex = 3;
+            this.conditionTab.Text = "Condition";
+            this.conditionTab.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox4);
+            this.splitContainer1.Size = new System.Drawing.Size(600, 539);
+            this.splitContainer1.SplitterDistance = 230;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.EvaluatorBox);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(0, 0);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(600, 230);
+            this.groupBox3.TabIndex = 0;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Evaluator";
+            // 
+            // EvaluatorBox
+            // 
+            this.EvaluatorBox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.EvaluatorBox.AutoScrollMinSize = new System.Drawing.Size(0, 26);
+            this.EvaluatorBox.BackBrush = null;
+            this.EvaluatorBox.CharHeight = 16;
+            this.EvaluatorBox.CharWidth = 8;
+            this.EvaluatorBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.EvaluatorBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.EvaluatorBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EvaluatorBox.Font = new System.Drawing.Font("Consolas", 8.25F);
+            this.EvaluatorBox.IsReplaceMode = false;
+            this.EvaluatorBox.Location = new System.Drawing.Point(3, 18);
+            this.EvaluatorBox.Name = "EvaluatorBox";
+            this.EvaluatorBox.Paddings = new System.Windows.Forms.Padding(0, 10, 0, 0);
+            this.EvaluatorBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.EvaluatorBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("EvaluatorBox.ServiceColors")));
+            this.EvaluatorBox.Size = new System.Drawing.Size(594, 209);
+            this.EvaluatorBox.TabIndex = 0;
+            this.EvaluatorBox.WordWrap = true;
+            this.EvaluatorBox.Zoom = 100;
+            this.EvaluatorBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.PassCmdBox);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox4.Location = new System.Drawing.Point(0, 0);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(600, 305);
+            this.groupBox4.TabIndex = 1;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Pass Commands";
+            // 
+            // PassCmdBox
+            // 
+            this.PassCmdBox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 26);
+            this.PassCmdBox.BackBrush = null;
+            this.PassCmdBox.CharHeight = 16;
+            this.PassCmdBox.CharWidth = 8;
+            this.PassCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.PassCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.PassCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PassCmdBox.Font = new System.Drawing.Font("Consolas", 8.25F);
+            this.PassCmdBox.IsReplaceMode = false;
+            this.PassCmdBox.Location = new System.Drawing.Point(3, 18);
+            this.PassCmdBox.Name = "PassCmdBox";
+            this.PassCmdBox.Paddings = new System.Windows.Forms.Padding(0, 10, 0, 0);
+            this.PassCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.PassCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("PassCmdBox.ServiceColors")));
+            this.PassCmdBox.Size = new System.Drawing.Size(594, 284);
+            this.PassCmdBox.TabIndex = 1;
+            this.PassCmdBox.Zoom = 100;
+            this.PassCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
             // 
             // EditorTitleBox
             // 
@@ -669,7 +672,7 @@
             this.EditorTitleBox.Location = new System.Drawing.Point(7, 57);
             this.EditorTitleBox.Name = "EditorTitleBox";
             this.EditorTitleBox.ReadOnly = true;
-            this.EditorTitleBox.Size = new System.Drawing.Size(497, 22);
+            this.EditorTitleBox.Size = new System.Drawing.Size(600, 22);
             this.EditorTitleBox.TabIndex = 9;
             // 
             // SaveBtn
@@ -712,18 +715,54 @@
             this.groupBox2.Controls.Add(this.SaveBtn);
             this.groupBox2.Controls.Add(this.EditorTitleBox);
             this.groupBox2.Controls.Add(this.editorControl);
-            this.groupBox2.Location = new System.Drawing.Point(660, 31);
+            this.groupBox2.Location = new System.Drawing.Point(686, 31);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(511, 656);
+            this.groupBox2.Size = new System.Drawing.Size(614, 656);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Editor";
+            // 
+            // AddGroupBtn
+            // 
+            this.AddGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddGroupBtn.Location = new System.Drawing.Point(12, 577);
+            this.AddGroupBtn.Name = "AddGroupBtn";
+            this.AddGroupBtn.Size = new System.Drawing.Size(122, 28);
+            this.AddGroupBtn.TabIndex = 15;
+            this.AddGroupBtn.Text = "Add";
+            this.AddGroupBtn.UseVisualStyleBackColor = true;
+            this.AddGroupBtn.Click += new System.EventHandler(this.AddGroupBtn_Click);
+            // 
+            // DeleteGroupBtn
+            // 
+            this.DeleteGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DeleteGroupBtn.Location = new System.Drawing.Point(12, 645);
+            this.DeleteGroupBtn.Name = "DeleteGroupBtn";
+            this.DeleteGroupBtn.Size = new System.Drawing.Size(122, 28);
+            this.DeleteGroupBtn.TabIndex = 16;
+            this.DeleteGroupBtn.Text = "Delete";
+            this.DeleteGroupBtn.UseVisualStyleBackColor = true;
+            this.DeleteGroupBtn.Click += new System.EventHandler(this.DeleteGroupBtn_Click);
+            // 
+            // CloneGroupBtn
+            // 
+            this.CloneGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CloneGroupBtn.Location = new System.Drawing.Point(12, 611);
+            this.CloneGroupBtn.Name = "CloneGroupBtn";
+            this.CloneGroupBtn.Size = new System.Drawing.Size(122, 28);
+            this.CloneGroupBtn.TabIndex = 17;
+            this.CloneGroupBtn.Text = "Clone";
+            this.CloneGroupBtn.UseVisualStyleBackColor = true;
+            this.CloneGroupBtn.Click += new System.EventHandler(this.CloneGroupBtn_Click);
             // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1209, 722);
+            this.ClientSize = new System.Drawing.Size(1312, 722);
+            this.Controls.Add(this.CloneGroupBtn);
+            this.Controls.Add(this.DeleteGroupBtn);
+            this.Controls.Add(this.AddGroupBtn);
             this.Controls.Add(this.CloneStateBtn);
             this.Controls.Add(this.DeleteStateBtn);
             this.Controls.Add(this.AddStateBtn);
@@ -742,21 +781,21 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.editorControl.ResumeLayout(false);
+            this.entryTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.EntryCmdBox)).EndInit();
+            this.exitTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ExitCmdBox)).EndInit();
+            this.whileTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).EndInit();
             this.conditionTab.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).EndInit();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).EndInit();
-            this.whileTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).EndInit();
-            this.exitTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ExitCmdBox)).EndInit();
-            this.entryTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.EntryCmdBox)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -814,6 +853,9 @@
         private System.Windows.Forms.Button RevertBtn;
         private System.Windows.Forms.Label saveLabel;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button AddGroupBtn;
+        private System.Windows.Forms.Button DeleteGroupBtn;
+        private System.Windows.Forms.Button CloneGroupBtn;
     }
 }
 
