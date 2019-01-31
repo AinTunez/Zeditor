@@ -5,16 +5,52 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeditor", "Zeditor\Zeditor.csproj", "{944C4B72-8821-4885-9D24-C9EA26208285}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzSembler", "..\..\..\Documents\GitHub\EzSembler\EzSembler\EzSembler.csproj", "{A65D3EE9-92C9-4D04-B639-595E7B517F2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoulsFormats", "..\..\..\Documents\GitHub\SoulsFormats\SoulsFormats\SoulsFormats.csproj", "{22C664BD-877B-44DF-8ECF-2808522469A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastColoredTextBox", "..\..\..\Documents\GitHub\FastColoredTextBox\FastColoredTextBox\FastColoredTextBox.csproj", "{6DD14A85-CCFC-4774-BD26-0F5772512319}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{944C4B72-8821-4885-9D24-C9EA26208285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{944C4B72-8821-4885-9D24-C9EA26208285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{944C4B72-8821-4885-9D24-C9EA26208285}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{944C4B72-8821-4885-9D24-C9EA26208285}.Debug|x64.Build.0 = Debug|Any CPU
 		{944C4B72-8821-4885-9D24-C9EA26208285}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{944C4B72-8821-4885-9D24-C9EA26208285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{944C4B72-8821-4885-9D24-C9EA26208285}.Release|x64.ActiveCfg = Release|Any CPU
+		{944C4B72-8821-4885-9D24-C9EA26208285}.Release|x64.Build.0 = Release|Any CPU
+		{A65D3EE9-92C9-4D04-B639-595E7B517F2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A65D3EE9-92C9-4D04-B639-595E7B517F2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A65D3EE9-92C9-4D04-B639-595E7B517F2F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A65D3EE9-92C9-4D04-B639-595E7B517F2F}.Debug|x64.Build.0 = Debug|Any CPU
+		{A65D3EE9-92C9-4D04-B639-595E7B517F2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A65D3EE9-92C9-4D04-B639-595E7B517F2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A65D3EE9-92C9-4D04-B639-595E7B517F2F}.Release|x64.ActiveCfg = Release|Any CPU
+		{A65D3EE9-92C9-4D04-B639-595E7B517F2F}.Release|x64.Build.0 = Release|Any CPU
+		{22C664BD-877B-44DF-8ECF-2808522469A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22C664BD-877B-44DF-8ECF-2808522469A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22C664BD-877B-44DF-8ECF-2808522469A8}.Debug|x64.ActiveCfg = Debug|x64
+		{22C664BD-877B-44DF-8ECF-2808522469A8}.Debug|x64.Build.0 = Debug|x64
+		{22C664BD-877B-44DF-8ECF-2808522469A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22C664BD-877B-44DF-8ECF-2808522469A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22C664BD-877B-44DF-8ECF-2808522469A8}.Release|x64.ActiveCfg = Release|x64
+		{22C664BD-877B-44DF-8ECF-2808522469A8}.Release|x64.Build.0 = Release|x64
+		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Debug|x64.Build.0 = Debug|Any CPU
+		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Release|x64.ActiveCfg = Release|Any CPU
+		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
