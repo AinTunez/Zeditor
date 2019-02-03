@@ -81,6 +81,7 @@
             this.AddGroupBtn = new System.Windows.Forms.Button();
             this.DeleteGroupBtn = new System.Windows.Forms.Button();
             this.CloneGroupBtn = new System.Windows.Forms.Button();
+            this.editESDPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.editorControl.SuspendLayout();
@@ -134,8 +135,8 @@
             this.MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.stateToolStripMenuItem,
             this.editToolStripMenuItem,
+            this.stateToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
@@ -206,11 +207,11 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editESDPropertiesToolStripMenuItem,
             this.saveEditorContentToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
             this.editToolStripMenuItem.Text = "Edit";
-            this.editToolStripMenuItem.Visible = false;
             // 
             // saveEditorContentToolStripMenuItem
             // 
@@ -218,6 +219,7 @@
             this.saveEditorContentToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveEditorContentToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
             this.saveEditorContentToolStripMenuItem.Text = "Save Editor Content";
+            this.saveEditorContentToolStripMenuItem.Visible = false;
             this.saveEditorContentToolStripMenuItem.Click += new System.EventHandler(this.saveEditorContentToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
@@ -755,6 +757,15 @@
             this.CloneGroupBtn.UseVisualStyleBackColor = true;
             this.CloneGroupBtn.Click += new System.EventHandler(this.CloneGroupBtn_Click);
             // 
+            // editESDPropertiesToolStripMenuItem
+            // 
+            this.editESDPropertiesToolStripMenuItem.Name = "editESDPropertiesToolStripMenuItem";
+            this.editESDPropertiesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+            this.editESDPropertiesToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
+            this.editESDPropertiesToolStripMenuItem.Text = "Edit ESD Properties";
+            this.editESDPropertiesToolStripMenuItem.Click += new System.EventHandler(this.editESDPropertiesToolStripMenuItem_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -856,6 +867,7 @@
         private System.Windows.Forms.Button AddGroupBtn;
         private System.Windows.Forms.Button DeleteGroupBtn;
         private System.Windows.Forms.Button CloneGroupBtn;
+        private System.Windows.Forms.ToolStripMenuItem editESDPropertiesToolStripMenuItem;
     }
 }
 

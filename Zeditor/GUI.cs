@@ -657,7 +657,6 @@ namespace Zeditor
                 StateBox.DataSource = null;
                 ClearEditors();
                 StateGroupBox.DataSource = currentESD.StateGroups.Keys.ToList();
-                
             }
         }
 
@@ -734,6 +733,17 @@ namespace Zeditor
             DialogResult dialogResult = form.ShowDialog();
             value = textBox.Text;
             return dialogResult;
+        }
+
+        private void editESDPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentESD == null) return;
+            var editor = new PropertyEditor(currentESD);
+            int x = DesktopBounds.Left + (Width - editor.Width) / 2;
+            int y = DesktopBounds.Top + (Height - editor.Height) / 2;
+            editor.Location = new Point(x, y);
+            editor.StartPosition = FormStartPosition.Manual;
+            editor.ShowDialog();
         }
     }
 
