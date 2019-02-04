@@ -36,12 +36,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openESDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveESDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editESDPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveEditorContentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cloneStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveEditorContentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noHelpForYouToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
@@ -60,12 +61,19 @@
             this.MoveCndDownBtn = new System.Windows.Forms.Button();
             this.AddSubconditionBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.EditorTitleBox = new System.Windows.Forms.TextBox();
+            this.SaveBtn = new System.Windows.Forms.Button();
+            this.RevertBtn = new System.Windows.Forms.Button();
+            this.saveLabel = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.editorControl = new System.Windows.Forms.TabControl();
-            this.entryTab = new System.Windows.Forms.TabPage();
+            this.stateTab = new System.Windows.Forms.TabPage();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.EntryCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.exitTab = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.ExitCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.whileTab = new System.Windows.Forms.TabPage();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.WhileCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.conditionTab = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -73,23 +81,20 @@
             this.EvaluatorBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.PassCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.EditorTitleBox = new System.Windows.Forms.TextBox();
-            this.SaveBtn = new System.Windows.Forms.Button();
-            this.RevertBtn = new System.Windows.Forms.Button();
-            this.saveLabel = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.AddGroupBtn = new System.Windows.Forms.Button();
             this.DeleteGroupBtn = new System.Windows.Forms.Button();
             this.CloneGroupBtn = new System.Windows.Forms.Button();
-            this.editESDPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.editorControl.SuspendLayout();
-            this.entryTab.SuspendLayout();
+            this.stateTab.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EntryCmdBox)).BeginInit();
-            this.exitTab.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ExitCmdBox)).BeginInit();
-            this.whileTab.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).BeginInit();
             this.conditionTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -100,7 +105,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).BeginInit();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // StateGroupBox
@@ -112,7 +116,7 @@
             this.StateGroupBox.ItemHeight = 16;
             this.StateGroupBox.Location = new System.Drawing.Point(12, 55);
             this.StateGroupBox.Name = "StateGroupBox";
-            this.StateGroupBox.Size = new System.Drawing.Size(122, 516);
+            this.StateGroupBox.Size = new System.Drawing.Size(122, 548);
             this.StateGroupBox.TabIndex = 0;
             this.StateGroupBox.SelectedIndexChanged += new System.EventHandler(this.StateGroupBox_SelectedIndexChanged);
             // 
@@ -125,7 +129,7 @@
             this.StateBox.ItemHeight = 16;
             this.StateBox.Location = new System.Drawing.Point(140, 55);
             this.StateBox.Name = "StateBox";
-            this.StateBox.Size = new System.Drawing.Size(122, 516);
+            this.StateBox.Size = new System.Drawing.Size(122, 548);
             this.StateBox.TabIndex = 1;
             this.StateBox.SelectedIndexChanged += new System.EventHandler(this.StateBox_SelectedIndexChanged);
             // 
@@ -170,6 +174,33 @@
             this.saveESDToolStripMenuItem.Text = "Export ESD";
             this.saveESDToolStripMenuItem.Click += new System.EventHandler(this.saveESDToolStripMenuItem_Click);
             // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editESDPropertiesToolStripMenuItem,
+            this.saveEditorContentToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // editESDPropertiesToolStripMenuItem
+            // 
+            this.editESDPropertiesToolStripMenuItem.Name = "editESDPropertiesToolStripMenuItem";
+            this.editESDPropertiesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+            this.editESDPropertiesToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
+            this.editESDPropertiesToolStripMenuItem.Text = "Edit ESD Properties";
+            this.editESDPropertiesToolStripMenuItem.Click += new System.EventHandler(this.editESDPropertiesToolStripMenuItem_Click);
+            // 
+            // saveEditorContentToolStripMenuItem
+            // 
+            this.saveEditorContentToolStripMenuItem.Name = "saveEditorContentToolStripMenuItem";
+            this.saveEditorContentToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveEditorContentToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
+            this.saveEditorContentToolStripMenuItem.Text = "Save Editor Content";
+            this.saveEditorContentToolStripMenuItem.Visible = false;
+            this.saveEditorContentToolStripMenuItem.Click += new System.EventHandler(this.saveEditorContentToolStripMenuItem_Click);
+            // 
             // stateToolStripMenuItem
             // 
             this.stateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -203,24 +234,6 @@
             this.deleteStateToolStripMenuItem.Size = new System.Drawing.Size(259, 26);
             this.deleteStateToolStripMenuItem.Text = "Delete State";
             this.deleteStateToolStripMenuItem.Click += new System.EventHandler(this.deleteStateToolStripMenuItem_Click);
-            // 
-            // editToolStripMenuItem
-            // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editESDPropertiesToolStripMenuItem,
-            this.saveEditorContentToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
-            this.editToolStripMenuItem.Text = "Edit";
-            // 
-            // saveEditorContentToolStripMenuItem
-            // 
-            this.saveEditorContentToolStripMenuItem.Name = "saveEditorContentToolStripMenuItem";
-            this.saveEditorContentToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveEditorContentToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
-            this.saveEditorContentToolStripMenuItem.Text = "Save Editor Content";
-            this.saveEditorContentToolStripMenuItem.Visible = false;
-            this.saveEditorContentToolStripMenuItem.Click += new System.EventHandler(this.saveEditorContentToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -258,7 +271,7 @@
             // AddStateBtn
             // 
             this.AddStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddStateBtn.Location = new System.Drawing.Point(140, 577);
+            this.AddStateBtn.Location = new System.Drawing.Point(140, 611);
             this.AddStateBtn.Name = "AddStateBtn";
             this.AddStateBtn.Size = new System.Drawing.Size(122, 28);
             this.AddStateBtn.TabIndex = 12;
@@ -269,7 +282,7 @@
             // DeleteStateBtn
             // 
             this.DeleteStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteStateBtn.Location = new System.Drawing.Point(140, 645);
+            this.DeleteStateBtn.Location = new System.Drawing.Point(140, 679);
             this.DeleteStateBtn.Name = "DeleteStateBtn";
             this.DeleteStateBtn.Size = new System.Drawing.Size(122, 28);
             this.DeleteStateBtn.TabIndex = 13;
@@ -280,7 +293,7 @@
             // CloneStateBtn
             // 
             this.CloneStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CloneStateBtn.Location = new System.Drawing.Point(140, 611);
+            this.CloneStateBtn.Location = new System.Drawing.Point(140, 645);
             this.CloneStateBtn.Name = "CloneStateBtn";
             this.CloneStateBtn.Size = new System.Drawing.Size(122, 28);
             this.CloneStateBtn.TabIndex = 14;
@@ -324,7 +337,7 @@
             this.ConditionTree.Location = new System.Drawing.Point(6, 21);
             this.ConditionTree.Name = "ConditionTree";
             this.ConditionTree.PathSeparator = "-";
-            this.ConditionTree.Size = new System.Drawing.Size(230, 629);
+            this.ConditionTree.Size = new System.Drawing.Size(230, 658);
             this.ConditionTree.TabIndex = 3;
             this.ConditionTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ConditionTree_AfterSelect);
             // 
@@ -402,37 +415,114 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(277, 31);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(403, 656);
+            this.groupBox1.Size = new System.Drawing.Size(403, 685);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Conditions";
+            // 
+            // EditorTitleBox
+            // 
+            this.EditorTitleBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditorTitleBox.Location = new System.Drawing.Point(7, 57);
+            this.EditorTitleBox.Name = "EditorTitleBox";
+            this.EditorTitleBox.ReadOnly = true;
+            this.EditorTitleBox.Size = new System.Drawing.Size(600, 22);
+            this.EditorTitleBox.TabIndex = 9;
+            // 
+            // SaveBtn
+            // 
+            this.SaveBtn.Location = new System.Drawing.Point(121, 26);
+            this.SaveBtn.Name = "SaveBtn";
+            this.SaveBtn.Size = new System.Drawing.Size(133, 25);
+            this.SaveBtn.TabIndex = 10;
+            this.SaveBtn.Text = "Save (Ctrl+S)";
+            this.SaveBtn.UseVisualStyleBackColor = true;
+            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
+            // 
+            // RevertBtn
+            // 
+            this.RevertBtn.Location = new System.Drawing.Point(260, 26);
+            this.RevertBtn.Name = "RevertBtn";
+            this.RevertBtn.Size = new System.Drawing.Size(79, 25);
+            this.RevertBtn.TabIndex = 11;
+            this.RevertBtn.Text = "Revert";
+            this.RevertBtn.UseVisualStyleBackColor = true;
+            this.RevertBtn.Click += new System.EventHandler(this.RevertBtn_Click);
+            // 
+            // saveLabel
+            // 
+            this.saveLabel.AutoSize = true;
+            this.saveLabel.Location = new System.Drawing.Point(6, 30);
+            this.saveLabel.Name = "saveLabel";
+            this.saveLabel.Size = new System.Drawing.Size(54, 17);
+            this.saveLabel.TabIndex = 12;
+            this.saveLabel.Text = "SAVED";
+            this.saveLabel.Visible = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.saveLabel);
+            this.groupBox2.Controls.Add(this.RevertBtn);
+            this.groupBox2.Controls.Add(this.SaveBtn);
+            this.groupBox2.Controls.Add(this.EditorTitleBox);
+            this.groupBox2.Controls.Add(this.editorControl);
+            this.groupBox2.Location = new System.Drawing.Point(686, 31);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(614, 685);
+            this.groupBox2.TabIndex = 9;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Editor";
             // 
             // editorControl
             // 
             this.editorControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.editorControl.Controls.Add(this.entryTab);
-            this.editorControl.Controls.Add(this.exitTab);
-            this.editorControl.Controls.Add(this.whileTab);
+            this.editorControl.Controls.Add(this.stateTab);
             this.editorControl.Controls.Add(this.conditionTab);
             this.editorControl.Location = new System.Drawing.Point(3, 85);
             this.editorControl.Name = "editorControl";
             this.editorControl.SelectedIndex = 0;
-            this.editorControl.Size = new System.Drawing.Size(608, 568);
+            this.editorControl.Size = new System.Drawing.Size(608, 597);
             this.editorControl.TabIndex = 0;
             this.editorControl.SelectedIndexChanged += new System.EventHandler(this.UpdateTitleBox);
             // 
-            // entryTab
+            // stateTab
             // 
-            this.entryTab.Controls.Add(this.EntryCmdBox);
-            this.entryTab.Location = new System.Drawing.Point(4, 25);
-            this.entryTab.Name = "entryTab";
-            this.entryTab.Padding = new System.Windows.Forms.Padding(3);
-            this.entryTab.Size = new System.Drawing.Size(600, 539);
-            this.entryTab.TabIndex = 0;
-            this.entryTab.Text = "Entry";
-            this.entryTab.UseVisualStyleBackColor = true;
+            this.stateTab.Controls.Add(this.flowLayoutPanel1);
+            this.stateTab.Location = new System.Drawing.Point(4, 25);
+            this.stateTab.Name = "stateTab";
+            this.stateTab.Padding = new System.Windows.Forms.Padding(3);
+            this.stateTab.Size = new System.Drawing.Size(600, 568);
+            this.stateTab.TabIndex = 0;
+            this.stateTab.Text = "State";
+            this.stateTab.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.groupBox5);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox6);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox7);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(594, 562);
+            this.flowLayoutPanel1.TabIndex = 0;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.EntryCmdBox);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox5.Location = new System.Drawing.Point(3, 3);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(594, 156);
+            this.groupBox5.TabIndex = 7;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Entry Commands";
             // 
             // EntryCmdBox
             // 
@@ -456,26 +546,26 @@
             this.EntryCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EntryCmdBox.Font = new System.Drawing.Font("Consolas", 8.25F);
             this.EntryCmdBox.IsReplaceMode = false;
-            this.EntryCmdBox.Location = new System.Drawing.Point(3, 3);
+            this.EntryCmdBox.Location = new System.Drawing.Point(3, 18);
             this.EntryCmdBox.Name = "EntryCmdBox";
             this.EntryCmdBox.Paddings = new System.Windows.Forms.Padding(0);
             this.EntryCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.EntryCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("EntryCmdBox.ServiceColors")));
-            this.EntryCmdBox.Size = new System.Drawing.Size(594, 533);
+            this.EntryCmdBox.Size = new System.Drawing.Size(588, 135);
             this.EntryCmdBox.TabIndex = 0;
             this.EntryCmdBox.Zoom = 100;
             this.EntryCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
             // 
-            // exitTab
+            // groupBox6
             // 
-            this.exitTab.Controls.Add(this.ExitCmdBox);
-            this.exitTab.Location = new System.Drawing.Point(4, 25);
-            this.exitTab.Name = "exitTab";
-            this.exitTab.Padding = new System.Windows.Forms.Padding(3);
-            this.exitTab.Size = new System.Drawing.Size(600, 539);
-            this.exitTab.TabIndex = 1;
-            this.exitTab.Text = "Exit";
-            this.exitTab.UseVisualStyleBackColor = true;
+            this.groupBox6.Controls.Add(this.ExitCmdBox);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox6.Location = new System.Drawing.Point(3, 165);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(594, 150);
+            this.groupBox6.TabIndex = 10;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Exit Commands";
             // 
             // ExitCmdBox
             // 
@@ -490,7 +580,7 @@
         '\"',
         '\'',
         '\''};
-            this.ExitCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 16);
+            this.ExitCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 16);
             this.ExitCmdBox.BackBrush = null;
             this.ExitCmdBox.CharHeight = 16;
             this.ExitCmdBox.CharWidth = 8;
@@ -499,26 +589,26 @@
             this.ExitCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ExitCmdBox.Font = new System.Drawing.Font("Consolas", 8.25F);
             this.ExitCmdBox.IsReplaceMode = false;
-            this.ExitCmdBox.Location = new System.Drawing.Point(3, 3);
+            this.ExitCmdBox.Location = new System.Drawing.Point(3, 18);
             this.ExitCmdBox.Name = "ExitCmdBox";
             this.ExitCmdBox.Paddings = new System.Windows.Forms.Padding(0);
             this.ExitCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.ExitCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("ExitCmdBox.ServiceColors")));
-            this.ExitCmdBox.Size = new System.Drawing.Size(594, 533);
-            this.ExitCmdBox.TabIndex = 1;
+            this.ExitCmdBox.Size = new System.Drawing.Size(588, 129);
+            this.ExitCmdBox.TabIndex = 2;
             this.ExitCmdBox.Zoom = 100;
             this.ExitCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
             // 
-            // whileTab
+            // groupBox7
             // 
-            this.whileTab.Controls.Add(this.WhileCmdBox);
-            this.whileTab.Location = new System.Drawing.Point(4, 25);
-            this.whileTab.Name = "whileTab";
-            this.whileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.whileTab.Size = new System.Drawing.Size(600, 539);
-            this.whileTab.TabIndex = 2;
-            this.whileTab.Text = "While";
-            this.whileTab.UseVisualStyleBackColor = true;
+            this.groupBox7.Controls.Add(this.WhileCmdBox);
+            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox7.Location = new System.Drawing.Point(3, 321);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(594, 156);
+            this.groupBox7.TabIndex = 11;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "While Commands";
             // 
             // WhileCmdBox
             // 
@@ -533,7 +623,7 @@
         '\"',
         '\'',
         '\''};
-            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 16);
+            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 16);
             this.WhileCmdBox.BackBrush = null;
             this.WhileCmdBox.CharHeight = 16;
             this.WhileCmdBox.CharWidth = 8;
@@ -542,13 +632,13 @@
             this.WhileCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.WhileCmdBox.Font = new System.Drawing.Font("Consolas", 8.25F);
             this.WhileCmdBox.IsReplaceMode = false;
-            this.WhileCmdBox.Location = new System.Drawing.Point(3, 3);
+            this.WhileCmdBox.Location = new System.Drawing.Point(3, 18);
             this.WhileCmdBox.Name = "WhileCmdBox";
             this.WhileCmdBox.Paddings = new System.Windows.Forms.Padding(0);
             this.WhileCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.WhileCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("WhileCmdBox.ServiceColors")));
-            this.WhileCmdBox.Size = new System.Drawing.Size(594, 533);
-            this.WhileCmdBox.TabIndex = 1;
+            this.WhileCmdBox.Size = new System.Drawing.Size(588, 135);
+            this.WhileCmdBox.TabIndex = 2;
             this.WhileCmdBox.Zoom = 100;
             this.WhileCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
             // 
@@ -648,7 +738,7 @@
         '\"',
         '\'',
         '\''};
-            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 26);
+            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 26);
             this.PassCmdBox.BackBrush = null;
             this.PassCmdBox.CharHeight = 16;
             this.PassCmdBox.CharWidth = 8;
@@ -667,67 +757,10 @@
             this.PassCmdBox.Zoom = 100;
             this.PassCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
             // 
-            // EditorTitleBox
-            // 
-            this.EditorTitleBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.EditorTitleBox.Location = new System.Drawing.Point(7, 57);
-            this.EditorTitleBox.Name = "EditorTitleBox";
-            this.EditorTitleBox.ReadOnly = true;
-            this.EditorTitleBox.Size = new System.Drawing.Size(600, 22);
-            this.EditorTitleBox.TabIndex = 9;
-            // 
-            // SaveBtn
-            // 
-            this.SaveBtn.Location = new System.Drawing.Point(121, 26);
-            this.SaveBtn.Name = "SaveBtn";
-            this.SaveBtn.Size = new System.Drawing.Size(133, 25);
-            this.SaveBtn.TabIndex = 10;
-            this.SaveBtn.Text = "Save (Ctrl+S)";
-            this.SaveBtn.UseVisualStyleBackColor = true;
-            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
-            // 
-            // RevertBtn
-            // 
-            this.RevertBtn.Location = new System.Drawing.Point(260, 26);
-            this.RevertBtn.Name = "RevertBtn";
-            this.RevertBtn.Size = new System.Drawing.Size(79, 25);
-            this.RevertBtn.TabIndex = 11;
-            this.RevertBtn.Text = "Revert";
-            this.RevertBtn.UseVisualStyleBackColor = true;
-            this.RevertBtn.Click += new System.EventHandler(this.RevertBtn_Click);
-            // 
-            // saveLabel
-            // 
-            this.saveLabel.AutoSize = true;
-            this.saveLabel.Location = new System.Drawing.Point(6, 30);
-            this.saveLabel.Name = "saveLabel";
-            this.saveLabel.Size = new System.Drawing.Size(54, 17);
-            this.saveLabel.TabIndex = 12;
-            this.saveLabel.Text = "SAVED";
-            this.saveLabel.Visible = false;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.saveLabel);
-            this.groupBox2.Controls.Add(this.RevertBtn);
-            this.groupBox2.Controls.Add(this.SaveBtn);
-            this.groupBox2.Controls.Add(this.EditorTitleBox);
-            this.groupBox2.Controls.Add(this.editorControl);
-            this.groupBox2.Location = new System.Drawing.Point(686, 31);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(614, 656);
-            this.groupBox2.TabIndex = 9;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Editor";
-            // 
             // AddGroupBtn
             // 
             this.AddGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddGroupBtn.Location = new System.Drawing.Point(12, 577);
+            this.AddGroupBtn.Location = new System.Drawing.Point(12, 611);
             this.AddGroupBtn.Name = "AddGroupBtn";
             this.AddGroupBtn.Size = new System.Drawing.Size(122, 28);
             this.AddGroupBtn.TabIndex = 15;
@@ -738,7 +771,7 @@
             // DeleteGroupBtn
             // 
             this.DeleteGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteGroupBtn.Location = new System.Drawing.Point(12, 645);
+            this.DeleteGroupBtn.Location = new System.Drawing.Point(12, 679);
             this.DeleteGroupBtn.Name = "DeleteGroupBtn";
             this.DeleteGroupBtn.Size = new System.Drawing.Size(122, 28);
             this.DeleteGroupBtn.TabIndex = 16;
@@ -749,22 +782,13 @@
             // CloneGroupBtn
             // 
             this.CloneGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CloneGroupBtn.Location = new System.Drawing.Point(12, 611);
+            this.CloneGroupBtn.Location = new System.Drawing.Point(12, 645);
             this.CloneGroupBtn.Name = "CloneGroupBtn";
             this.CloneGroupBtn.Size = new System.Drawing.Size(122, 28);
             this.CloneGroupBtn.TabIndex = 17;
             this.CloneGroupBtn.Text = "Clone";
             this.CloneGroupBtn.UseVisualStyleBackColor = true;
             this.CloneGroupBtn.Click += new System.EventHandler(this.CloneGroupBtn_Click);
-            // 
-            // editESDPropertiesToolStripMenuItem
-            // 
-            this.editESDPropertiesToolStripMenuItem.Name = "editESDPropertiesToolStripMenuItem";
-            this.editESDPropertiesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.P)));
-            this.editESDPropertiesToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
-            this.editESDPropertiesToolStripMenuItem.Text = "Edit ESD Properties";
-            this.editESDPropertiesToolStripMenuItem.Click += new System.EventHandler(this.editESDPropertiesToolStripMenuItem_Click);
             // 
             // GUI
             // 
@@ -785,18 +809,24 @@
             this.Controls.Add(this.StateGroupBox);
             this.Controls.Add(this.MenuStrip);
             this.MainMenuStrip = this.MenuStrip;
+            this.MinimumSize = new System.Drawing.Size(1330, 769);
             this.Name = "GUI";
             this.Text = "Zeditor";
+            this.Resize += new System.EventHandler(this.GUI_Resize);
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.editorControl.ResumeLayout(false);
-            this.entryTab.ResumeLayout(false);
+            this.stateTab.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.EntryCmdBox)).EndInit();
-            this.exitTab.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ExitCmdBox)).EndInit();
-            this.whileTab.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).EndInit();
             this.conditionTab.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -807,8 +837,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).EndInit();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -846,19 +874,6 @@
         private System.Windows.Forms.Button MoveCndDownBtn;
         private System.Windows.Forms.Button AddSubconditionBtn;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TabControl editorControl;
-        private System.Windows.Forms.TabPage entryTab;
-        private FastColoredTextBoxNS.FastColoredTextBox EntryCmdBox;
-        private System.Windows.Forms.TabPage exitTab;
-        private FastColoredTextBoxNS.FastColoredTextBox ExitCmdBox;
-        private System.Windows.Forms.TabPage whileTab;
-        private FastColoredTextBoxNS.FastColoredTextBox WhileCmdBox;
-        private System.Windows.Forms.TabPage conditionTab;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private FastColoredTextBoxNS.FastColoredTextBox EvaluatorBox;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private FastColoredTextBoxNS.FastColoredTextBox PassCmdBox;
         private System.Windows.Forms.TextBox EditorTitleBox;
         private System.Windows.Forms.Button SaveBtn;
         private System.Windows.Forms.Button RevertBtn;
@@ -868,6 +883,21 @@
         private System.Windows.Forms.Button DeleteGroupBtn;
         private System.Windows.Forms.Button CloneGroupBtn;
         private System.Windows.Forms.ToolStripMenuItem editESDPropertiesToolStripMenuItem;
+        private System.Windows.Forms.TabControl editorControl;
+        private System.Windows.Forms.TabPage stateTab;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private FastColoredTextBoxNS.FastColoredTextBox EntryCmdBox;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private FastColoredTextBoxNS.FastColoredTextBox ExitCmdBox;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private FastColoredTextBoxNS.FastColoredTextBox WhileCmdBox;
+        private System.Windows.Forms.TabPage conditionTab;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private FastColoredTextBoxNS.FastColoredTextBox EvaluatorBox;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private FastColoredTextBoxNS.FastColoredTextBox PassCmdBox;
     }
 }
 

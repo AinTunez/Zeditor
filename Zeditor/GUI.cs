@@ -44,7 +44,6 @@ namespace Zeditor
                 return ConditionsFromNode(ConditionTree.SelectedNode).Condition;
             }
         }
-        string splitString = Environment.NewLine + "---" + Environment.NewLine;
         Dictionary<string, TextStyle> textStyles = new Dictionary<string, TextStyle>();
         bool loaded = false;
         System.Timers.Timer saveLabelTimer = new System.Timers.Timer();
@@ -53,6 +52,7 @@ namespace Zeditor
         {
             InitializeComponent();
             SetTextBoxOptions();
+            OnResize();
             loaded = true;
 
             void hide(Object source, ElapsedEventArgs e)
@@ -79,7 +79,7 @@ namespace Zeditor
                 try
                 {
                     currentESD = ESD.Read(ofd.FileName);
-                    Form.ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
+                    ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
                     StateGroupBox.DataSource = currentESD.StateGroups.Keys.ToList();
                     filePath = ofd.FileName;
                 } catch (Exception ex)
@@ -175,11 +175,11 @@ namespace Zeditor
             try
             {
                 current = "EntryScript";
-                currentState.EntryScript = EntryCmdBox.Text;
+                currentState.EntryScript = EntryCmdBox.Text.Trim();
                 current = "ExitScript";
-                currentState.ExitScript = ExitCmdBox.Text;
-                current = "WhileSCript";
-                currentState.WhileScript = WhileCmdBox.Text;
+                currentState.ExitScript = ExitCmdBox.Text.Trim();
+                current = "WhileScript";
+                currentState.WhileScript = WhileCmdBox.Text.Trim();
             } catch (Exception ex)
             {
                 MessageBox.Show("Error parsing " + current + "\n\n" + ex.ToString());
@@ -237,9 +237,7 @@ namespace Zeditor
             }
 
             EditorTitleBox.Text = "Group " + StateGroupBox.SelectedItem + " : State " + StateBox.SelectedItem + " : ";
-            if (editorControl.SelectedTab == entryTab) EditorTitleBox.Text += "Entry Commands";
-            else if (editorControl.SelectedTab == exitTab) EditorTitleBox.Text += "Exit Commands";
-            else if (editorControl.SelectedTab == whileTab) EditorTitleBox.Text += "While Commands";
+            if (editorControl.SelectedTab == stateTab) EditorTitleBox.Text += "Commands";
             else if (editorControl.SelectedTab == conditionTab)
             {
                 if (currentCondition == null) EditorTitleBox.Text = "";
@@ -442,7 +440,14 @@ namespace Zeditor
                 string s = TargetStateBox.Text.Trim();
                 int newValue;
                 bool success = int.TryParse(s, out newValue);
-                if (!success)
+                if (s == "" && currentCondition.Subconditions.Count == 0)
+                {
+                    currentCondition.TargetState = null;
+                    string txt = "CND " + ConditionTree.SelectedNode.Name;
+                    ConditionTree.SelectedNode.Text = txt;
+                    ConditionNameBox.Text = txt;
+                }
+                else if (!success)
                 {
                     MessageBox.Show("Invalid target state.");
                     TargetStateBox.Text = currentCondition.TargetState.ToString();
@@ -501,9 +506,12 @@ namespace Zeditor
         private void SaveEdit(object sender = null, EventArgs e = null)
         {
             if (currentState == null) return;
-            else if (editorControl.SelectedTab == entryTab) currentState.EntryScript = EntryCmdBox.Text;
-            else if (editorControl.SelectedTab == exitTab) currentState.ExitScript = ExitCmdBox.Text;
-            else if (editorControl.SelectedTab == whileTab) currentState.WhileScript = WhileCmdBox.Text;
+            else if (editorControl.SelectedTab == stateTab)
+            {
+                currentState.EntryScript = EntryCmdBox.Text;
+                currentState.ExitScript = ExitCmdBox.Text;
+                currentState.WhileScript = WhileCmdBox.Text;
+            }
             else if (editorControl.SelectedTab == conditionTab)
             {
                 if (currentCondition == null) return;
@@ -524,9 +532,12 @@ namespace Zeditor
         private void RevertBtn_Click(object sender, EventArgs e)
         {
             if (currentState == null) return;
-            else if (editorControl.SelectedTab == entryTab) EntryCmdBox.Text = currentState.EntryScript;
-            else if (editorControl.SelectedTab == exitTab) ExitCmdBox.Text = currentState.ExitScript;
-            else if (editorControl.SelectedTab == whileTab) WhileCmdBox.Text = currentState.WhileScript;
+            else if (editorControl.SelectedTab == stateTab)
+            {
+                EntryCmdBox.Text = currentState.EntryScript;
+                ExitCmdBox.Text = currentState.ExitScript;
+                WhileCmdBox.Text = currentState.WhileScript;
+            }
             else if (editorControl.SelectedTab == conditionTab)
             {
                 if (currentCondition == null) return;
@@ -690,10 +701,8 @@ namespace Zeditor
             {
                 long val;
                 bool success = long.TryParse(key.Trim(), out val);
-                if (success)
-                {
-                    return val;
-                } else
+                if (success) return val;
+                else
                 {
                     MessageBox.Show("Invalid key.");
                     GetNewKey();
@@ -753,6 +762,23 @@ namespace Zeditor
             editor.Location = new Point(x, y);
             editor.StartPosition = FormStartPosition.Manual;
             editor.ShowDialog();
+        }
+
+        private void OnResize()
+        {
+            int h = flowLayoutPanel1.Height / 3 - 3;
+            int w = flowLayoutPanel1.Width - 10;
+            groupBox5.Height = h;
+            groupBox6.Height = h;
+            groupBox7.Height = h;
+            groupBox5.Width = w;
+            groupBox6.Width = w;
+            groupBox7.Width = w;
+        }
+
+        private void GUI_Resize(object sender, EventArgs e)
+        {
+            OnResize();
         }
     }
 
