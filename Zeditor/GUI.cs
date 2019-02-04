@@ -4,12 +4,10 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using SoulsFormats;
-using EzSemble;
-using System.Text.RegularExpressions;
 using FastColoredTextBoxNS;
 using System.Drawing;
 using System.Timers;
+using SoulsFormats.ESD;
 
 namespace Zeditor
 {
@@ -46,7 +44,6 @@ namespace Zeditor
                 return ConditionsFromNode(ConditionTree.SelectedNode).Condition;
             }
         }
-        string splitString = Environment.NewLine + "---" + Environment.NewLine;
         Dictionary<string, TextStyle> textStyles = new Dictionary<string, TextStyle>();
         bool loaded = false;
         System.Timers.Timer saveLabelTimer = new System.Timers.Timer();
@@ -55,6 +52,7 @@ namespace Zeditor
         {
             InitializeComponent();
             SetTextBoxOptions();
+            OnResize();
             loaded = true;
 
             void hide(Object source, ElapsedEventArgs e)
@@ -81,7 +79,7 @@ namespace Zeditor
                 try
                 {
                     currentESD = ESD.Read(ofd.FileName);
-                    Form.ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
+                    ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
                     StateGroupBox.DataSource = currentESD.StateGroups.Keys.ToList();
                     filePath = ofd.FileName;
                 } catch (Exception ex)
@@ -114,10 +112,11 @@ namespace Zeditor
             {
                 AddConditionNode(condition);
             }
+
             if (ConditionTree.Nodes.Count > 0) ConditionTree.SelectedNode = ConditionTree.Nodes[0];
-            EntryCmdBox.Text = ReadCommands(currentState.EntryCommands);
-            ExitCmdBox.Text = ReadCommands(currentState.ExitCommands);
-            WhileCmdBox.Text = ReadCommands(currentState.WhileCommands);
+            EntryCmdBox.Text = currentState.EntryScript;
+            ExitCmdBox.Text = currentState.ExitScript;
+            WhileCmdBox.Text = currentState.WhileScript;
             ConditionNameBox.Text = "";
             AfterSelect();
             UpdateTitleBox();
@@ -152,58 +151,75 @@ namespace Zeditor
             }
         }
 
-        private string ReadCommands(List<ESD.CommandCall> commands)
-        {
-            List<string> output = new List<string>();
-            foreach (var cmd in commands)
-            {
-                List<string> args = new List<string>();
-                foreach (var arg in cmd.Arguments)
-                {
-                    args.Add(EzSembler.Dissemble(arg));
-                }
+        //private string ReadCommands(List<ESD.CommandCall> commands)
+        //{
+        //    List<string> output = new List<string>();
+        //    foreach (var cmd in commands)
+        //    {
+        //        List<string> args = new List<string>();
+        //        foreach (var arg in cmd.Arguments)
+        //        {
+        //            args.Add(EzSembler.Dissemble(arg));
+        //        }
 
-                string s = "$ " + cmd.CommandBank + ":" + cmd.CommandID + "(";
-                s += String.Join("; ", args) + ")";
-                output.Add(s);
-            }
-            return String.Join(Environment.NewLine, output);
-        }
+        //        string s = "$ " + cmd.CommandBank + ":" + cmd.CommandID + "(";
+        //        s += String.Join("; ", args) + ")";
+        //        output.Add(s);
+        //    }
+        //    return String.Join(Environment.NewLine, output);
+        //}
 
         private void WriteCommands(string plainText, ref List<ESD.CommandCall> target)
         {
-            List<ESD.CommandCall> commands = new List<ESD.CommandCall>();
-            var cmdStrings = Regex.Split(plainText, @"\s*[$]\s*").Where(s => !String.IsNullOrWhiteSpace(s));
-            int i = 0;
-            bool success = true;
-            foreach (var str in cmdStrings)
+            string current = "";
+            try
             {
-                try
-                {
-                    var cmd = new ESD.CommandCall();
-                    var metaStr = str.Substring(0, str.IndexOf("("));
-                    var meta = metaStr.Split(':');
-                    cmd.CommandBank = int.Parse(meta[0]);
-                    cmd.CommandID = int.Parse(meta[1]);
+                current = "EntryScript";
+                currentState.EntryScript = EntryCmdBox.Text.Trim();
+                current = "ExitScript";
+                currentState.ExitScript = ExitCmdBox.Text.Trim();
+                current = "WhileScript";
+                currentState.WhileScript = WhileCmdBox.Text.Trim();
+            } catch (Exception ex)
+            {
+                MessageBox.Show("Error parsing " + current + "\n\n" + ex.ToString());
 
-                    var args = Regex.Split(str.Substring(str.IndexOf("(")).Trim(new char[] { '(', ')' }), @"\s*;\s*");
-                    foreach (var arg in args)
-                    {
-                        var argBytes = EzSembler.Assemble(arg);
-                        EzSembler.Dissemble(argBytes);
-                        cmd.Arguments.Add(argBytes);
-                    }
-                    commands.Add(cmd);
-
-                } catch (Exception ex)
-                {
-                    MessageBox.Show("ERROR: Unable to parse command at index " + i + "\n\n" + ex.ToString());
-                    success = false;
-                    break;
-                }
-                i++;
             }
-            if (success) target = commands;
+
+
+
+            //List<ESD.CommandCall> commands = new List<ESD.CommandCall>();
+            //var cmdStrings = Regex.Split(plainText, @"\s*[$]\s*").Where(s => !String.IsNullOrWhiteSpace(s));
+            //int i = 0;
+            //bool success = true;
+            //foreach (var str in cmdStrings)
+            //{
+            //    try
+            //    {
+            //        var cmd = new ESD.CommandCall();
+            //        var metaStr = str.Substring(0, str.IndexOf("("));
+            //        var meta = metaStr.Split(':');
+            //        cmd.CommandBank = int.Parse(meta[0]);
+            //        cmd.CommandID = int.Parse(meta[1]);
+
+            //        var args = Regex.Split(str.Substring(str.IndexOf("(")).Trim(new char[] { '(', ')' }), @"\s*;\s*");
+            //        foreach (var arg in args)
+            //        {
+            //            var argBytes = EzSembler.Assemble(arg);
+            //            EzSembler.Dissemble(argBytes);
+            //            cmd.Arguments.Add(argBytes);
+            //        }
+            //        commands.Add(cmd);
+
+            //    } catch (Exception ex)
+            //    {
+            //        MessageBox.Show("ERROR: Unable to parse command at index " + i + "\n\n" + ex.ToString());
+            //        success = false;
+            //        break;
+            //    }
+            //    i++;
+            //}
+            //if (success) target = commands;
         }
 
         private void ConditionTree_AfterSelect(object sender, TreeViewEventArgs e)
@@ -221,9 +237,7 @@ namespace Zeditor
             }
 
             EditorTitleBox.Text = "Group " + StateGroupBox.SelectedItem + " : State " + StateBox.SelectedItem + " : ";
-            if (editorControl.SelectedTab == entryTab) EditorTitleBox.Text += "Entry Commands";
-            else if (editorControl.SelectedTab == exitTab) EditorTitleBox.Text += "Exit Commands";
-            else if (editorControl.SelectedTab == whileTab) EditorTitleBox.Text += "While Commands";
+            if (editorControl.SelectedTab == stateTab) EditorTitleBox.Text += "Commands";
             else if (editorControl.SelectedTab == conditionTab)
             {
                 if (currentCondition == null) EditorTitleBox.Text = "";
@@ -254,8 +268,8 @@ namespace Zeditor
             {
                 ConditionNameBox.Text = ConditionTree.SelectedNode == null ? "" : ConditionTree.SelectedNode.Text;
                 TargetStateBox.Text = currentCondition.TargetState == null ? "" : currentCondition.TargetState.ToString();
-                EvaluatorBox.Text = EzSembler.Dissemble(currentCondition.Evaluator);
-                PassCmdBox.Text = ReadCommands(currentCondition.PassCommands);
+                EvaluatorBox.Text = currentCondition.Evaluator;
+                PassCmdBox.Text = currentCondition.PassScript;
             }
             UpdateTitleBox();
         }
@@ -269,7 +283,7 @@ namespace Zeditor
         {
             if (currentState == null) return;
             var cnd = new ESD.Condition();
-            cnd.Evaluator = new byte[] { 0xA1 };
+            cnd.Evaluator = "";
             cnd.TargetState = 0;
             currentState.Conditions.Add(cnd);
             StateBox_SelectedIndexChanged(sender, e);
@@ -284,7 +298,7 @@ namespace Zeditor
             currentCondition.TargetState = null;
 
             var cnd = new ESD.Condition();
-            cnd.Evaluator = new byte[] { 0xA1 };
+            cnd.Evaluator = "";
             cnd.TargetState = state ?? (long)0;
             currentCondition.Subconditions.Add(cnd);
             StateBox_SelectedIndexChanged(sender, e);
@@ -426,7 +440,14 @@ namespace Zeditor
                 string s = TargetStateBox.Text.Trim();
                 int newValue;
                 bool success = int.TryParse(s, out newValue);
-                if (!success)
+                if (s == "" && currentCondition.Subconditions.Count == 0)
+                {
+                    currentCondition.TargetState = null;
+                    string txt = "CND " + ConditionTree.SelectedNode.Name;
+                    ConditionTree.SelectedNode.Text = txt;
+                    ConditionNameBox.Text = txt;
+                }
+                else if (!success)
                 {
                     MessageBox.Show("Invalid target state.");
                     TargetStateBox.Text = currentCondition.TargetState.ToString();
@@ -485,14 +506,17 @@ namespace Zeditor
         private void SaveEdit(object sender = null, EventArgs e = null)
         {
             if (currentState == null) return;
-            else if (editorControl.SelectedTab == entryTab) WriteCommands(EntryCmdBox.Text, ref currentState.EntryCommands);
-            else if (editorControl.SelectedTab == exitTab) WriteCommands(ExitCmdBox.Text, ref currentState.ExitCommands);
-            else if (editorControl.SelectedTab == whileTab) WriteCommands(WhileCmdBox.Text, ref currentState.WhileCommands);
+            else if (editorControl.SelectedTab == stateTab)
+            {
+                currentState.EntryScript = EntryCmdBox.Text;
+                currentState.ExitScript = ExitCmdBox.Text;
+                currentState.WhileScript = WhileCmdBox.Text;
+            }
             else if (editorControl.SelectedTab == conditionTab)
             {
                 if (currentCondition == null) return;
-                WriteCommands(PassCmdBox.Text, ref currentCondition.PassCommands);
-                currentCondition.Evaluator = EzSembler.Assemble(EvaluatorBox.Text);
+                currentCondition.PassScript = PassCmdBox.Text;
+                currentCondition.Evaluator = EvaluatorBox.Text;
             }
             ShowSuccessLabel();
         }
@@ -508,14 +532,17 @@ namespace Zeditor
         private void RevertBtn_Click(object sender, EventArgs e)
         {
             if (currentState == null) return;
-            else if (editorControl.SelectedTab == entryTab) EntryCmdBox.Text = ReadCommands(currentState.EntryCommands);
-            else if (editorControl.SelectedTab == exitTab) ExitCmdBox.Text = ReadCommands(currentState.ExitCommands);
-            else if (editorControl.SelectedTab == whileTab) WhileCmdBox.Text = ReadCommands(currentState.WhileCommands);
+            else if (editorControl.SelectedTab == stateTab)
+            {
+                EntryCmdBox.Text = currentState.EntryScript;
+                ExitCmdBox.Text = currentState.ExitScript;
+                WhileCmdBox.Text = currentState.WhileScript;
+            }
             else if (editorControl.SelectedTab == conditionTab)
             {
                 if (currentCondition == null) return;
-                PassCmdBox.Text = ReadCommands(currentCondition.PassCommands);
-                EvaluatorBox.Text = EzSembler.Dissemble(currentCondition.Evaluator);
+                PassCmdBox.Text = currentCondition.PassScript;
+                EvaluatorBox.Text = currentCondition.Evaluator;
             }
         }
 
@@ -538,40 +565,33 @@ namespace Zeditor
         {
             var newState = new ESD.State();
 
-            byte[] Clone(byte[] src) => EzSembler.Assemble(EzSembler.Dissemble(src));
-
             void CloneCondition(ESD.Condition srcCondition, ESD.Condition parentCondition = null)
             {
                 var newCondition = new ESD.Condition();
                 newCondition.TargetState = srcCondition.TargetState;
-                newCondition.Evaluator = Clone(srcCondition.Evaluator);
+                newCondition.Evaluator = srcCondition.Evaluator;
                 foreach (var sub in srcCondition.Subconditions) CloneCondition(sub, newCondition);
-                foreach (var srcCommand in srcCondition.PassCommands)
-                {
-                    var newCommand = CloneCommand(srcCommand);
-                    newCondition.PassCommands.Add(newCommand);
-                }
+                newCondition.PassScript = srcCondition.PassScript;
                 if (parentCondition == null) newState.Conditions.Add(newCondition);
                 else parentCondition.Subconditions.Add(newCondition);
             }
 
-            ESD.CommandCall CloneCommand(ESD.CommandCall srcCommand)
-            {
-                var command = new ESD.CommandCall();
-                command.CommandBank = srcCommand.CommandBank;
-                command.CommandID = srcCommand.CommandID;
-                foreach (var arg in srcCommand.Arguments)
-                {
-                    command.Arguments.Add(Clone(arg));
-                }
-                return command;
-            }
+            //ESD.CommandCall CloneCommand(ESD.CommandCall srcCommand)
+            //{
+            //    var command = new ESD.CommandCall();
+            //    command.CommandBank = srcCommand.CommandBank;
+            //    command.CommandID = srcCommand.CommandID;
+            //    foreach (var arg in srcCommand.Arguments)
+            //    {
+            //        command.Arguments.Add(Clone(arg));
+            //    }
+            //    return command;
+            //}
 
             foreach (var condition in source.Conditions) CloneCondition(condition);
-            foreach (var srcCommand in source.EntryCommands) newState.EntryCommands.Add(CloneCommand(srcCommand));
-            foreach (var srcCommand in source.ExitCommands) newState.ExitCommands.Add(CloneCommand(srcCommand));
-            foreach (var srcCommand in source.WhileCommands) newState.WhileCommands.Add(CloneCommand(srcCommand));
-
+            newState.EntryScript = source.EntryScript;
+            newState.ExitScript = source.ExitScript;
+            newState.WhileScript = source.WhileScript;
             return newState;
         }
 
@@ -657,7 +677,6 @@ namespace Zeditor
                 StateBox.DataSource = null;
                 ClearEditors();
                 StateGroupBox.DataSource = currentESD.StateGroups.Keys.ToList();
-                
             }
         }
 
@@ -682,10 +701,8 @@ namespace Zeditor
             {
                 long val;
                 bool success = long.TryParse(key.Trim(), out val);
-                if (success)
-                {
-                    return val;
-                } else
+                if (success) return val;
+                else
                 {
                     MessageBox.Show("Invalid key.");
                     GetNewKey();
@@ -734,6 +751,34 @@ namespace Zeditor
             DialogResult dialogResult = form.ShowDialog();
             value = textBox.Text;
             return dialogResult;
+        }
+
+        private void editESDPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentESD == null) return;
+            var editor = new PropertyEditor(currentESD);
+            int x = DesktopBounds.Left + (Width - editor.Width) / 2;
+            int y = DesktopBounds.Top + (Height - editor.Height) / 2;
+            editor.Location = new Point(x, y);
+            editor.StartPosition = FormStartPosition.Manual;
+            editor.ShowDialog();
+        }
+
+        private void OnResize()
+        {
+            int h = flowLayoutPanel1.Height / 3 - 3;
+            int w = flowLayoutPanel1.Width - 10;
+            groupBox5.Height = h;
+            groupBox6.Height = h;
+            groupBox7.Height = h;
+            groupBox5.Width = w;
+            groupBox6.Width = w;
+            groupBox7.Width = w;
+        }
+
+        private void GUI_Resize(object sender, EventArgs e)
+        {
+            OnResize();
         }
     }
 
