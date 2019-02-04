@@ -4,12 +4,10 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using SoulsFormats;
-using EzSemble;
-using System.Text.RegularExpressions;
 using FastColoredTextBoxNS;
 using System.Drawing;
 using System.Timers;
+using SoulsFormats.ESD;
 
 namespace Zeditor
 {
@@ -114,10 +112,11 @@ namespace Zeditor
             {
                 AddConditionNode(condition);
             }
+
             if (ConditionTree.Nodes.Count > 0) ConditionTree.SelectedNode = ConditionTree.Nodes[0];
-            EntryCmdBox.Text = ReadCommands(currentState.EntryCommands);
-            ExitCmdBox.Text = ReadCommands(currentState.ExitCommands);
-            WhileCmdBox.Text = ReadCommands(currentState.WhileCommands);
+            EntryCmdBox.Text = currentState.EntryScript;
+            ExitCmdBox.Text = currentState.ExitScript;
+            WhileCmdBox.Text = currentState.WhileScript;
             ConditionNameBox.Text = "";
             AfterSelect();
             UpdateTitleBox();
@@ -152,58 +151,75 @@ namespace Zeditor
             }
         }
 
-        private string ReadCommands(List<ESD.CommandCall> commands)
-        {
-            List<string> output = new List<string>();
-            foreach (var cmd in commands)
-            {
-                List<string> args = new List<string>();
-                foreach (var arg in cmd.Arguments)
-                {
-                    args.Add(EzSembler.Dissemble(arg));
-                }
+        //private string ReadCommands(List<ESD.CommandCall> commands)
+        //{
+        //    List<string> output = new List<string>();
+        //    foreach (var cmd in commands)
+        //    {
+        //        List<string> args = new List<string>();
+        //        foreach (var arg in cmd.Arguments)
+        //        {
+        //            args.Add(EzSembler.Dissemble(arg));
+        //        }
 
-                string s = "$ " + cmd.CommandBank + ":" + cmd.CommandID + "(";
-                s += String.Join("; ", args) + ")";
-                output.Add(s);
-            }
-            return String.Join(Environment.NewLine, output);
-        }
+        //        string s = "$ " + cmd.CommandBank + ":" + cmd.CommandID + "(";
+        //        s += String.Join("; ", args) + ")";
+        //        output.Add(s);
+        //    }
+        //    return String.Join(Environment.NewLine, output);
+        //}
 
         private void WriteCommands(string plainText, ref List<ESD.CommandCall> target)
         {
-            List<ESD.CommandCall> commands = new List<ESD.CommandCall>();
-            var cmdStrings = Regex.Split(plainText, @"\s*[$]\s*").Where(s => !String.IsNullOrWhiteSpace(s));
-            int i = 0;
-            bool success = true;
-            foreach (var str in cmdStrings)
+            string current = "";
+            try
             {
-                try
-                {
-                    var cmd = new ESD.CommandCall();
-                    var metaStr = str.Substring(0, str.IndexOf("("));
-                    var meta = metaStr.Split(':');
-                    cmd.CommandBank = int.Parse(meta[0]);
-                    cmd.CommandID = int.Parse(meta[1]);
+                current = "EntryScript";
+                currentState.EntryScript = EntryCmdBox.Text;
+                current = "ExitScript";
+                currentState.ExitScript = ExitCmdBox.Text;
+                current = "WhileSCript";
+                currentState.WhileScript = WhileCmdBox.Text;
+            } catch (Exception ex)
+            {
+                MessageBox.Show("Error parsing " + current + "\n\n" + ex.ToString());
 
-                    var args = Regex.Split(str.Substring(str.IndexOf("(")).Trim(new char[] { '(', ')' }), @"\s*;\s*");
-                    foreach (var arg in args)
-                    {
-                        var argBytes = EzSembler.Assemble(arg);
-                        EzSembler.Dissemble(argBytes);
-                        cmd.Arguments.Add(argBytes);
-                    }
-                    commands.Add(cmd);
-
-                } catch (Exception ex)
-                {
-                    MessageBox.Show("ERROR: Unable to parse command at index " + i + "\n\n" + ex.ToString());
-                    success = false;
-                    break;
-                }
-                i++;
             }
-            if (success) target = commands;
+
+
+
+            //List<ESD.CommandCall> commands = new List<ESD.CommandCall>();
+            //var cmdStrings = Regex.Split(plainText, @"\s*[$]\s*").Where(s => !String.IsNullOrWhiteSpace(s));
+            //int i = 0;
+            //bool success = true;
+            //foreach (var str in cmdStrings)
+            //{
+            //    try
+            //    {
+            //        var cmd = new ESD.CommandCall();
+            //        var metaStr = str.Substring(0, str.IndexOf("("));
+            //        var meta = metaStr.Split(':');
+            //        cmd.CommandBank = int.Parse(meta[0]);
+            //        cmd.CommandID = int.Parse(meta[1]);
+
+            //        var args = Regex.Split(str.Substring(str.IndexOf("(")).Trim(new char[] { '(', ')' }), @"\s*;\s*");
+            //        foreach (var arg in args)
+            //        {
+            //            var argBytes = EzSembler.Assemble(arg);
+            //            EzSembler.Dissemble(argBytes);
+            //            cmd.Arguments.Add(argBytes);
+            //        }
+            //        commands.Add(cmd);
+
+            //    } catch (Exception ex)
+            //    {
+            //        MessageBox.Show("ERROR: Unable to parse command at index " + i + "\n\n" + ex.ToString());
+            //        success = false;
+            //        break;
+            //    }
+            //    i++;
+            //}
+            //if (success) target = commands;
         }
 
         private void ConditionTree_AfterSelect(object sender, TreeViewEventArgs e)
@@ -254,8 +270,8 @@ namespace Zeditor
             {
                 ConditionNameBox.Text = ConditionTree.SelectedNode == null ? "" : ConditionTree.SelectedNode.Text;
                 TargetStateBox.Text = currentCondition.TargetState == null ? "" : currentCondition.TargetState.ToString();
-                EvaluatorBox.Text = EzSembler.Dissemble(currentCondition.Evaluator);
-                PassCmdBox.Text = ReadCommands(currentCondition.PassCommands);
+                EvaluatorBox.Text = currentCondition.Evaluator;
+                PassCmdBox.Text = currentCondition.PassScript;
             }
             UpdateTitleBox();
         }
@@ -269,7 +285,7 @@ namespace Zeditor
         {
             if (currentState == null) return;
             var cnd = new ESD.Condition();
-            cnd.Evaluator = new byte[] { 0xA1 };
+            cnd.Evaluator = "";
             cnd.TargetState = 0;
             currentState.Conditions.Add(cnd);
             StateBox_SelectedIndexChanged(sender, e);
@@ -284,7 +300,7 @@ namespace Zeditor
             currentCondition.TargetState = null;
 
             var cnd = new ESD.Condition();
-            cnd.Evaluator = new byte[] { 0xA1 };
+            cnd.Evaluator = "";
             cnd.TargetState = state ?? (long)0;
             currentCondition.Subconditions.Add(cnd);
             StateBox_SelectedIndexChanged(sender, e);
@@ -485,14 +501,14 @@ namespace Zeditor
         private void SaveEdit(object sender = null, EventArgs e = null)
         {
             if (currentState == null) return;
-            else if (editorControl.SelectedTab == entryTab) WriteCommands(EntryCmdBox.Text, ref currentState.EntryCommands);
-            else if (editorControl.SelectedTab == exitTab) WriteCommands(ExitCmdBox.Text, ref currentState.ExitCommands);
-            else if (editorControl.SelectedTab == whileTab) WriteCommands(WhileCmdBox.Text, ref currentState.WhileCommands);
+            else if (editorControl.SelectedTab == entryTab) currentState.EntryScript = EntryCmdBox.Text;
+            else if (editorControl.SelectedTab == exitTab) currentState.ExitScript = ExitCmdBox.Text;
+            else if (editorControl.SelectedTab == whileTab) currentState.WhileScript = WhileCmdBox.Text;
             else if (editorControl.SelectedTab == conditionTab)
             {
                 if (currentCondition == null) return;
-                WriteCommands(PassCmdBox.Text, ref currentCondition.PassCommands);
-                currentCondition.Evaluator = EzSembler.Assemble(EvaluatorBox.Text);
+                currentCondition.PassScript = PassCmdBox.Text;
+                currentCondition.Evaluator = EvaluatorBox.Text;
             }
             ShowSuccessLabel();
         }
@@ -508,14 +524,14 @@ namespace Zeditor
         private void RevertBtn_Click(object sender, EventArgs e)
         {
             if (currentState == null) return;
-            else if (editorControl.SelectedTab == entryTab) EntryCmdBox.Text = ReadCommands(currentState.EntryCommands);
-            else if (editorControl.SelectedTab == exitTab) ExitCmdBox.Text = ReadCommands(currentState.ExitCommands);
-            else if (editorControl.SelectedTab == whileTab) WhileCmdBox.Text = ReadCommands(currentState.WhileCommands);
+            else if (editorControl.SelectedTab == entryTab) EntryCmdBox.Text = currentState.EntryScript;
+            else if (editorControl.SelectedTab == exitTab) ExitCmdBox.Text = currentState.ExitScript;
+            else if (editorControl.SelectedTab == whileTab) WhileCmdBox.Text = currentState.WhileScript;
             else if (editorControl.SelectedTab == conditionTab)
             {
                 if (currentCondition == null) return;
-                PassCmdBox.Text = ReadCommands(currentCondition.PassCommands);
-                EvaluatorBox.Text = EzSembler.Dissemble(currentCondition.Evaluator);
+                PassCmdBox.Text = currentCondition.PassScript;
+                EvaluatorBox.Text = currentCondition.Evaluator;
             }
         }
 
@@ -538,40 +554,33 @@ namespace Zeditor
         {
             var newState = new ESD.State();
 
-            byte[] Clone(byte[] src) => EzSembler.Assemble(EzSembler.Dissemble(src));
-
             void CloneCondition(ESD.Condition srcCondition, ESD.Condition parentCondition = null)
             {
                 var newCondition = new ESD.Condition();
                 newCondition.TargetState = srcCondition.TargetState;
-                newCondition.Evaluator = Clone(srcCondition.Evaluator);
+                newCondition.Evaluator = srcCondition.Evaluator;
                 foreach (var sub in srcCondition.Subconditions) CloneCondition(sub, newCondition);
-                foreach (var srcCommand in srcCondition.PassCommands)
-                {
-                    var newCommand = CloneCommand(srcCommand);
-                    newCondition.PassCommands.Add(newCommand);
-                }
+                newCondition.PassScript = srcCondition.PassScript;
                 if (parentCondition == null) newState.Conditions.Add(newCondition);
                 else parentCondition.Subconditions.Add(newCondition);
             }
 
-            ESD.CommandCall CloneCommand(ESD.CommandCall srcCommand)
-            {
-                var command = new ESD.CommandCall();
-                command.CommandBank = srcCommand.CommandBank;
-                command.CommandID = srcCommand.CommandID;
-                foreach (var arg in srcCommand.Arguments)
-                {
-                    command.Arguments.Add(Clone(arg));
-                }
-                return command;
-            }
+            //ESD.CommandCall CloneCommand(ESD.CommandCall srcCommand)
+            //{
+            //    var command = new ESD.CommandCall();
+            //    command.CommandBank = srcCommand.CommandBank;
+            //    command.CommandID = srcCommand.CommandID;
+            //    foreach (var arg in srcCommand.Arguments)
+            //    {
+            //        command.Arguments.Add(Clone(arg));
+            //    }
+            //    return command;
+            //}
 
             foreach (var condition in source.Conditions) CloneCondition(condition);
-            foreach (var srcCommand in source.EntryCommands) newState.EntryCommands.Add(CloneCommand(srcCommand));
-            foreach (var srcCommand in source.ExitCommands) newState.ExitCommands.Add(CloneCommand(srcCommand));
-            foreach (var srcCommand in source.WhileCommands) newState.WhileCommands.Add(CloneCommand(srcCommand));
-
+            newState.EntryScript = source.EntryScript;
+            newState.ExitScript = source.ExitScript;
+            newState.WhileScript = source.WhileScript;
             return newState;
         }
 
