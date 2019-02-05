@@ -16,17 +16,14 @@ namespace Zeditor
     {
         string filePath = "";
         public static ESD currentESD = null;
-        StateGroupHandler currentSGH
-        {
-            get {
-                if (StateGroupBox.SelectedItem == null) return null;
-                return (StateGroupHandler)StateGroupBox.SelectedItem;
-            }
-        }
-
+        StateGroupHandler currentSGH => (StateGroupHandler)StateGroupBox.SelectedItem ?? null;
         Dictionary<long, ESD.State> currentStateGroup => currentSGH == null ? null : currentSGH.Group;
 
-        ESD.State currentState => (ESD.State)StateBox.SelectedItem ?? null;
+        StateHandler currentSH => (StateHandler)StateBox.SelectedItem ?? null;
+        ESD.State currentState => currentSH == null ? null : currentSH.State;
+
+
+
         ESD.Condition currentCondition
         {
             get
@@ -72,12 +69,20 @@ namespace Zeditor
                 get => currentESD.StateGroupNames[ID];
                 set => currentESD.StateGroupNames[ID] = value;
             }
+            public string DisplayName => ID + ": " + Name;
 
             public StateGroupHandler(long id) => ID = id;
             public override string ToString() => Name;
-
         }
 
+        public class StateHandler
+        {
+            public ESD.State State;
+            public long ID => State.ID;
+            public string DisplayName => State.ID + ": " + State.Name;
+
+            public StateHandler(ESD.State state) => State = state;
+        }
 
         private void openESDToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -89,7 +94,7 @@ namespace Zeditor
                     ActiveForm.UseWaitCursor = true;
                     currentESD = ESD.ReadWithMetadata(ofd.FileName, true);
                     ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
-                    StateGroupBox.DataSource = currentESD.StateGroups.Select(kv => new StateGroupHandler(kv.Key)).ToList();
+                    RefreshStateGroupBox();
                     filePath = ofd.FileName;
                     ActiveForm.UseWaitCursor = false;
                 }
@@ -106,12 +111,11 @@ namespace Zeditor
         {
             if (currentStateGroup != null)
             {
-                StateBox.DisplayMember = "Name";
-                StateBox.DataSource = currentStateGroup.Values.ToList();
+                RefreshStateBox();
             }
             else
             {
-                StateBox.DisplayMember = "Name";
+                StateBox.DisplayMember = "DisplayName";
                 StateBox.DataSource = null;
             }
             UpdateTitleBox();
@@ -497,7 +501,6 @@ namespace Zeditor
                 currentCondition.PassScript = PassCmdBox.Text;
                 currentCondition.Evaluator = EvaluatorBox.Text;
             }
-            ShowSuccessLabel();
         }
 
         private void ShowSuccessLabel()
@@ -765,11 +768,17 @@ namespace Zeditor
                     newName = name.Trim();
                 }
                 currentState.Name = newName;
-                StateBox.DataSource = null;
-                StateBox.DisplayMember = "Name";
-                StateBox.DataSource = currentStateGroup.Values.ToList();
+                RefreshStateBox();
                 StateBox.SelectedIndex = index;
             }
+        }
+
+        private void RefreshStateBox()
+        {
+            StateBox.DataSource = null;
+            if (currentStateGroup == null) return;
+            StateBox.DisplayMember = "DisplayName";
+            StateBox.DataSource = currentStateGroup.Values.Select(s => new StateHandler(s)).ToList();
         }
 
         private void RenameConditionBtn_Click(object sender, EventArgs e)
@@ -822,15 +831,21 @@ namespace Zeditor
             if (currentESD == null) return;
             SaveEdit(sender, e);
             ActiveForm.UseWaitCursor = true;
-            currentESD.WriteWithMetadata(filePath, true);
+            try
+            {
+                currentESD.WriteWithMetadata(filePath, true);
+                ShowSuccessLabel();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
             ActiveForm.UseWaitCursor = false;
-            MessageBox.Show(Path.GetFileName(filePath) + " saved.");
         }
 
         private void RenameGroupBtn_Click(object sender, EventArgs e)
         {
             if (currentStateGroup == null) return;
-            var handler = (StateGroupHandler)StateGroupBox.SelectedItem;
+            var handler = currentSGH;
             string name = "";
             var box = InputBox("Rename State", "Enter a new name for " + handler.Name + ":", ref name);
             if (box == DialogResult.OK)
@@ -842,11 +857,17 @@ namespace Zeditor
                 else
                 {
                     handler.Name = name.Trim();
-                    StateGroupBox.DataSource = null;
-                    StateGroupBox.DataSource = currentESD.StateGroups.Select(kv => new StateGroupHandler(kv.Key)).ToList();
+                    RefreshStateGroupBox();
                 }
             }
+        }
 
+        private void RefreshStateGroupBox()
+        {
+            StateGroupBox.DataSource = null;
+            if (currentESD == null) return;
+            StateGroupBox.DisplayMember = "DisplayName";
+            StateGroupBox.DataSource = currentESD.StateGroups.Select(kv => new StateGroupHandler(kv.Key)).ToList();
         }
     }
 }

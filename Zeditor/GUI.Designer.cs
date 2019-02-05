@@ -64,7 +64,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.RenameConditionBtn = new System.Windows.Forms.Button();
             this.EditorTitleBox = new System.Windows.Forms.TextBox();
-            this.SaveBtn = new System.Windows.Forms.Button();
             this.RevertBtn = new System.Windows.Forms.Button();
             this.saveLabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -120,7 +119,7 @@
             this.StateGroupBox.ItemHeight = 16;
             this.StateGroupBox.Location = new System.Drawing.Point(12, 55);
             this.StateGroupBox.Name = "StateGroupBox";
-            this.StateGroupBox.Size = new System.Drawing.Size(122, 516);
+            this.StateGroupBox.Size = new System.Drawing.Size(150, 516);
             this.StateGroupBox.TabIndex = 0;
             this.StateGroupBox.SelectedIndexChanged += new System.EventHandler(this.StateGroupBox_SelectedIndexChanged);
             // 
@@ -131,9 +130,9 @@
             this.StateBox.DisplayMember = "Name";
             this.StateBox.FormattingEnabled = true;
             this.StateBox.ItemHeight = 16;
-            this.StateBox.Location = new System.Drawing.Point(140, 55);
+            this.StateBox.Location = new System.Drawing.Point(168, 55);
             this.StateBox.Name = "StateBox";
-            this.StateBox.Size = new System.Drawing.Size(122, 516);
+            this.StateBox.Size = new System.Drawing.Size(170, 516);
             this.StateBox.TabIndex = 1;
             this.StateBox.SelectedIndexChanged += new System.EventHandler(this.StateBox_SelectedIndexChanged);
             // 
@@ -148,7 +147,7 @@
             this.helpToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(1312, 28);
+            this.MenuStrip.Size = new System.Drawing.Size(1449, 28);
             this.MenuStrip.TabIndex = 2;
             this.MenuStrip.Text = "menuStrip1";
             // 
@@ -174,8 +173,7 @@
             // saveESDToolStripMenuItem
             // 
             this.saveESDToolStripMenuItem.Name = "saveESDToolStripMenuItem";
-            this.saveESDToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.S)));
+            this.saveESDToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveESDToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
             this.saveESDToolStripMenuItem.Text = "Save ESD";
             this.saveESDToolStripMenuItem.Click += new System.EventHandler(this.saveESDToolStripMenuItem_Click_1);
@@ -184,7 +182,7 @@
             // 
             this.exportESDToolStripMenuItem.Name = "exportESDToolStripMenuItem";
             this.exportESDToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.E)));
+            | System.Windows.Forms.Keys.S)));
             this.exportESDToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
             this.exportESDToolStripMenuItem.Text = "Export ESD";
             this.exportESDToolStripMenuItem.Click += new System.EventHandler(this.exportESDToolStripMenuItem_Click);
@@ -276,16 +274,16 @@
             // 
             this.label2.Location = new System.Drawing.Point(12, 31);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(122, 23);
+            this.label2.Size = new System.Drawing.Size(150, 23);
             this.label2.TabIndex = 10;
             this.label2.Text = "Groups";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(140, 31);
+            this.label3.Location = new System.Drawing.Point(168, 31);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(122, 23);
+            this.label3.Size = new System.Drawing.Size(170, 23);
             this.label3.TabIndex = 11;
             this.label3.Text = "States";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -293,9 +291,9 @@
             // AddStateBtn
             // 
             this.AddStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddStateBtn.Location = new System.Drawing.Point(140, 611);
+            this.AddStateBtn.Location = new System.Drawing.Point(168, 611);
             this.AddStateBtn.Name = "AddStateBtn";
-            this.AddStateBtn.Size = new System.Drawing.Size(122, 28);
+            this.AddStateBtn.Size = new System.Drawing.Size(170, 28);
             this.AddStateBtn.TabIndex = 12;
             this.AddStateBtn.Text = "Add";
             this.AddStateBtn.UseVisualStyleBackColor = true;
@@ -304,9 +302,9 @@
             // DeleteStateBtn
             // 
             this.DeleteStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteStateBtn.Location = new System.Drawing.Point(140, 679);
+            this.DeleteStateBtn.Location = new System.Drawing.Point(168, 679);
             this.DeleteStateBtn.Name = "DeleteStateBtn";
-            this.DeleteStateBtn.Size = new System.Drawing.Size(122, 28);
+            this.DeleteStateBtn.Size = new System.Drawing.Size(170, 28);
             this.DeleteStateBtn.TabIndex = 13;
             this.DeleteStateBtn.Text = "Delete";
             this.DeleteStateBtn.UseVisualStyleBackColor = true;
@@ -315,9 +313,9 @@
             // CloneStateBtn
             // 
             this.CloneStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CloneStateBtn.Location = new System.Drawing.Point(140, 645);
+            this.CloneStateBtn.Location = new System.Drawing.Point(168, 645);
             this.CloneStateBtn.Name = "CloneStateBtn";
-            this.CloneStateBtn.Size = new System.Drawing.Size(122, 28);
+            this.CloneStateBtn.Size = new System.Drawing.Size(170, 28);
             this.CloneStateBtn.TabIndex = 14;
             this.CloneStateBtn.Text = "Clone";
             this.CloneStateBtn.UseVisualStyleBackColor = true;
@@ -385,7 +383,7 @@
             // 
             // MoveCndUpBtn
             // 
-            this.MoveCndUpBtn.Location = new System.Drawing.Point(250, 248);
+            this.MoveCndUpBtn.Location = new System.Drawing.Point(250, 256);
             this.MoveCndUpBtn.Name = "MoveCndUpBtn";
             this.MoveCndUpBtn.Size = new System.Drawing.Size(75, 32);
             this.MoveCndUpBtn.TabIndex = 10;
@@ -395,7 +393,7 @@
             // 
             // MoveCndDownBtn
             // 
-            this.MoveCndDownBtn.Location = new System.Drawing.Point(250, 284);
+            this.MoveCndDownBtn.Location = new System.Drawing.Point(250, 292);
             this.MoveCndDownBtn.Name = "MoveCndDownBtn";
             this.MoveCndDownBtn.Size = new System.Drawing.Size(75, 32);
             this.MoveCndDownBtn.TabIndex = 11;
@@ -427,7 +425,7 @@
             this.groupBox1.Controls.Add(this.GoTargetBtn);
             this.groupBox1.Controls.Add(this.TargetStateBox);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(277, 31);
+            this.groupBox1.Location = new System.Drawing.Point(363, 31);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(403, 685);
             this.groupBox1.TabIndex = 8;
@@ -451,26 +449,16 @@
             this.EditorTitleBox.Location = new System.Drawing.Point(7, 57);
             this.EditorTitleBox.Name = "EditorTitleBox";
             this.EditorTitleBox.ReadOnly = true;
-            this.EditorTitleBox.Size = new System.Drawing.Size(600, 22);
+            this.EditorTitleBox.Size = new System.Drawing.Size(651, 22);
             this.EditorTitleBox.TabIndex = 9;
-            // 
-            // SaveBtn
-            // 
-            this.SaveBtn.Location = new System.Drawing.Point(121, 26);
-            this.SaveBtn.Name = "SaveBtn";
-            this.SaveBtn.Size = new System.Drawing.Size(133, 25);
-            this.SaveBtn.TabIndex = 10;
-            this.SaveBtn.Text = "Save (Ctrl+S)";
-            this.SaveBtn.UseVisualStyleBackColor = true;
-            this.SaveBtn.Click += new System.EventHandler(this.SaveBtn_Click);
             // 
             // RevertBtn
             // 
-            this.RevertBtn.Location = new System.Drawing.Point(260, 26);
+            this.RevertBtn.Location = new System.Drawing.Point(441, 21);
             this.RevertBtn.Name = "RevertBtn";
-            this.RevertBtn.Size = new System.Drawing.Size(79, 25);
+            this.RevertBtn.Size = new System.Drawing.Size(217, 30);
             this.RevertBtn.TabIndex = 11;
-            this.RevertBtn.Text = "Revert";
+            this.RevertBtn.Text = "Revert to Saved";
             this.RevertBtn.UseVisualStyleBackColor = true;
             this.RevertBtn.Click += new System.EventHandler(this.RevertBtn_Click);
             // 
@@ -479,9 +467,9 @@
             this.saveLabel.AutoSize = true;
             this.saveLabel.Location = new System.Drawing.Point(6, 30);
             this.saveLabel.Name = "saveLabel";
-            this.saveLabel.Size = new System.Drawing.Size(54, 17);
+            this.saveLabel.Size = new System.Drawing.Size(86, 17);
             this.saveLabel.TabIndex = 12;
-            this.saveLabel.Text = "SAVED";
+            this.saveLabel.Text = "ESD SAVED";
             this.saveLabel.Visible = false;
             // 
             // groupBox2
@@ -491,12 +479,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.saveLabel);
             this.groupBox2.Controls.Add(this.RevertBtn);
-            this.groupBox2.Controls.Add(this.SaveBtn);
             this.groupBox2.Controls.Add(this.EditorTitleBox);
             this.groupBox2.Controls.Add(this.editorControl);
-            this.groupBox2.Location = new System.Drawing.Point(686, 31);
+            this.groupBox2.Location = new System.Drawing.Point(772, 31);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(614, 685);
+            this.groupBox2.Size = new System.Drawing.Size(665, 685);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Editor";
@@ -511,7 +498,7 @@
             this.editorControl.Location = new System.Drawing.Point(3, 85);
             this.editorControl.Name = "editorControl";
             this.editorControl.SelectedIndex = 0;
-            this.editorControl.Size = new System.Drawing.Size(608, 597);
+            this.editorControl.Size = new System.Drawing.Size(659, 597);
             this.editorControl.TabIndex = 0;
             this.editorControl.SelectedIndexChanged += new System.EventHandler(this.UpdateTitleBox);
             // 
@@ -521,7 +508,7 @@
             this.stateTab.Location = new System.Drawing.Point(4, 25);
             this.stateTab.Name = "stateTab";
             this.stateTab.Padding = new System.Windows.Forms.Padding(3);
-            this.stateTab.Size = new System.Drawing.Size(600, 568);
+            this.stateTab.Size = new System.Drawing.Size(651, 568);
             this.stateTab.TabIndex = 0;
             this.stateTab.Text = "State";
             this.stateTab.UseVisualStyleBackColor = true;
@@ -534,7 +521,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(594, 562);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(645, 562);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // groupBox5
@@ -786,7 +773,7 @@
             this.AddGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.AddGroupBtn.Location = new System.Drawing.Point(12, 611);
             this.AddGroupBtn.Name = "AddGroupBtn";
-            this.AddGroupBtn.Size = new System.Drawing.Size(122, 28);
+            this.AddGroupBtn.Size = new System.Drawing.Size(150, 28);
             this.AddGroupBtn.TabIndex = 15;
             this.AddGroupBtn.Text = "Add";
             this.AddGroupBtn.UseVisualStyleBackColor = true;
@@ -797,7 +784,7 @@
             this.DeleteGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.DeleteGroupBtn.Location = new System.Drawing.Point(12, 679);
             this.DeleteGroupBtn.Name = "DeleteGroupBtn";
-            this.DeleteGroupBtn.Size = new System.Drawing.Size(122, 28);
+            this.DeleteGroupBtn.Size = new System.Drawing.Size(150, 28);
             this.DeleteGroupBtn.TabIndex = 16;
             this.DeleteGroupBtn.Text = "Delete";
             this.DeleteGroupBtn.UseVisualStyleBackColor = true;
@@ -808,7 +795,7 @@
             this.CloneGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CloneGroupBtn.Location = new System.Drawing.Point(12, 645);
             this.CloneGroupBtn.Name = "CloneGroupBtn";
-            this.CloneGroupBtn.Size = new System.Drawing.Size(122, 28);
+            this.CloneGroupBtn.Size = new System.Drawing.Size(150, 28);
             this.CloneGroupBtn.TabIndex = 17;
             this.CloneGroupBtn.Text = "Clone";
             this.CloneGroupBtn.UseVisualStyleBackColor = true;
@@ -816,9 +803,10 @@
             // 
             // RenameStateBtn
             // 
-            this.RenameStateBtn.Location = new System.Drawing.Point(140, 579);
+            this.RenameStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RenameStateBtn.Location = new System.Drawing.Point(168, 579);
             this.RenameStateBtn.Name = "RenameStateBtn";
-            this.RenameStateBtn.Size = new System.Drawing.Size(122, 26);
+            this.RenameStateBtn.Size = new System.Drawing.Size(170, 26);
             this.RenameStateBtn.TabIndex = 18;
             this.RenameStateBtn.Text = "Rename";
             this.RenameStateBtn.UseVisualStyleBackColor = true;
@@ -826,9 +814,10 @@
             // 
             // RenameGroupBtn
             // 
+            this.RenameGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.RenameGroupBtn.Location = new System.Drawing.Point(12, 579);
             this.RenameGroupBtn.Name = "RenameGroupBtn";
-            this.RenameGroupBtn.Size = new System.Drawing.Size(122, 26);
+            this.RenameGroupBtn.Size = new System.Drawing.Size(150, 26);
             this.RenameGroupBtn.TabIndex = 19;
             this.RenameGroupBtn.Text = "Rename";
             this.RenameGroupBtn.UseVisualStyleBackColor = true;
@@ -838,7 +827,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1312, 722);
+            this.ClientSize = new System.Drawing.Size(1449, 722);
             this.Controls.Add(this.RenameGroupBtn);
             this.Controls.Add(this.RenameStateBtn);
             this.Controls.Add(this.CloneGroupBtn);
@@ -920,7 +909,6 @@
         private System.Windows.Forms.Button AddSubconditionBtn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox EditorTitleBox;
-        private System.Windows.Forms.Button SaveBtn;
         private System.Windows.Forms.Button RevertBtn;
         private System.Windows.Forms.Label saveLabel;
         private System.Windows.Forms.GroupBox groupBox2;
