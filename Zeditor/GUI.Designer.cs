@@ -77,7 +77,7 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.WhileCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.conditionTab = new System.Windows.Forms.TabPage();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.EvaluatorBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -87,6 +87,7 @@
             this.CloneGroupBtn = new System.Windows.Forms.Button();
             this.RenameStateBtn = new System.Windows.Forms.Button();
             this.RenameGroupBtn = new System.Windows.Forms.Button();
+            this.TargetStateNameBox = new System.Windows.Forms.TextBox();
             this.MenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -100,10 +101,7 @@
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).BeginInit();
             this.conditionTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -341,7 +339,7 @@
             // 
             // GoTargetBtn
             // 
-            this.GoTargetBtn.Location = new System.Drawing.Point(250, 374);
+            this.GoTargetBtn.Location = new System.Drawing.Point(250, 402);
             this.GoTargetBtn.Name = "GoTargetBtn";
             this.GoTargetBtn.Size = new System.Drawing.Size(138, 34);
             this.GoTargetBtn.TabIndex = 7;
@@ -415,6 +413,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.TargetStateNameBox);
             this.groupBox1.Controls.Add(this.RenameConditionBtn);
             this.groupBox1.Controls.Add(this.AddSubconditionBtn);
             this.groupBox1.Controls.Add(this.MoveCndDownBtn);
@@ -501,7 +500,7 @@
             this.editorControl.SelectedIndex = 0;
             this.editorControl.Size = new System.Drawing.Size(659, 597);
             this.editorControl.TabIndex = 0;
-            this.editorControl.SelectedIndexChanged += new System.EventHandler(this.UpdateTitleBox);
+            this.editorControl.SelectedIndexChanged += new System.EventHandler(this.editorControl_SelectedIndexChanged);
             // 
             // stateTab
             // 
@@ -635,7 +634,7 @@
         '\"',
         '\'',
         '\''};
-            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 16);
+            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 16);
             this.WhileCmdBox.BackBrush = null;
             this.WhileCmdBox.CharHeight = 16;
             this.WhileCmdBox.CharWidth = 8;
@@ -656,7 +655,7 @@
             // 
             // conditionTab
             // 
-            this.conditionTab.Controls.Add(this.splitContainer1);
+            this.conditionTab.Controls.Add(this.flowLayoutPanel3);
             this.conditionTab.Location = new System.Drawing.Point(4, 25);
             this.conditionTab.Name = "conditionTab";
             this.conditionTab.Size = new System.Drawing.Size(651, 568);
@@ -664,29 +663,20 @@
             this.conditionTab.Text = "Condition";
             this.conditionTab.UseVisualStyleBackColor = true;
             // 
-            // splitContainer1
+            // flowLayoutPanel3
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox4);
-            this.splitContainer1.Size = new System.Drawing.Size(651, 568);
-            this.splitContainer1.SplitterDistance = 241;
-            this.splitContainer1.TabIndex = 0;
+            this.flowLayoutPanel3.Controls.Add(this.groupBox3);
+            this.flowLayoutPanel3.Controls.Add(this.groupBox4);
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(651, 568);
+            this.flowLayoutPanel3.TabIndex = 2;
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.EvaluatorBox);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(0, 0);
+            this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(651, 241);
             this.groupBox3.TabIndex = 0;
@@ -729,8 +719,8 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.PassCmdBox);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Location = new System.Drawing.Point(0, 0);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox4.Location = new System.Drawing.Point(3, 250);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(651, 323);
             this.groupBox4.TabIndex = 1;
@@ -824,6 +814,14 @@
             this.RenameGroupBtn.UseVisualStyleBackColor = true;
             this.RenameGroupBtn.Click += new System.EventHandler(this.RenameGroupBtn_Click);
             // 
+            // TargetStateNameBox
+            // 
+            this.TargetStateNameBox.Location = new System.Drawing.Point(250, 374);
+            this.TargetStateNameBox.Name = "TargetStateNameBox";
+            this.TargetStateNameBox.ReadOnly = true;
+            this.TargetStateNameBox.Size = new System.Drawing.Size(138, 22);
+            this.TargetStateNameBox.TabIndex = 14;
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -865,10 +863,7 @@
             this.groupBox7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).EndInit();
             this.conditionTab.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.flowLayoutPanel3.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).EndInit();
             this.groupBox4.ResumeLayout(false);
@@ -927,16 +922,17 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private FastColoredTextBoxNS.FastColoredTextBox WhileCmdBox;
         private System.Windows.Forms.TabPage conditionTab;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private FastColoredTextBoxNS.FastColoredTextBox EvaluatorBox;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private FastColoredTextBoxNS.FastColoredTextBox PassCmdBox;
         private System.Windows.Forms.Button RenameConditionBtn;
         private System.Windows.Forms.Button RenameStateBtn;
         private System.Windows.Forms.ToolStripMenuItem saveESDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.Button RenameGroupBtn;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private FastColoredTextBoxNS.FastColoredTextBox EvaluatorBox;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private FastColoredTextBoxNS.FastColoredTextBox PassCmdBox;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.TextBox TargetStateNameBox;
     }
 }
 

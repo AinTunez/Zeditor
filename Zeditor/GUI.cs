@@ -22,8 +22,6 @@ namespace Zeditor
         StateHandler currentSH => (StateHandler)StateBox.SelectedItem ?? null;
         ESD.State currentState => currentSH == null ? null : currentSH.State;
 
-
-
         ESD.Condition currentCondition
         {
             get
@@ -242,10 +240,21 @@ namespace Zeditor
             {
                 EvaluatorBox.Text = "";
                 PassCmdBox.Text = "";
+                TargetStateNameBox.Text = "";
+                TargetStateBox.Text = "";
             }
             else
             {
-                TargetStateBox.Text = currentCondition.TargetState == null ? "" : currentCondition.TargetState.ToString();
+                var t = currentCondition.TargetState;
+                if (t == null)
+                {
+                    TargetStateBox.Text = "";
+                    TargetStateNameBox.Text = "";
+                } else
+                {
+                    TargetStateBox.Text = t.ToString();
+                    TargetStateNameBox.Text = currentStateGroup[(long)t].Name;
+                }
                 EvaluatorBox.Text = currentCondition.Evaluator;
                 PassCmdBox.Text = currentCondition.PassScript;
             }
@@ -299,7 +308,8 @@ namespace Zeditor
         {
             if (currentCondition != null && currentCondition.TargetState != null)
             {
-                StateBox.SelectedItem = currentCondition.TargetState;
+                int index = currentStateGroup.Keys.ToList().IndexOf((long) currentCondition.TargetState);
+                StateBox.SelectedIndex = index;
             }
         }
 
@@ -428,6 +438,7 @@ namespace Zeditor
                 {
                     cnd.TargetState = null;
                     ConditionTree.SelectedNode.Text = ConditionDisplay(cnd);
+                    TargetStateBox.Text = "";
                 }
                 else if (!success)
                 {
@@ -443,6 +454,7 @@ namespace Zeditor
                 {
                     currentCondition.TargetState = (long)newValue;
                     ConditionTree.SelectedNode.Text = ConditionDisplay(cnd);
+                    TargetStateNameBox.Text = currentStateGroup[(long)newValue].Name;
                 }
             }
         }
@@ -743,6 +755,15 @@ namespace Zeditor
             groupBox5.Width = w;
             groupBox6.Width = w;
             groupBox7.Width = w;
+
+            int h2 = flowLayoutPanel3.Height / 2 - 3;
+            int w2 = flowLayoutPanel3.Width - 10;
+            groupBox3.Height = h2;
+            groupBox4.Height = h2;
+            groupBox3.Width = w2;
+            groupBox4.Width = w2;
+
+
         }
 
         private void GUI_Resize(object sender, EventArgs e)
@@ -868,6 +889,12 @@ namespace Zeditor
             if (currentESD == null) return;
             StateGroupBox.DisplayMember = "DisplayName";
             StateGroupBox.DataSource = currentESD.StateGroups.Select(kv => new StateGroupHandler(kv.Key)).ToList();
+        }
+
+        private void editorControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateTitleBox();
+            OnResize();
         }
     }
 }
