@@ -454,6 +454,7 @@
             // 
             // RevertBtn
             // 
+            this.RevertBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.RevertBtn.Location = new System.Drawing.Point(441, 21);
             this.RevertBtn.Name = "RevertBtn";
             this.RevertBtn.Size = new System.Drawing.Size(217, 30);
@@ -634,7 +635,7 @@
         '\"',
         '\'',
         '\''};
-            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 16);
+            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 16);
             this.WhileCmdBox.BackBrush = null;
             this.WhileCmdBox.CharHeight = 16;
             this.WhileCmdBox.CharWidth = 8;
@@ -658,7 +659,7 @@
             this.conditionTab.Controls.Add(this.splitContainer1);
             this.conditionTab.Location = new System.Drawing.Point(4, 25);
             this.conditionTab.Name = "conditionTab";
-            this.conditionTab.Size = new System.Drawing.Size(600, 568);
+            this.conditionTab.Size = new System.Drawing.Size(651, 568);
             this.conditionTab.TabIndex = 3;
             this.conditionTab.Text = "Condition";
             this.conditionTab.UseVisualStyleBackColor = true;
@@ -677,7 +678,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox4);
-            this.splitContainer1.Size = new System.Drawing.Size(600, 568);
+            this.splitContainer1.Size = new System.Drawing.Size(651, 568);
             this.splitContainer1.SplitterDistance = 241;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -687,7 +688,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(600, 241);
+            this.groupBox3.Size = new System.Drawing.Size(651, 241);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Evaluator";
@@ -719,7 +720,7 @@
             this.EvaluatorBox.Paddings = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.EvaluatorBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.EvaluatorBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("EvaluatorBox.ServiceColors")));
-            this.EvaluatorBox.Size = new System.Drawing.Size(594, 220);
+            this.EvaluatorBox.Size = new System.Drawing.Size(645, 220);
             this.EvaluatorBox.TabIndex = 0;
             this.EvaluatorBox.WordWrap = true;
             this.EvaluatorBox.Zoom = 100;
@@ -731,7 +732,7 @@
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(600, 323);
+            this.groupBox4.Size = new System.Drawing.Size(651, 323);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Pass Commands";
@@ -763,7 +764,7 @@
             this.PassCmdBox.Paddings = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.PassCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.PassCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("PassCmdBox.ServiceColors")));
-            this.PassCmdBox.Size = new System.Drawing.Size(594, 302);
+            this.PassCmdBox.Size = new System.Drawing.Size(645, 302);
             this.PassCmdBox.TabIndex = 1;
             this.PassCmdBox.Zoom = 100;
             this.PassCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);

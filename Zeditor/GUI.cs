@@ -218,7 +218,7 @@ namespace Zeditor
 
             EditorTitleBox.Text = currentSGH.Name + " : " + currentState.Name + " : ";
             if (editorControl.SelectedTab == stateTab) EditorTitleBox.Text += "Commands";
-            else if (editorControl.SelectedTab == conditionTab)
+            else if (editorControl.SelectedTab == conditionTab) 
             {
                 if (currentCondition == null) EditorTitleBox.Text = "";
                 else EditorTitleBox.Text += ConditionDisplay(currentCondition);
