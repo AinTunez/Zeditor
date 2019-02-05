@@ -36,6 +36,8 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openESDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveESDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportESDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editESDPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveEditorContentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,13 +56,13 @@
             this.TargetStateBox = new System.Windows.Forms.TextBox();
             this.GoTargetBtn = new System.Windows.Forms.Button();
             this.ConditionTree = new System.Windows.Forms.TreeView();
-            this.ConditionNameBox = new System.Windows.Forms.TextBox();
             this.AddConditionBtn = new System.Windows.Forms.Button();
             this.DeleteConditionBtn = new System.Windows.Forms.Button();
             this.MoveCndUpBtn = new System.Windows.Forms.Button();
             this.MoveCndDownBtn = new System.Windows.Forms.Button();
             this.AddSubconditionBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.RenameConditionBtn = new System.Windows.Forms.Button();
             this.EditorTitleBox = new System.Windows.Forms.TextBox();
             this.SaveBtn = new System.Windows.Forms.Button();
             this.RevertBtn = new System.Windows.Forms.Button();
@@ -84,6 +86,8 @@
             this.AddGroupBtn = new System.Windows.Forms.Button();
             this.DeleteGroupBtn = new System.Windows.Forms.Button();
             this.CloneGroupBtn = new System.Windows.Forms.Button();
+            this.RenameStateBtn = new System.Windows.Forms.Button();
+            this.RenameGroupBtn = new System.Windows.Forms.Button();
             this.MenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -116,7 +120,7 @@
             this.StateGroupBox.ItemHeight = 16;
             this.StateGroupBox.Location = new System.Drawing.Point(12, 55);
             this.StateGroupBox.Name = "StateGroupBox";
-            this.StateGroupBox.Size = new System.Drawing.Size(122, 548);
+            this.StateGroupBox.Size = new System.Drawing.Size(122, 516);
             this.StateGroupBox.TabIndex = 0;
             this.StateGroupBox.SelectedIndexChanged += new System.EventHandler(this.StateGroupBox_SelectedIndexChanged);
             // 
@@ -124,12 +128,12 @@
             // 
             this.StateBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.StateBox.DisplayMember = "Key";
+            this.StateBox.DisplayMember = "Name";
             this.StateBox.FormattingEnabled = true;
             this.StateBox.ItemHeight = 16;
             this.StateBox.Location = new System.Drawing.Point(140, 55);
             this.StateBox.Name = "StateBox";
-            this.StateBox.Size = new System.Drawing.Size(122, 548);
+            this.StateBox.Size = new System.Drawing.Size(122, 516);
             this.StateBox.TabIndex = 1;
             this.StateBox.SelectedIndexChanged += new System.EventHandler(this.StateBox_SelectedIndexChanged);
             // 
@@ -152,7 +156,9 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openESDToolStripMenuItem,
-            this.saveESDToolStripMenuItem});
+            this.saveESDToolStripMenuItem,
+            this.exportESDToolStripMenuItem,
+            this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -171,8 +177,24 @@
             this.saveESDToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
             this.saveESDToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
-            this.saveESDToolStripMenuItem.Text = "Export ESD";
-            this.saveESDToolStripMenuItem.Click += new System.EventHandler(this.saveESDToolStripMenuItem_Click);
+            this.saveESDToolStripMenuItem.Text = "Save ESD";
+            this.saveESDToolStripMenuItem.Click += new System.EventHandler(this.saveESDToolStripMenuItem_Click_1);
+            // 
+            // exportESDToolStripMenuItem
+            // 
+            this.exportESDToolStripMenuItem.Name = "exportESDToolStripMenuItem";
+            this.exportESDToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.E)));
+            this.exportESDToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.exportESDToolStripMenuItem.Text = "Export ESD";
+            this.exportESDToolStripMenuItem.Click += new System.EventHandler(this.exportESDToolStripMenuItem_Click);
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.quitToolStripMenuItem.Text = "Quit";
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -304,7 +326,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(247, 299);
+            this.label1.Location = new System.Drawing.Point(247, 349);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(87, 17);
             this.label1.TabIndex = 6;
@@ -312,7 +334,7 @@
             // 
             // TargetStateBox
             // 
-            this.TargetStateBox.Location = new System.Drawing.Point(338, 296);
+            this.TargetStateBox.Location = new System.Drawing.Point(338, 346);
             this.TargetStateBox.Name = "TargetStateBox";
             this.TargetStateBox.Size = new System.Drawing.Size(50, 22);
             this.TargetStateBox.TabIndex = 5;
@@ -321,7 +343,7 @@
             // 
             // GoTargetBtn
             // 
-            this.GoTargetBtn.Location = new System.Drawing.Point(250, 324);
+            this.GoTargetBtn.Location = new System.Drawing.Point(250, 374);
             this.GoTargetBtn.Name = "GoTargetBtn";
             this.GoTargetBtn.Size = new System.Drawing.Size(138, 34);
             this.GoTargetBtn.TabIndex = 7;
@@ -341,17 +363,9 @@
             this.ConditionTree.TabIndex = 3;
             this.ConditionTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ConditionTree_AfterSelect);
             // 
-            // ConditionNameBox
-            // 
-            this.ConditionNameBox.Location = new System.Drawing.Point(250, 24);
-            this.ConditionNameBox.Name = "ConditionNameBox";
-            this.ConditionNameBox.ReadOnly = true;
-            this.ConditionNameBox.Size = new System.Drawing.Size(138, 22);
-            this.ConditionNameBox.TabIndex = 8;
-            // 
             // AddConditionBtn
             // 
-            this.AddConditionBtn.Location = new System.Drawing.Point(250, 58);
+            this.AddConditionBtn.Location = new System.Drawing.Point(250, 85);
             this.AddConditionBtn.Name = "AddConditionBtn";
             this.AddConditionBtn.Size = new System.Drawing.Size(138, 32);
             this.AddConditionBtn.TabIndex = 9;
@@ -361,7 +375,7 @@
             // 
             // DeleteConditionBtn
             // 
-            this.DeleteConditionBtn.Location = new System.Drawing.Point(250, 134);
+            this.DeleteConditionBtn.Location = new System.Drawing.Point(250, 161);
             this.DeleteConditionBtn.Name = "DeleteConditionBtn";
             this.DeleteConditionBtn.Size = new System.Drawing.Size(138, 32);
             this.DeleteConditionBtn.TabIndex = 10;
@@ -371,7 +385,7 @@
             // 
             // MoveCndUpBtn
             // 
-            this.MoveCndUpBtn.Location = new System.Drawing.Point(250, 198);
+            this.MoveCndUpBtn.Location = new System.Drawing.Point(250, 248);
             this.MoveCndUpBtn.Name = "MoveCndUpBtn";
             this.MoveCndUpBtn.Size = new System.Drawing.Size(75, 32);
             this.MoveCndUpBtn.TabIndex = 10;
@@ -381,7 +395,7 @@
             // 
             // MoveCndDownBtn
             // 
-            this.MoveCndDownBtn.Location = new System.Drawing.Point(250, 234);
+            this.MoveCndDownBtn.Location = new System.Drawing.Point(250, 284);
             this.MoveCndDownBtn.Name = "MoveCndDownBtn";
             this.MoveCndDownBtn.Size = new System.Drawing.Size(75, 32);
             this.MoveCndDownBtn.TabIndex = 11;
@@ -391,7 +405,7 @@
             // 
             // AddSubconditionBtn
             // 
-            this.AddSubconditionBtn.Location = new System.Drawing.Point(250, 96);
+            this.AddSubconditionBtn.Location = new System.Drawing.Point(250, 123);
             this.AddSubconditionBtn.Name = "AddSubconditionBtn";
             this.AddSubconditionBtn.Size = new System.Drawing.Size(138, 32);
             this.AddSubconditionBtn.TabIndex = 12;
@@ -403,12 +417,12 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.RenameConditionBtn);
             this.groupBox1.Controls.Add(this.AddSubconditionBtn);
             this.groupBox1.Controls.Add(this.MoveCndDownBtn);
             this.groupBox1.Controls.Add(this.MoveCndUpBtn);
             this.groupBox1.Controls.Add(this.DeleteConditionBtn);
             this.groupBox1.Controls.Add(this.AddConditionBtn);
-            this.groupBox1.Controls.Add(this.ConditionNameBox);
             this.groupBox1.Controls.Add(this.ConditionTree);
             this.groupBox1.Controls.Add(this.GoTargetBtn);
             this.groupBox1.Controls.Add(this.TargetStateBox);
@@ -419,6 +433,16 @@
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Conditions";
+            // 
+            // RenameConditionBtn
+            // 
+            this.RenameConditionBtn.Location = new System.Drawing.Point(250, 199);
+            this.RenameConditionBtn.Name = "RenameConditionBtn";
+            this.RenameConditionBtn.Size = new System.Drawing.Size(138, 32);
+            this.RenameConditionBtn.TabIndex = 13;
+            this.RenameConditionBtn.Text = "Rename Condition";
+            this.RenameConditionBtn.UseVisualStyleBackColor = true;
+            this.RenameConditionBtn.Click += new System.EventHandler(this.RenameConditionBtn_Click);
             // 
             // EditorTitleBox
             // 
@@ -647,7 +671,7 @@
             this.conditionTab.Controls.Add(this.splitContainer1);
             this.conditionTab.Location = new System.Drawing.Point(4, 25);
             this.conditionTab.Name = "conditionTab";
-            this.conditionTab.Size = new System.Drawing.Size(600, 539);
+            this.conditionTab.Size = new System.Drawing.Size(600, 568);
             this.conditionTab.TabIndex = 3;
             this.conditionTab.Text = "Condition";
             this.conditionTab.UseVisualStyleBackColor = true;
@@ -666,8 +690,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox4);
-            this.splitContainer1.Size = new System.Drawing.Size(600, 539);
-            this.splitContainer1.SplitterDistance = 230;
+            this.splitContainer1.Size = new System.Drawing.Size(600, 568);
+            this.splitContainer1.SplitterDistance = 241;
             this.splitContainer1.TabIndex = 0;
             // 
             // groupBox3
@@ -676,7 +700,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(600, 230);
+            this.groupBox3.Size = new System.Drawing.Size(600, 241);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Evaluator";
@@ -708,7 +732,7 @@
             this.EvaluatorBox.Paddings = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.EvaluatorBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.EvaluatorBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("EvaluatorBox.ServiceColors")));
-            this.EvaluatorBox.Size = new System.Drawing.Size(594, 209);
+            this.EvaluatorBox.Size = new System.Drawing.Size(594, 220);
             this.EvaluatorBox.TabIndex = 0;
             this.EvaluatorBox.WordWrap = true;
             this.EvaluatorBox.Zoom = 100;
@@ -720,7 +744,7 @@
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(600, 305);
+            this.groupBox4.Size = new System.Drawing.Size(600, 323);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Pass Commands";
@@ -738,7 +762,7 @@
         '\"',
         '\'',
         '\''};
-            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 26);
+            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 26);
             this.PassCmdBox.BackBrush = null;
             this.PassCmdBox.CharHeight = 16;
             this.PassCmdBox.CharWidth = 8;
@@ -752,7 +776,7 @@
             this.PassCmdBox.Paddings = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.PassCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.PassCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("PassCmdBox.ServiceColors")));
-            this.PassCmdBox.Size = new System.Drawing.Size(594, 284);
+            this.PassCmdBox.Size = new System.Drawing.Size(594, 302);
             this.PassCmdBox.TabIndex = 1;
             this.PassCmdBox.Zoom = 100;
             this.PassCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.BoxTextChanged);
@@ -790,11 +814,33 @@
             this.CloneGroupBtn.UseVisualStyleBackColor = true;
             this.CloneGroupBtn.Click += new System.EventHandler(this.CloneGroupBtn_Click);
             // 
+            // RenameStateBtn
+            // 
+            this.RenameStateBtn.Location = new System.Drawing.Point(140, 579);
+            this.RenameStateBtn.Name = "RenameStateBtn";
+            this.RenameStateBtn.Size = new System.Drawing.Size(122, 26);
+            this.RenameStateBtn.TabIndex = 18;
+            this.RenameStateBtn.Text = "Rename";
+            this.RenameStateBtn.UseVisualStyleBackColor = true;
+            this.RenameStateBtn.Click += new System.EventHandler(this.RenameStateBtn_Click);
+            // 
+            // RenameGroupBtn
+            // 
+            this.RenameGroupBtn.Location = new System.Drawing.Point(12, 579);
+            this.RenameGroupBtn.Name = "RenameGroupBtn";
+            this.RenameGroupBtn.Size = new System.Drawing.Size(122, 26);
+            this.RenameGroupBtn.TabIndex = 19;
+            this.RenameGroupBtn.Text = "Rename";
+            this.RenameGroupBtn.UseVisualStyleBackColor = true;
+            this.RenameGroupBtn.Click += new System.EventHandler(this.RenameGroupBtn_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1312, 722);
+            this.Controls.Add(this.RenameGroupBtn);
+            this.Controls.Add(this.RenameStateBtn);
             this.Controls.Add(this.CloneGroupBtn);
             this.Controls.Add(this.DeleteGroupBtn);
             this.Controls.Add(this.AddGroupBtn);
@@ -851,7 +897,7 @@
         private System.Windows.Forms.ToolStripMenuItem openESDToolStripMenuItem;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ToolStripMenuItem saveESDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportESDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addNewStateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cloneStateToolStripMenuItem;
@@ -867,7 +913,6 @@
         private System.Windows.Forms.TextBox TargetStateBox;
         private System.Windows.Forms.Button GoTargetBtn;
         private System.Windows.Forms.TreeView ConditionTree;
-        private System.Windows.Forms.TextBox ConditionNameBox;
         private System.Windows.Forms.Button AddConditionBtn;
         private System.Windows.Forms.Button DeleteConditionBtn;
         private System.Windows.Forms.Button MoveCndUpBtn;
@@ -898,6 +943,11 @@
         private FastColoredTextBoxNS.FastColoredTextBox EvaluatorBox;
         private System.Windows.Forms.GroupBox groupBox4;
         private FastColoredTextBoxNS.FastColoredTextBox PassCmdBox;
+        private System.Windows.Forms.Button RenameConditionBtn;
+        private System.Windows.Forms.Button RenameStateBtn;
+        private System.Windows.Forms.ToolStripMenuItem saveESDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.Button RenameGroupBtn;
     }
 }
 
