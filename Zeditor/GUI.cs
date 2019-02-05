@@ -8,34 +8,25 @@ using FastColoredTextBoxNS;
 using System.Drawing;
 using System.Timers;
 using SoulsFormats.ESD;
+using System.Text.RegularExpressions;
 
 namespace Zeditor
 {
     public partial class GUI : Form
     {
-
         string filePath = "";
-        ESD currentESD = null;
-        Dictionary<long, ESD.State> currentStateGroup
+        public static ESD currentESD = null;
+        StateGroupHandler currentSGH
         {
-            get
-            {
+            get {
                 if (StateGroupBox.SelectedItem == null) return null;
-                long key = (long)StateGroupBox.SelectedItem;
-                if (currentESD != null) return currentESD.StateGroups[key];
-                return null;
+                return (StateGroupHandler)StateGroupBox.SelectedItem;
             }
         }
-        ESD.State currentState
-        {
-            get
-            {
-                if (StateBox.SelectedItem == null) return null;
-                long key = (long)StateBox.SelectedItem;
-                if (currentStateGroup != null) return currentStateGroup[key];
-                return null;
-            }
-        }
+
+        Dictionary<long, ESD.State> currentStateGroup => currentSGH == null ? null : currentSGH.Group;
+
+        ESD.State currentState => (ESD.State)StateBox.SelectedItem ?? null;
         ESD.Condition currentCondition
         {
             get
@@ -47,7 +38,7 @@ namespace Zeditor
         Dictionary<string, TextStyle> textStyles = new Dictionary<string, TextStyle>();
         bool loaded = false;
         System.Timers.Timer saveLabelTimer = new System.Timers.Timer();
- 
+
         public GUI()
         {
             InitializeComponent();
@@ -59,8 +50,9 @@ namespace Zeditor
             {
                 if (saveLabel.InvokeRequired)
                 {
-                    saveLabel.Invoke( new Action(() => saveLabel.Visible = false));
-                } else
+                    saveLabel.Invoke(new Action(() => saveLabel.Visible = false));
+                }
+                else
                 {
                     saveLabel.Visible = false;
                 }
@@ -71,6 +63,22 @@ namespace Zeditor
             saveLabelTimer.AutoReset = false;
         }
 
+        public class StateGroupHandler
+        {
+            public long ID;
+            public Dictionary<long, ESD.State> Group => currentESD.StateGroups[ID];
+            public string Name
+            {
+                get => currentESD.StateGroupNames[ID];
+                set => currentESD.StateGroupNames[ID] = value;
+            }
+
+            public StateGroupHandler(long id) => ID = id;
+            public override string ToString() => Name;
+
+        }
+
+
         private void openESDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog();
@@ -78,16 +86,19 @@ namespace Zeditor
             {
                 try
                 {
-                    currentESD = ESD.Read(ofd.FileName);
+                    ActiveForm.UseWaitCursor = true;
+                    currentESD = ESD.ReadWithMetadata(ofd.FileName, true);
                     ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
-                    StateGroupBox.DataSource = currentESD.StateGroups.Keys.ToList();
+                    StateGroupBox.DataSource = currentESD.StateGroups.Select(kv => new StateGroupHandler(kv.Key)).ToList();
                     filePath = ofd.FileName;
-                } catch (Exception ex)
+                    ActiveForm.UseWaitCursor = false;
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show("ERROR: Invalid ESD file." + Environment.NewLine + "---------" + Environment.NewLine + ex.ToString());
                     openESDToolStripMenuItem_Click(sender, e);
+                    ActiveForm.UseWaitCursor = false;
                 }
-
             }
         }
 
@@ -95,11 +106,13 @@ namespace Zeditor
         {
             if (currentStateGroup != null)
             {
-                StateBox.DataSource = currentStateGroup.Keys.ToList();
-            } else
+                StateBox.DisplayMember = "Name";
+                StateBox.DataSource = currentStateGroup.Values.ToList();
+            }
+            else
             {
+                StateBox.DisplayMember = "Name";
                 StateBox.DataSource = null;
-                StateGroupBox.Items.Clear();
             }
             UpdateTitleBox();
         }
@@ -117,9 +130,23 @@ namespace Zeditor
             EntryCmdBox.Text = currentState.EntryScript;
             ExitCmdBox.Text = currentState.ExitScript;
             WhileCmdBox.Text = currentState.WhileScript;
-            ConditionNameBox.Text = "";
             AfterSelect();
             UpdateTitleBox();
+        }
+
+        private string ConditionDisplay(ESD.Condition condition)
+        {
+            if (Regex.IsMatch(condition.Name, @"^Condition\[[A-Za-z0-9]+\]$"))
+            {
+                string conditionDisplay = condition.Name.Substring(10).TrimEnd(new char[] { '[', ']' });
+                conditionDisplay = Regex.Replace(conditionDisplay, "^[0]+", "");
+                return conditionDisplay;
+            }
+            else
+            {
+                return condition.Name;
+
+            }
         }
 
         private void AddConditionNode(ESD.Condition condition)
@@ -127,7 +154,7 @@ namespace Zeditor
             int cNum = currentState.Conditions.IndexOf(condition);
             TreeNode cNode = new TreeNode();
             cNode.Name = cNum.ToString();
-            cNode.Text = "CND " + cNum;
+            cNode.Text = ConditionDisplay(condition);
             if (condition.TargetState != null) cNode.Text += " → " + condition.TargetState.ToString();
             ConditionTree.Nodes.Add(cNode);
             foreach (var subcondition in condition.Subconditions)
@@ -141,7 +168,7 @@ namespace Zeditor
         {
             string cName = parent.Name + "-" + parent.Nodes.Count;
             TreeNode cNode = new TreeNode(cName);
-            cNode.Text = "CND " + cName;
+            cNode.Text = ConditionDisplay(condition);
             if (condition.TargetState != null) cNode.Text += " → " + condition.TargetState.ToString();
             cNode.Name = cName;
             parent.Nodes.Add(cNode);
@@ -151,23 +178,6 @@ namespace Zeditor
             }
         }
 
-        //private string ReadCommands(List<ESD.CommandCall> commands)
-        //{
-        //    List<string> output = new List<string>();
-        //    foreach (var cmd in commands)
-        //    {
-        //        List<string> args = new List<string>();
-        //        foreach (var arg in cmd.Arguments)
-        //        {
-        //            args.Add(EzSembler.Dissemble(arg));
-        //        }
-
-        //        string s = "$ " + cmd.CommandBank + ":" + cmd.CommandID + "(";
-        //        s += String.Join("; ", args) + ")";
-        //        output.Add(s);
-        //    }
-        //    return String.Join(Environment.NewLine, output);
-        //}
 
         private void WriteCommands(string plainText, ref List<ESD.CommandCall> target)
         {
@@ -180,46 +190,12 @@ namespace Zeditor
                 currentState.ExitScript = ExitCmdBox.Text.Trim();
                 current = "WhileScript";
                 currentState.WhileScript = WhileCmdBox.Text.Trim();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("Error parsing " + current + "\n\n" + ex.ToString());
 
             }
-
-
-
-            //List<ESD.CommandCall> commands = new List<ESD.CommandCall>();
-            //var cmdStrings = Regex.Split(plainText, @"\s*[$]\s*").Where(s => !String.IsNullOrWhiteSpace(s));
-            //int i = 0;
-            //bool success = true;
-            //foreach (var str in cmdStrings)
-            //{
-            //    try
-            //    {
-            //        var cmd = new ESD.CommandCall();
-            //        var metaStr = str.Substring(0, str.IndexOf("("));
-            //        var meta = metaStr.Split(':');
-            //        cmd.CommandBank = int.Parse(meta[0]);
-            //        cmd.CommandID = int.Parse(meta[1]);
-
-            //        var args = Regex.Split(str.Substring(str.IndexOf("(")).Trim(new char[] { '(', ')' }), @"\s*;\s*");
-            //        foreach (var arg in args)
-            //        {
-            //            var argBytes = EzSembler.Assemble(arg);
-            //            EzSembler.Dissemble(argBytes);
-            //            cmd.Arguments.Add(argBytes);
-            //        }
-            //        commands.Add(cmd);
-
-            //    } catch (Exception ex)
-            //    {
-            //        MessageBox.Show("ERROR: Unable to parse command at index " + i + "\n\n" + ex.ToString());
-            //        success = false;
-            //        break;
-            //    }
-            //    i++;
-            //}
-            //if (success) target = commands;
         }
 
         private void ConditionTree_AfterSelect(object sender, TreeViewEventArgs e)
@@ -236,12 +212,12 @@ namespace Zeditor
                 return;
             }
 
-            EditorTitleBox.Text = "Group " + StateGroupBox.SelectedItem + " : State " + StateBox.SelectedItem + " : ";
+            EditorTitleBox.Text = currentSGH.Name + " : " + currentState.Name + " : ";
             if (editorControl.SelectedTab == stateTab) EditorTitleBox.Text += "Commands";
             else if (editorControl.SelectedTab == conditionTab)
             {
                 if (currentCondition == null) EditorTitleBox.Text = "";
-                else EditorTitleBox.Text += ConditionNameBox.Text;
+                else EditorTitleBox.Text += ConditionDisplay(currentCondition);
             }
         }
 
@@ -260,13 +236,11 @@ namespace Zeditor
         {
             if (ConditionTree.SelectedNode == null)
             {
-                ConditionNameBox.Text = "";
                 EvaluatorBox.Text = "";
                 PassCmdBox.Text = "";
             }
             else
             {
-                ConditionNameBox.Text = ConditionTree.SelectedNode == null ? "" : ConditionTree.SelectedNode.Text;
                 TargetStateBox.Text = currentCondition.TargetState == null ? "" : currentCondition.TargetState.ToString();
                 EvaluatorBox.Text = currentCondition.Evaluator;
                 PassCmdBox.Text = currentCondition.PassScript;
@@ -361,6 +335,7 @@ namespace Zeditor
 
         private void MoveCndUpBtn_Click(object sender, EventArgs e)
         {
+            ConditionTree.Focus();
             var currentNode = ConditionTree.SelectedNode;
             if (currentNode == null) return;
             TreeNodeCollection parentNodes = currentNode.Parent == null ? ConditionTree.Nodes : currentNode.Parent.Nodes;
@@ -375,16 +350,18 @@ namespace Zeditor
             p.RemoveAt(i);
             p.Insert(i - 1, c);
 
-            parentNodes.Remove(currentNode);
-            parentNodes.Insert(i - 1, currentNode);
-            RenameAllNodes();
-
-            ConditionTree.SelectedNode = currentNode;
+            var path = ConditionTree.SelectedNode.Name;
+            StateBox_SelectedIndexChanged(sender, e);
+            SelectNode(path);
+            ConditionTree.SelectedNode = ConditionTree.SelectedNode.PrevNode;
             ConditionTree.Focus();
+
+
         }
 
         private void MoveCndDownBtn_Click(object sender, EventArgs e)
         {
+            ConditionTree.Focus();
             var currentNode = ConditionTree.SelectedNode;
             if (currentNode == null) return;
             TreeNodeCollection parentNodes = currentNode.Parent == null ? ConditionTree.Nodes : currentNode.Parent.Nodes;
@@ -399,24 +376,26 @@ namespace Zeditor
             p.RemoveAt(i);
             p.Insert(i + 1, c);
 
-            parentNodes.Remove(currentNode);
-            parentNodes.Insert(i + 1, currentNode);
-            RenameAllNodes();
-
-            ConditionTree.SelectedNode = currentNode;
-            ConditionTree.Focus();
+            var path = ConditionTree.SelectedNode.Name;
+            StateBox_SelectedIndexChanged(sender, e);
+            SelectNode(path);
+            ConditionTree.SelectedNode = ConditionTree.SelectedNode.NextNode;
         }
 
-        private void saveESDToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exportESDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var sfd = new SaveFileDialog();
+            sfd.Title = "Export ESD";
             sfd.InitialDirectory = Path.GetDirectoryName(filePath);
             sfd.FileName = Path.GetFileName(filePath);
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                currentESD.Write(sfd.FileName);
+                ActiveForm.UseWaitCursor = true;
+                currentESD.WriteWithMetadata(sfd.FileName, true);
                 filePath = sfd.FileName;
                 Form.ActiveForm.Text = "Zeditor - " + Path.GetFileName(sfd.FileName);
+                ActiveForm.UseWaitCursor = false;
+
             }
         }
 
@@ -435,34 +414,31 @@ namespace Zeditor
 
         private void UpdateTargetState()
         {
-            if (currentCondition != null)
+            var cnd = currentCondition;
+            if (cnd != null)
             {
                 string s = TargetStateBox.Text.Trim();
                 int newValue;
                 bool success = int.TryParse(s, out newValue);
-                if (s == "" && currentCondition.Subconditions.Count == 0)
+                if (s == "" && cnd.Subconditions.Count == 0)
                 {
-                    currentCondition.TargetState = null;
-                    string txt = "CND " + ConditionTree.SelectedNode.Name;
-                    ConditionTree.SelectedNode.Text = txt;
-                    ConditionNameBox.Text = txt;
+                    cnd.TargetState = null;
+                    ConditionTree.SelectedNode.Text = ConditionDisplay(cnd);
                 }
                 else if (!success)
                 {
                     MessageBox.Show("Invalid target state.");
-                    TargetStateBox.Text = currentCondition.TargetState.ToString();
+                    TargetStateBox.Text = cnd.TargetState.ToString();
                 }
-                else if (currentCondition.Subconditions.Count > 0)
+                else if (cnd.Subconditions.Count > 0)
                 {
                     MessageBox.Show("Conditions with subconditions can't have target states.");
-                    TargetStateBox.Text = currentCondition.TargetState.ToString();
+                    TargetStateBox.Text = cnd.TargetState.ToString();
                 }
                 else
                 {
                     currentCondition.TargetState = (long)newValue;
-                    string txt = "CND " + ConditionTree.SelectedNode.Name + " → " + newValue;
-                    ConditionTree.SelectedNode.Text = txt;
-                    ConditionNameBox.Text = txt;
+                    ConditionTree.SelectedNode.Text = ConditionDisplay(cnd);
                 }
             }
         }
@@ -481,6 +457,7 @@ namespace Zeditor
             textStyles["command"] = new TextStyle(Brushes.Blue, Brushes.White, FontStyle.Regular);
             textStyles["num"] = new TextStyle(Brushes.DarkMagenta, Brushes.White, FontStyle.Bold);
             textStyles["regular"] = new TextStyle(Brushes.Black, Brushes.White, FontStyle.Bold);
+            textStyles["comment"] = new TextStyle(Brushes.DarkGreen, Brushes.White, FontStyle.Regular);
         }
 
         private void BoxTextChanged(object sender, TextChangedEventArgs e)
@@ -491,6 +468,8 @@ namespace Zeditor
             e.ChangedRange.SetStyle(textStyles["num"], "[A-Za-z0-9]");
             e.ChangedRange.SetStyle(textStyles["command"], @"\d+:\d+[(]");
             e.ChangedRange.SetStyle(textStyles["regular"], "[():;]");
+            e.ChangedRange.SetStyle(textStyles["comment"], @"[/]{2}.*(\n|$)");
+
         }
 
         private void UpdateTitleBox(object sender, EventArgs e)
@@ -576,18 +555,6 @@ namespace Zeditor
                 else parentCondition.Subconditions.Add(newCondition);
             }
 
-            //ESD.CommandCall CloneCommand(ESD.CommandCall srcCommand)
-            //{
-            //    var command = new ESD.CommandCall();
-            //    command.CommandBank = srcCommand.CommandBank;
-            //    command.CommandID = srcCommand.CommandID;
-            //    foreach (var arg in srcCommand.Arguments)
-            //    {
-            //        command.Arguments.Add(Clone(arg));
-            //    }
-            //    return command;
-            //}
-
             foreach (var condition in source.Conditions) CloneCondition(condition);
             newState.EntryScript = source.EntryScript;
             newState.ExitScript = source.ExitScript;
@@ -606,7 +573,7 @@ namespace Zeditor
         private void deleteStateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (currentState == null) return;
-            long stateId = (long) StateBox.SelectedItem;
+            long stateId = (long)StateBox.SelectedItem;
             if (DialogResult.OK == MessageBox.Show("Really delete state " + stateId + "?", "Confirm", MessageBoxButtons.OKCancel))
             {
                 int i = StateBox.SelectedIndex - 1;
@@ -670,7 +637,7 @@ namespace Zeditor
         private void DeleteGroupBtn_Click(object sender, EventArgs e)
         {
             if (currentStateGroup == null) return;
-            var key = (long) StateGroupBox.SelectedItem;
+            var key = (long)StateGroupBox.SelectedItem;
             if (DialogResult.OK == MessageBox.Show("Really delete group " + key + "?", "Confirm", MessageBoxButtons.OKCancel))
             {
                 currentESD.StateGroups.Remove(key);
@@ -689,7 +656,6 @@ namespace Zeditor
             EntryCmdBox.Text = "";
             ExitCmdBox.Text = "";
             EvaluatorBox.Text = "";
-            ConditionNameBox.Text = "";
             TargetStateBox.Text = "";
         }
 
@@ -780,23 +746,107 @@ namespace Zeditor
         {
             OnResize();
         }
-    }
 
-
-    public class ConditionHandler
-    {
-        public ESD.Condition Condition;
-        public List<ESD.Condition> ParentCollection;
-        public int Index => ParentCollection.IndexOf(Condition);
-
-        public ConditionHandler(ESD.Condition cnd, List<ESD.Condition> collection)
+        private void RenameStateBtn_Click(object sender, EventArgs e)
         {
-            Condition = cnd;
-            ParentCollection = collection;
+            if (currentState == null) return;
+            int index = StateBox.SelectedIndex;
+            string name = "";
+            var box = InputBox("Rename State", "Enter a new name for the state: ", ref name);
+            if (box == DialogResult.OK)
+            {
+                string newName = "";
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    newName = "State" + (long)StateGroupBox.SelectedItem + "-" + currentState.ID;
+                }
+                else
+                {
+                    newName = name.Trim();
+                }
+                currentState.Name = newName;
+                StateBox.DataSource = null;
+                StateBox.DisplayMember = "Name";
+                StateBox.DataSource = currentStateGroup.Values.ToList();
+                StateBox.SelectedIndex = index;
+            }
         }
-    }
-    public enum EditType
-    {
-        Command, Condition, Null
+
+        private void RenameConditionBtn_Click(object sender, EventArgs e)
+        {
+            if (currentCondition == null) return;
+            string name = "";
+            var box = InputBox("Rename State", "Enter a new name for " + currentCondition.Name + ":", ref name);
+            if (box == DialogResult.OK)
+            {
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    MessageBox.Show("Invalid condition name.");
+                    RenameConditionBtn_Click(sender, e);
+                }
+                else
+                {
+                    var path = ConditionTree.SelectedNode.Name;
+                    currentCondition.Name = name.Trim();
+                    StateBox_SelectedIndexChanged(sender, e);
+                    SelectNode(path);
+                }
+            }
+        }
+
+
+        public class ConditionHandler
+        {
+            public ESD.Condition Condition;
+            public List<ESD.Condition> ParentCollection;
+            public int Index => ParentCollection.IndexOf(Condition);
+
+            public ConditionHandler(ESD.Condition cnd, List<ESD.Condition> collection)
+            {
+                Condition = cnd;
+                ParentCollection = collection;
+            }
+        }
+        public enum EditType
+        {
+            Command, Condition, Null
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void saveESDToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (currentESD == null) return;
+            SaveEdit(sender, e);
+            ActiveForm.UseWaitCursor = true;
+            currentESD.WriteWithMetadata(filePath, true);
+            ActiveForm.UseWaitCursor = false;
+            MessageBox.Show(Path.GetFileName(filePath) + " saved.");
+        }
+
+        private void RenameGroupBtn_Click(object sender, EventArgs e)
+        {
+            if (currentStateGroup == null) return;
+            var handler = (StateGroupHandler)StateGroupBox.SelectedItem;
+            string name = "";
+            var box = InputBox("Rename State", "Enter a new name for " + handler.Name + ":", ref name);
+            if (box == DialogResult.OK)
+            {
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    handler.Name = "StateGroup" + handler.ID;
+                }
+                else
+                {
+                    handler.Name = name.Trim();
+                    StateGroupBox.DataSource = null;
+                    StateGroupBox.DataSource = currentESD.StateGroups.Select(kv => new StateGroupHandler(kv.Key)).ToList();
+                }
+            }
+
+        }
     }
 }
