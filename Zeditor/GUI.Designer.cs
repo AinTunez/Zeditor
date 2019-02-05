@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
-            this.StateGroupBox = new System.Windows.Forms.ListBox();
             this.StateBox = new System.Windows.Forms.ListBox();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,8 +46,6 @@
             this.deleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noHelpForYouToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.AddStateBtn = new System.Windows.Forms.Button();
             this.DeleteStateBtn = new System.Windows.Forms.Button();
             this.CloneStateBtn = new System.Windows.Forms.Button();
@@ -62,6 +59,7 @@
             this.MoveCndDownBtn = new System.Windows.Forms.Button();
             this.AddSubconditionBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TargetStateNameBox = new System.Windows.Forms.TextBox();
             this.RenameConditionBtn = new System.Windows.Forms.Button();
             this.EditorTitleBox = new System.Windows.Forms.TextBox();
             this.RevertBtn = new System.Windows.Forms.Button();
@@ -87,7 +85,9 @@
             this.CloneGroupBtn = new System.Windows.Forms.Button();
             this.RenameStateBtn = new System.Windows.Forms.Button();
             this.RenameGroupBtn = new System.Windows.Forms.Button();
-            this.TargetStateNameBox = new System.Windows.Forms.TextBox();
+            this.StateGroupBox = new System.Windows.Forms.ComboBox();
+            this.stateGroupLayoutBox = new System.Windows.Forms.GroupBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.MenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -106,20 +106,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).BeginInit();
+            this.stateGroupLayoutBox.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // StateGroupBox
-            // 
-            this.StateGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.StateGroupBox.DisplayMember = "Key";
-            this.StateGroupBox.FormattingEnabled = true;
-            this.StateGroupBox.ItemHeight = 16;
-            this.StateGroupBox.Location = new System.Drawing.Point(12, 55);
-            this.StateGroupBox.Name = "StateGroupBox";
-            this.StateGroupBox.Size = new System.Drawing.Size(150, 516);
-            this.StateGroupBox.TabIndex = 0;
-            this.StateGroupBox.SelectedIndexChanged += new System.EventHandler(this.StateGroupBox_SelectedIndexChanged);
             // 
             // StateBox
             // 
@@ -127,10 +116,11 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.StateBox.DisplayMember = "Name";
             this.StateBox.FormattingEnabled = true;
+            this.StateBox.HorizontalScrollbar = true;
             this.StateBox.ItemHeight = 16;
-            this.StateBox.Location = new System.Drawing.Point(168, 55);
+            this.StateBox.Location = new System.Drawing.Point(6, 21);
             this.StateBox.Name = "StateBox";
-            this.StateBox.Size = new System.Drawing.Size(170, 516);
+            this.StateBox.Size = new System.Drawing.Size(332, 484);
             this.StateBox.TabIndex = 1;
             this.StateBox.SelectedIndexChanged += new System.EventHandler(this.StateBox_SelectedIndexChanged);
             // 
@@ -145,7 +135,7 @@
             this.helpToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(1449, 28);
+            this.MenuStrip.Size = new System.Drawing.Size(1322, 28);
             this.MenuStrip.TabIndex = 2;
             this.MenuStrip.Text = "menuStrip1";
             // 
@@ -268,30 +258,12 @@
             this.noHelpForYouToolStripMenuItem.Text = "About";
             this.noHelpForYouToolStripMenuItem.Click += new System.EventHandler(this.noHelpForYouToolStripMenuItem_Click);
             // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(12, 31);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(150, 23);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Groups";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(168, 31);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(170, 23);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "States";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // AddStateBtn
             // 
             this.AddStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddStateBtn.Location = new System.Drawing.Point(168, 611);
+            this.AddStateBtn.Location = new System.Drawing.Point(11, 515);
             this.AddStateBtn.Name = "AddStateBtn";
-            this.AddStateBtn.Size = new System.Drawing.Size(170, 28);
+            this.AddStateBtn.Size = new System.Drawing.Size(65, 28);
             this.AddStateBtn.TabIndex = 12;
             this.AddStateBtn.Text = "Add";
             this.AddStateBtn.UseVisualStyleBackColor = true;
@@ -300,9 +272,9 @@
             // DeleteStateBtn
             // 
             this.DeleteStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteStateBtn.Location = new System.Drawing.Point(168, 679);
+            this.DeleteStateBtn.Location = new System.Drawing.Point(239, 515);
             this.DeleteStateBtn.Name = "DeleteStateBtn";
-            this.DeleteStateBtn.Size = new System.Drawing.Size(170, 28);
+            this.DeleteStateBtn.Size = new System.Drawing.Size(96, 28);
             this.DeleteStateBtn.TabIndex = 13;
             this.DeleteStateBtn.Text = "Delete";
             this.DeleteStateBtn.UseVisualStyleBackColor = true;
@@ -311,9 +283,9 @@
             // CloneStateBtn
             // 
             this.CloneStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CloneStateBtn.Location = new System.Drawing.Point(168, 645);
+            this.CloneStateBtn.Location = new System.Drawing.Point(78, 515);
             this.CloneStateBtn.Name = "CloneStateBtn";
-            this.CloneStateBtn.Size = new System.Drawing.Size(170, 28);
+            this.CloneStateBtn.Size = new System.Drawing.Size(70, 28);
             this.CloneStateBtn.TabIndex = 14;
             this.CloneStateBtn.Text = "Clone";
             this.CloneStateBtn.UseVisualStyleBackColor = true;
@@ -343,6 +315,7 @@
             this.GoTargetBtn.Name = "GoTargetBtn";
             this.GoTargetBtn.Size = new System.Drawing.Size(138, 34);
             this.GoTargetBtn.TabIndex = 7;
+            this.GoTargetBtn.TabStop = false;
             this.GoTargetBtn.Text = "Go to Target";
             this.GoTargetBtn.UseVisualStyleBackColor = true;
             this.GoTargetBtn.Click += new System.EventHandler(this.GoTargetBtn_Click);
@@ -355,7 +328,7 @@
             this.ConditionTree.Location = new System.Drawing.Point(6, 21);
             this.ConditionTree.Name = "ConditionTree";
             this.ConditionTree.PathSeparator = "-";
-            this.ConditionTree.Size = new System.Drawing.Size(230, 658);
+            this.ConditionTree.Size = new System.Drawing.Size(230, 660);
             this.ConditionTree.TabIndex = 3;
             this.ConditionTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ConditionTree_AfterSelect);
             // 
@@ -365,6 +338,7 @@
             this.AddConditionBtn.Name = "AddConditionBtn";
             this.AddConditionBtn.Size = new System.Drawing.Size(138, 32);
             this.AddConditionBtn.TabIndex = 9;
+            this.AddConditionBtn.TabStop = false;
             this.AddConditionBtn.Text = "Add Condition";
             this.AddConditionBtn.UseVisualStyleBackColor = true;
             this.AddConditionBtn.Click += new System.EventHandler(this.AddConditionBtn_Click);
@@ -375,6 +349,7 @@
             this.DeleteConditionBtn.Name = "DeleteConditionBtn";
             this.DeleteConditionBtn.Size = new System.Drawing.Size(138, 32);
             this.DeleteConditionBtn.TabIndex = 10;
+            this.DeleteConditionBtn.TabStop = false;
             this.DeleteConditionBtn.Text = "Delete Condition";
             this.DeleteConditionBtn.UseVisualStyleBackColor = true;
             this.DeleteConditionBtn.Click += new System.EventHandler(this.DeleteConditionBtn_Click);
@@ -385,6 +360,7 @@
             this.MoveCndUpBtn.Name = "MoveCndUpBtn";
             this.MoveCndUpBtn.Size = new System.Drawing.Size(75, 32);
             this.MoveCndUpBtn.TabIndex = 10;
+            this.MoveCndUpBtn.TabStop = false;
             this.MoveCndUpBtn.Text = "Move ↑";
             this.MoveCndUpBtn.UseVisualStyleBackColor = true;
             this.MoveCndUpBtn.Click += new System.EventHandler(this.MoveCndUpBtn_Click);
@@ -395,6 +371,7 @@
             this.MoveCndDownBtn.Name = "MoveCndDownBtn";
             this.MoveCndDownBtn.Size = new System.Drawing.Size(75, 32);
             this.MoveCndDownBtn.TabIndex = 11;
+            this.MoveCndDownBtn.TabStop = false;
             this.MoveCndDownBtn.Text = "Move ↓";
             this.MoveCndDownBtn.UseVisualStyleBackColor = true;
             this.MoveCndDownBtn.Click += new System.EventHandler(this.MoveCndDownBtn_Click);
@@ -405,6 +382,7 @@
             this.AddSubconditionBtn.Name = "AddSubconditionBtn";
             this.AddSubconditionBtn.Size = new System.Drawing.Size(138, 32);
             this.AddSubconditionBtn.TabIndex = 12;
+            this.AddSubconditionBtn.TabStop = false;
             this.AddSubconditionBtn.Text = "Add Subcondition";
             this.AddSubconditionBtn.UseVisualStyleBackColor = true;
             this.AddSubconditionBtn.Click += new System.EventHandler(this.AddSubconditionBtn_Click);
@@ -424,12 +402,21 @@
             this.groupBox1.Controls.Add(this.GoTargetBtn);
             this.groupBox1.Controls.Add(this.TargetStateBox);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(363, 31);
+            this.groupBox1.Location = new System.Drawing.Point(362, 31);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(403, 685);
+            this.groupBox1.Size = new System.Drawing.Size(397, 687);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Conditions";
+            // 
+            // TargetStateNameBox
+            // 
+            this.TargetStateNameBox.Location = new System.Drawing.Point(250, 374);
+            this.TargetStateNameBox.Name = "TargetStateNameBox";
+            this.TargetStateNameBox.ReadOnly = true;
+            this.TargetStateNameBox.Size = new System.Drawing.Size(138, 22);
+            this.TargetStateNameBox.TabIndex = 14;
+            this.TargetStateNameBox.TabStop = false;
             // 
             // RenameConditionBtn
             // 
@@ -437,6 +424,7 @@
             this.RenameConditionBtn.Name = "RenameConditionBtn";
             this.RenameConditionBtn.Size = new System.Drawing.Size(138, 32);
             this.RenameConditionBtn.TabIndex = 13;
+            this.RenameConditionBtn.TabStop = false;
             this.RenameConditionBtn.Text = "Rename Condition";
             this.RenameConditionBtn.UseVisualStyleBackColor = true;
             this.RenameConditionBtn.Click += new System.EventHandler(this.RenameConditionBtn_Click);
@@ -445,18 +433,19 @@
             // 
             this.EditorTitleBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.EditorTitleBox.Location = new System.Drawing.Point(7, 57);
+            this.EditorTitleBox.Location = new System.Drawing.Point(10, 25);
             this.EditorTitleBox.Name = "EditorTitleBox";
             this.EditorTitleBox.ReadOnly = true;
-            this.EditorTitleBox.Size = new System.Drawing.Size(651, 22);
+            this.EditorTitleBox.Size = new System.Drawing.Size(367, 22);
             this.EditorTitleBox.TabIndex = 9;
+            this.EditorTitleBox.TabStop = false;
             // 
             // RevertBtn
             // 
             this.RevertBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RevertBtn.Location = new System.Drawing.Point(441, 21);
+            this.RevertBtn.Location = new System.Drawing.Point(383, 21);
             this.RevertBtn.Name = "RevertBtn";
-            this.RevertBtn.Size = new System.Drawing.Size(217, 30);
+            this.RevertBtn.Size = new System.Drawing.Size(149, 30);
             this.RevertBtn.TabIndex = 11;
             this.RevertBtn.Text = "Revert to Saved";
             this.RevertBtn.UseVisualStyleBackColor = true;
@@ -465,7 +454,7 @@
             // saveLabel
             // 
             this.saveLabel.AutoSize = true;
-            this.saveLabel.Location = new System.Drawing.Point(6, 30);
+            this.saveLabel.Location = new System.Drawing.Point(417, 65);
             this.saveLabel.Name = "saveLabel";
             this.saveLabel.Size = new System.Drawing.Size(86, 17);
             this.saveLabel.TabIndex = 12;
@@ -481,9 +470,9 @@
             this.groupBox2.Controls.Add(this.RevertBtn);
             this.groupBox2.Controls.Add(this.EditorTitleBox);
             this.groupBox2.Controls.Add(this.editorControl);
-            this.groupBox2.Location = new System.Drawing.Point(772, 31);
+            this.groupBox2.Location = new System.Drawing.Point(771, 31);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(665, 685);
+            this.groupBox2.Size = new System.Drawing.Size(542, 687);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Editor";
@@ -495,10 +484,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.editorControl.Controls.Add(this.stateTab);
             this.editorControl.Controls.Add(this.conditionTab);
-            this.editorControl.Location = new System.Drawing.Point(3, 85);
+            this.editorControl.Location = new System.Drawing.Point(3, 65);
             this.editorControl.Name = "editorControl";
             this.editorControl.SelectedIndex = 0;
-            this.editorControl.Size = new System.Drawing.Size(659, 597);
+            this.editorControl.Size = new System.Drawing.Size(536, 619);
             this.editorControl.TabIndex = 0;
             this.editorControl.SelectedIndexChanged += new System.EventHandler(this.editorControl_SelectedIndexChanged);
             // 
@@ -508,7 +497,7 @@
             this.stateTab.Location = new System.Drawing.Point(4, 25);
             this.stateTab.Name = "stateTab";
             this.stateTab.Padding = new System.Windows.Forms.Padding(3);
-            this.stateTab.Size = new System.Drawing.Size(651, 568);
+            this.stateTab.Size = new System.Drawing.Size(528, 590);
             this.stateTab.TabIndex = 0;
             this.stateTab.Text = "State";
             this.stateTab.UseVisualStyleBackColor = true;
@@ -521,7 +510,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(645, 562);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(522, 584);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // groupBox5
@@ -658,7 +647,7 @@
             this.conditionTab.Controls.Add(this.flowLayoutPanel3);
             this.conditionTab.Location = new System.Drawing.Point(4, 25);
             this.conditionTab.Name = "conditionTab";
-            this.conditionTab.Size = new System.Drawing.Size(651, 568);
+            this.conditionTab.Size = new System.Drawing.Size(528, 590);
             this.conditionTab.TabIndex = 3;
             this.conditionTab.Text = "Condition";
             this.conditionTab.UseVisualStyleBackColor = true;
@@ -670,7 +659,7 @@
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(651, 568);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(528, 590);
             this.flowLayoutPanel3.TabIndex = 2;
             // 
             // groupBox3
@@ -761,10 +750,9 @@
             // 
             // AddGroupBtn
             // 
-            this.AddGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddGroupBtn.Location = new System.Drawing.Point(12, 611);
+            this.AddGroupBtn.Location = new System.Drawing.Point(6, 74);
             this.AddGroupBtn.Name = "AddGroupBtn";
-            this.AddGroupBtn.Size = new System.Drawing.Size(150, 28);
+            this.AddGroupBtn.Size = new System.Drawing.Size(70, 28);
             this.AddGroupBtn.TabIndex = 15;
             this.AddGroupBtn.Text = "Add";
             this.AddGroupBtn.UseVisualStyleBackColor = true;
@@ -772,10 +760,9 @@
             // 
             // DeleteGroupBtn
             // 
-            this.DeleteGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteGroupBtn.Location = new System.Drawing.Point(12, 679);
+            this.DeleteGroupBtn.Location = new System.Drawing.Point(270, 74);
             this.DeleteGroupBtn.Name = "DeleteGroupBtn";
-            this.DeleteGroupBtn.Size = new System.Drawing.Size(150, 28);
+            this.DeleteGroupBtn.Size = new System.Drawing.Size(68, 28);
             this.DeleteGroupBtn.TabIndex = 16;
             this.DeleteGroupBtn.Text = "Delete";
             this.DeleteGroupBtn.UseVisualStyleBackColor = true;
@@ -783,10 +770,9 @@
             // 
             // CloneGroupBtn
             // 
-            this.CloneGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CloneGroupBtn.Location = new System.Drawing.Point(12, 645);
+            this.CloneGroupBtn.Location = new System.Drawing.Point(82, 74);
             this.CloneGroupBtn.Name = "CloneGroupBtn";
-            this.CloneGroupBtn.Size = new System.Drawing.Size(150, 28);
+            this.CloneGroupBtn.Size = new System.Drawing.Size(63, 28);
             this.CloneGroupBtn.TabIndex = 17;
             this.CloneGroupBtn.Text = "Clone";
             this.CloneGroupBtn.UseVisualStyleBackColor = true;
@@ -795,9 +781,9 @@
             // RenameStateBtn
             // 
             this.RenameStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.RenameStateBtn.Location = new System.Drawing.Point(168, 579);
+            this.RenameStateBtn.Location = new System.Drawing.Point(150, 516);
             this.RenameStateBtn.Name = "RenameStateBtn";
-            this.RenameStateBtn.Size = new System.Drawing.Size(170, 26);
+            this.RenameStateBtn.Size = new System.Drawing.Size(87, 26);
             this.RenameStateBtn.TabIndex = 18;
             this.RenameStateBtn.Text = "Rename";
             this.RenameStateBtn.UseVisualStyleBackColor = true;
@@ -805,45 +791,66 @@
             // 
             // RenameGroupBtn
             // 
-            this.RenameGroupBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.RenameGroupBtn.Location = new System.Drawing.Point(12, 579);
+            this.RenameGroupBtn.Location = new System.Drawing.Point(151, 74);
             this.RenameGroupBtn.Name = "RenameGroupBtn";
-            this.RenameGroupBtn.Size = new System.Drawing.Size(150, 26);
+            this.RenameGroupBtn.Size = new System.Drawing.Size(113, 28);
             this.RenameGroupBtn.TabIndex = 19;
             this.RenameGroupBtn.Text = "Rename";
             this.RenameGroupBtn.UseVisualStyleBackColor = true;
             this.RenameGroupBtn.Click += new System.EventHandler(this.RenameGroupBtn_Click);
             // 
-            // TargetStateNameBox
+            // StateGroupBox
             // 
-            this.TargetStateNameBox.Location = new System.Drawing.Point(250, 374);
-            this.TargetStateNameBox.Name = "TargetStateNameBox";
-            this.TargetStateNameBox.ReadOnly = true;
-            this.TargetStateNameBox.Size = new System.Drawing.Size(138, 22);
-            this.TargetStateNameBox.TabIndex = 14;
+            this.StateGroupBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.StateGroupBox.FormattingEnabled = true;
+            this.StateGroupBox.Location = new System.Drawing.Point(6, 32);
+            this.StateGroupBox.Name = "StateGroupBox";
+            this.StateGroupBox.Size = new System.Drawing.Size(332, 24);
+            this.StateGroupBox.TabIndex = 21;
+            this.StateGroupBox.SelectedIndexChanged += new System.EventHandler(this.StateGroupBox_SelectedIndexChanged);
+            // 
+            // stateGroupLayoutBox
+            // 
+            this.stateGroupLayoutBox.Controls.Add(this.DeleteGroupBtn);
+            this.stateGroupLayoutBox.Controls.Add(this.CloneGroupBtn);
+            this.stateGroupLayoutBox.Controls.Add(this.AddGroupBtn);
+            this.stateGroupLayoutBox.Controls.Add(this.RenameGroupBtn);
+            this.stateGroupLayoutBox.Controls.Add(this.StateGroupBox);
+            this.stateGroupLayoutBox.Location = new System.Drawing.Point(6, 31);
+            this.stateGroupLayoutBox.Name = "stateGroupLayoutBox";
+            this.stateGroupLayoutBox.Size = new System.Drawing.Size(344, 117);
+            this.stateGroupLayoutBox.TabIndex = 22;
+            this.stateGroupLayoutBox.TabStop = false;
+            this.stateGroupLayoutBox.Text = "State Groups";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox8.Controls.Add(this.StateBox);
+            this.groupBox8.Controls.Add(this.RenameStateBtn);
+            this.groupBox8.Controls.Add(this.AddStateBtn);
+            this.groupBox8.Controls.Add(this.CloneStateBtn);
+            this.groupBox8.Controls.Add(this.DeleteStateBtn);
+            this.groupBox8.Location = new System.Drawing.Point(6, 154);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(344, 558);
+            this.groupBox8.TabIndex = 19;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "States";
             // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1449, 722);
-            this.Controls.Add(this.RenameGroupBtn);
-            this.Controls.Add(this.RenameStateBtn);
-            this.Controls.Add(this.CloneGroupBtn);
-            this.Controls.Add(this.DeleteGroupBtn);
-            this.Controls.Add(this.AddGroupBtn);
-            this.Controls.Add(this.CloneStateBtn);
-            this.Controls.Add(this.DeleteStateBtn);
-            this.Controls.Add(this.AddStateBtn);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(1322, 724);
+            this.Controls.Add(this.stateGroupLayoutBox);
+            this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.StateBox);
-            this.Controls.Add(this.StateGroupBox);
             this.Controls.Add(this.MenuStrip);
             this.MainMenuStrip = this.MenuStrip;
-            this.MinimumSize = new System.Drawing.Size(1330, 769);
+            this.MinimumSize = new System.Drawing.Size(1340, 771);
             this.Name = "GUI";
             this.Text = "Zeditor";
             this.Resize += new System.EventHandler(this.GUI_Resize);
@@ -868,20 +875,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).EndInit();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).EndInit();
+            this.stateGroupLayoutBox.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ListBox StateGroupBox;
         private System.Windows.Forms.ListBox StateBox;
         private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openESDToolStripMenuItem;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem exportESDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addNewStateToolStripMenuItem;
@@ -933,6 +938,9 @@
         private FastColoredTextBoxNS.FastColoredTextBox PassCmdBox;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.TextBox TargetStateNameBox;
+        private System.Windows.Forms.ComboBox StateGroupBox;
+        private System.Windows.Forms.GroupBox stateGroupLayoutBox;
+        private System.Windows.Forms.GroupBox groupBox8;
     }
 }
 

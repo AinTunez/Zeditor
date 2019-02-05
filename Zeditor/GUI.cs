@@ -107,6 +107,7 @@ namespace Zeditor
 
         private void StateGroupBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ClearEditors();
             if (currentStateGroup != null)
             {
                 RefreshStateBox();
@@ -138,10 +139,11 @@ namespace Zeditor
 
         private string ConditionDisplay(ESD.Condition condition)
         {
+            if (condition == null) return null;
             if (Regex.IsMatch(condition.Name, @"^Condition\[[A-Za-z0-9]+\]$"))
             {
                 string conditionDisplay = condition.Name.Substring(10).TrimEnd(new char[] { '[', ']' });
-                conditionDisplay = Regex.Replace(conditionDisplay, "^[0]+", "");
+                conditionDisplay = Regex.Replace(conditionDisplay ?? "", "^[0]+", "");
                 return conditionDisplay;
             }
             else
@@ -170,6 +172,7 @@ namespace Zeditor
         {
             string cName = parent.Name + "-" + parent.Nodes.Count;
             TreeNode cNode = new TreeNode(cName);
+            cNode.Name = cName;
             cNode.Text = ConditionDisplay(condition);
             if (condition.TargetState != null) cNode.Text += " → " + condition.TargetState.ToString();
             cNode.Name = cName;
@@ -549,19 +552,18 @@ namespace Zeditor
         {
             if (currentState == null) return;
             var newState = CloneState(currentState);
-            long stateId = currentStateGroup.Max(p => p.Key) + 1;
-            currentStateGroup[stateId] = newState;
-            StateGroupBox_SelectedIndexChanged(sender, e);
-            StateBox.SelectedItem = stateId;
+            currentStateGroup[newState.ID] = newState;
+            RefreshStateBox(newState.ID);
         }
 
-        private ESD.State CloneState(ESD.State source)
+        private ESD.State CloneState(ESD.State source, long? groupID = null)
         {
             var newState = new ESD.State();
 
             void CloneCondition(ESD.Condition srcCondition, ESD.Condition parentCondition = null)
             {
                 var newCondition = new ESD.Condition();
+                newCondition.Name = srcCondition.Name;
                 newCondition.TargetState = srcCondition.TargetState;
                 newCondition.Evaluator = srcCondition.Evaluator;
                 foreach (var sub in srcCondition.Subconditions) CloneCondition(sub, newCondition);
@@ -574,15 +576,26 @@ namespace Zeditor
             newState.EntryScript = source.EntryScript;
             newState.ExitScript = source.ExitScript;
             newState.WhileScript = source.WhileScript;
+
+
+            if (groupID == null || groupID == currentSGH.ID) newState.ID = currentStateGroup.Max(p => p.Key) + 1;
+            else newState.ID = source.ID;
+
+            if (Regex.IsMatch(source.Name, @"^State\d+\-\d+$")) newState.Name = "State" + groupID + "-" + newState.ID;
+            else newState.Name = source.Name;
+
             return newState;
         }
 
         private void addNewStateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            long stateId = currentStateGroup.Max(p => p.Key) + 1;
-            currentStateGroup[stateId] = new ESD.State();
+            long stateId = currentStateGroup.Keys.Max() + 1;
+            var state = new ESD.State();
+            state.ID = stateId;
+            state.Name = "State" + currentSGH.ID + "-" + stateId;
+            currentStateGroup[stateId] = state;
             StateGroupBox_SelectedIndexChanged(sender, e);
-            StateBox.SelectedItem = stateId;
+            SelectState(stateId);
         }
 
         private void deleteStateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -620,10 +633,9 @@ namespace Zeditor
                 return;
             }
             currentESD.StateGroups[k.Value] = new Dictionary<long, ESD.State>();
-            StateGroupBox.DataSource = currentESD.StateGroups.Keys.ToList();
-            StateGroupBox.SelectedItem = k.Value;
-            StateBox_SelectedIndexChanged(sender, e);
+            currentESD.StateGroupNames[k.Value] = "StateGroup" + k.Value;
             ClearEditors();
+            RefreshStateGroupBox(k.Value);
         }
 
         private void CloneGroupBtn_Click(object sender, EventArgs e)
@@ -640,13 +652,12 @@ namespace Zeditor
             var newGroup = new Dictionary<long, ESD.State>();
             foreach (var pair in currentStateGroup)
             {
-                newGroup[pair.Key] = CloneState(currentStateGroup[pair.Key]);
+                newGroup[pair.Key] = CloneState(currentStateGroup[pair.Key], k.Value);
             }
             currentESD.StateGroups[k.Value] = newGroup;
-            StateGroupBox.DataSource = currentESD.StateGroups.Keys.ToList();
-            StateGroupBox.SelectedItem = k.Value;
-            StateBox_SelectedIndexChanged(sender, e);
+            currentESD.StateGroupNames[k.Value] = "StateGroup" + k.Value;
             ClearEditors();
+            RefreshStateGroupBox(k.Value);
         }
 
         private void DeleteGroupBtn_Click(object sender, EventArgs e)
@@ -656,9 +667,8 @@ namespace Zeditor
             if (DialogResult.OK == MessageBox.Show("Really delete group " + key + "?", "Confirm", MessageBoxButtons.OKCancel))
             {
                 currentESD.StateGroups.Remove(key);
-                StateBox.DataSource = null;
                 ClearEditors();
-                StateGroupBox.DataSource = currentESD.StateGroups.Keys.ToList();
+                RefreshStateGroupBox();
             }
         }
 
@@ -703,6 +713,7 @@ namespace Zeditor
             form.Text = title;
             label.Text = promptText;
             textBox.Text = value;
+            textBox.SelectAll();
 
             buttonOk.Text = "OK";
             buttonCancel.Text = "Cancel";
@@ -775,7 +786,7 @@ namespace Zeditor
         {
             if (currentState == null) return;
             int index = StateBox.SelectedIndex;
-            string name = "";
+            string name = currentState.Name;
             var box = InputBox("Rename State", "Enter a new name for the state: ", ref name);
             if (box == DialogResult.OK)
             {
@@ -794,18 +805,46 @@ namespace Zeditor
             }
         }
 
-        private void RefreshStateBox()
+        private void RefreshStateBox(long? key = null)
         {
             StateBox.DataSource = null;
             if (currentStateGroup == null) return;
             StateBox.DisplayMember = "DisplayName";
             StateBox.DataSource = currentStateGroup.Values.Select(s => new StateHandler(s)).ToList();
+            if (key.HasValue) SelectState(key.Value);
+           
+        }
+
+        private void SelectState(long key)
+        {
+            foreach (var item in StateBox.Items)
+            {
+                var h = (StateHandler)item;
+                if (h.ID == key)
+                {
+                    StateBox.SelectedItem = item;
+                    break;
+                }
+            }
+        }
+
+        private void SelectGroup(long key)
+        {
+            foreach (var item in StateGroupBox.Items)
+            {
+                var h = (StateGroupHandler)item;
+                if (h.ID == key)
+                {
+                    StateGroupBox.SelectedItem = item;
+                    break;
+                }
+            }
         }
 
         private void RenameConditionBtn_Click(object sender, EventArgs e)
         {
             if (currentCondition == null) return;
-            string name = "";
+            string name = currentCondition.Name;
             var box = InputBox("Rename State", "Enter a new name for " + currentCondition.Name + ":", ref name);
             if (box == DialogResult.OK)
             {
@@ -867,7 +906,7 @@ namespace Zeditor
         {
             if (currentStateGroup == null) return;
             var handler = currentSGH;
-            string name = "";
+            string name = currentSGH.Name;
             var box = InputBox("Rename State", "Enter a new name for " + handler.Name + ":", ref name);
             if (box == DialogResult.OK)
             {
@@ -883,12 +922,14 @@ namespace Zeditor
             }
         }
 
-        private void RefreshStateGroupBox()
+        private void RefreshStateGroupBox(long? key = null)
         {
             StateGroupBox.DataSource = null;
             if (currentESD == null) return;
             StateGroupBox.DisplayMember = "DisplayName";
             StateGroupBox.DataSource = currentESD.StateGroups.Select(kv => new StateGroupHandler(kv.Key)).ToList();
+            if (key.HasValue) SelectGroup(key.Value);
+
         }
 
         private void editorControl_SelectedIndexChanged(object sender, EventArgs e)
