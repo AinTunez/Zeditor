@@ -303,7 +303,8 @@ namespace Zeditor
             if (DialogResult.OK == MessageBox.Show("Really delete " + name + "?", "Confirm", MessageBoxButtons.OKCancel))
             {
                 ConditionsFromNode(ConditionTree.SelectedNode).ParentCollection.Remove(currentCondition);
-                StateGroupBox_SelectedIndexChanged(sender, e);
+                StateBox_SelectedIndexChanged(sender, e);
+                ConditionTree.Focus();
             }
         }
 
