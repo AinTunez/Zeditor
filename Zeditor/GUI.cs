@@ -602,7 +602,7 @@ namespace Zeditor
         private void deleteStateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (currentState == null) return;
-            long stateId = (long)StateBox.SelectedItem;
+            long stateId = currentSH.ID;
             if (DialogResult.OK == MessageBox.Show("Really delete state " + stateId + "?", "Confirm", MessageBoxButtons.OKCancel))
             {
                 int i = StateBox.SelectedIndex - 1;
