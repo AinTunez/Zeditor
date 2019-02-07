@@ -304,7 +304,7 @@ namespace Zeditor
             {
                 ConditionsFromNode(ConditionTree.SelectedNode).ParentCollection.Remove(currentCondition);
                 StateBox_SelectedIndexChanged(sender, e);
-                ConditionTree.Focus();
+                ConditionTree.Focus();  
             }
         }
 
