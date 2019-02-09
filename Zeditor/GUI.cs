@@ -382,6 +382,8 @@ namespace Zeditor
         StateHandler currentSH => (StateHandler)StateBox.SelectedItem ?? null;
         ESD.State currentState => currentSH == null ? null : currentSH.State;
 
+        private bool isCurrentlySaving = false;
+
         ESD.Condition currentCondition
         {
             get
@@ -450,7 +452,7 @@ namespace Zeditor
                 try
                 {
                     ActiveForm.UseWaitCursor = true;
-                    currentESD = ESD.ReadWithMetadata(ofd.FileName, false, false, ScriptingContext);
+                    currentESD = ESD.ReadWithMetadata(ofd.FileName, true, false, ScriptingContext);
                     ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
                     RefreshStateGroupBox();
                     filePath = ofd.FileName;
@@ -769,7 +771,7 @@ namespace Zeditor
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 ActiveForm.UseWaitCursor = true;
-                currentESD.WriteWithMetadata(sfd.FileName, false, ScriptingContext);
+                currentESD.WriteWithMetadata(sfd.FileName, true, ScriptingContext);
                 filePath = sfd.FileName;
                 Form.ActiveForm.Text = "Zeditor - " + Path.GetFileName(sfd.FileName);
                 ActiveForm.UseWaitCursor = false;
@@ -879,9 +881,9 @@ namespace Zeditor
             }
         }
 
-        private void ShowSuccessLabel()
+        private void ShowSuccessLabel(bool wasActuallySuccess)
         {
-
+            saveLabel.Text = wasActuallySuccess ? "ESD SAVED SUCCESSFULY" : "ESD SAVE FAILED";
             saveLabel.Visible = true;
             saveLabelTimer.Stop();
             saveLabelTimer.Start();
@@ -1247,20 +1249,62 @@ namespace Zeditor
             Application.Exit();
         }
 
+        private void DoSaveInBackground()
+        {
+            Invoke(new Action(() =>
+            {
+                isCurrentlySaving = true;
+
+                saveLabel.Text = "Saving...";
+                saveLabel.Visible = true;
+                saveLabelTimer.Stop();
+
+                ActiveForm.UseWaitCursor = true;
+                ActiveForm.Enabled = false;
+                //saveEditorContentToolStripMenuItem.Enabled = false;
+                //saveESDToolStripMenuItem.Enabled = false;
+                //openESDToolStripMenuItem.Enabled = false;
+                //exportESDToolStripMenuItem.Enabled = false;
+
+                
+            }));
+
+            BeginInvoke(new Action(() =>
+            {
+                try
+                {
+                    currentESD.WriteWithMetadata(filePath, true, ScriptingContext);
+                    ShowSuccessLabel(true);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    ShowSuccessLabel(false);
+                }
+                finally
+                {
+                    Invoke(new Action(() =>
+                    {
+                        ActiveForm.UseWaitCursor = false;
+                        //saveEditorContentToolStripMenuItem.Enabled = true;
+                        //saveESDToolStripMenuItem.Enabled = true;
+                        //openESDToolStripMenuItem.Enabled = true;
+                        //exportESDToolStripMenuItem.Enabled = true;
+                        ActiveForm.Enabled = true;
+                        isCurrentlySaving = false;
+
+                    }));
+                }
+            }));
+
+            
+        }
+
         private void saveESDToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             if (currentESD == null) return;
             SaveEdit(sender, e);
-            ActiveForm.UseWaitCursor = true;
-            try
-            {
-                currentESD.WriteWithMetadata(filePath, false, ScriptingContext);
-                ShowSuccessLabel();
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            ActiveForm.UseWaitCursor = false;
+            BeginInvoke(new Action(() => DoSaveInBackground()));
         }
 
         private void RenameGroupBtn_Click(object sender, EventArgs e)
@@ -1297,6 +1341,23 @@ namespace Zeditor
         {
             UpdateTitleBox();
             OnResize();
+        }
+
+        private void GUI_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (isCurrentlySaving)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            var isClose = MessageBox.Show("Are you sure you wish to close Zeditor?", 
+                "Close App?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
+
+            if (!isClose)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

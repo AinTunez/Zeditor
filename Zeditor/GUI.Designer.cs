@@ -118,7 +118,7 @@
             this.StateBox.FormattingEnabled = true;
             this.StateBox.HorizontalScrollbar = true;
             this.StateBox.Location = new System.Drawing.Point(4, 17);
-            this.StateBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.StateBox.Margin = new System.Windows.Forms.Padding(2);
             this.StateBox.Name = "StateBox";
             this.StateBox.Size = new System.Drawing.Size(250, 394);
             this.StateBox.TabIndex = 1;
@@ -263,7 +263,7 @@
             // 
             this.AddStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.AddStateBtn.Location = new System.Drawing.Point(8, 418);
-            this.AddStateBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddStateBtn.Margin = new System.Windows.Forms.Padding(2);
             this.AddStateBtn.Name = "AddStateBtn";
             this.AddStateBtn.Size = new System.Drawing.Size(49, 23);
             this.AddStateBtn.TabIndex = 12;
@@ -275,7 +275,7 @@
             // 
             this.DeleteStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.DeleteStateBtn.Location = new System.Drawing.Point(179, 418);
-            this.DeleteStateBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DeleteStateBtn.Margin = new System.Windows.Forms.Padding(2);
             this.DeleteStateBtn.Name = "DeleteStateBtn";
             this.DeleteStateBtn.Size = new System.Drawing.Size(72, 23);
             this.DeleteStateBtn.TabIndex = 13;
@@ -287,7 +287,7 @@
             // 
             this.CloneStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CloneStateBtn.Location = new System.Drawing.Point(58, 418);
-            this.CloneStateBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CloneStateBtn.Margin = new System.Windows.Forms.Padding(2);
             this.CloneStateBtn.Name = "CloneStateBtn";
             this.CloneStateBtn.Size = new System.Drawing.Size(52, 23);
             this.CloneStateBtn.TabIndex = 14;
@@ -308,7 +308,7 @@
             // TargetStateBox
             // 
             this.TargetStateBox.Location = new System.Drawing.Point(254, 281);
-            this.TargetStateBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TargetStateBox.Margin = new System.Windows.Forms.Padding(2);
             this.TargetStateBox.Name = "TargetStateBox";
             this.TargetStateBox.Size = new System.Drawing.Size(38, 20);
             this.TargetStateBox.TabIndex = 5;
@@ -318,7 +318,7 @@
             // GoTargetBtn
             // 
             this.GoTargetBtn.Location = new System.Drawing.Point(188, 327);
-            this.GoTargetBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GoTargetBtn.Margin = new System.Windows.Forms.Padding(2);
             this.GoTargetBtn.Name = "GoTargetBtn";
             this.GoTargetBtn.Size = new System.Drawing.Size(104, 28);
             this.GoTargetBtn.TabIndex = 7;
@@ -333,7 +333,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.ConditionTree.HideSelection = false;
             this.ConditionTree.Location = new System.Drawing.Point(4, 17);
-            this.ConditionTree.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ConditionTree.Margin = new System.Windows.Forms.Padding(2);
             this.ConditionTree.Name = "ConditionTree";
             this.ConditionTree.PathSeparator = "-";
             this.ConditionTree.Size = new System.Drawing.Size(174, 537);
@@ -343,7 +343,7 @@
             // AddConditionBtn
             // 
             this.AddConditionBtn.Location = new System.Drawing.Point(188, 69);
-            this.AddConditionBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddConditionBtn.Margin = new System.Windows.Forms.Padding(2);
             this.AddConditionBtn.Name = "AddConditionBtn";
             this.AddConditionBtn.Size = new System.Drawing.Size(104, 26);
             this.AddConditionBtn.TabIndex = 9;
@@ -355,7 +355,7 @@
             // DeleteConditionBtn
             // 
             this.DeleteConditionBtn.Location = new System.Drawing.Point(188, 131);
-            this.DeleteConditionBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DeleteConditionBtn.Margin = new System.Windows.Forms.Padding(2);
             this.DeleteConditionBtn.Name = "DeleteConditionBtn";
             this.DeleteConditionBtn.Size = new System.Drawing.Size(104, 26);
             this.DeleteConditionBtn.TabIndex = 10;
@@ -367,7 +367,7 @@
             // MoveCndUpBtn
             // 
             this.MoveCndUpBtn.Location = new System.Drawing.Point(188, 208);
-            this.MoveCndUpBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MoveCndUpBtn.Margin = new System.Windows.Forms.Padding(2);
             this.MoveCndUpBtn.Name = "MoveCndUpBtn";
             this.MoveCndUpBtn.Size = new System.Drawing.Size(56, 26);
             this.MoveCndUpBtn.TabIndex = 10;
@@ -379,7 +379,7 @@
             // MoveCndDownBtn
             // 
             this.MoveCndDownBtn.Location = new System.Drawing.Point(188, 237);
-            this.MoveCndDownBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MoveCndDownBtn.Margin = new System.Windows.Forms.Padding(2);
             this.MoveCndDownBtn.Name = "MoveCndDownBtn";
             this.MoveCndDownBtn.Size = new System.Drawing.Size(56, 26);
             this.MoveCndDownBtn.TabIndex = 11;
@@ -391,7 +391,7 @@
             // AddSubconditionBtn
             // 
             this.AddSubconditionBtn.Location = new System.Drawing.Point(188, 100);
-            this.AddSubconditionBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddSubconditionBtn.Margin = new System.Windows.Forms.Padding(2);
             this.AddSubconditionBtn.Name = "AddSubconditionBtn";
             this.AddSubconditionBtn.Size = new System.Drawing.Size(104, 26);
             this.AddSubconditionBtn.TabIndex = 12;
@@ -416,9 +416,9 @@
             this.groupBox1.Controls.Add(this.TargetStateBox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(272, 25);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(298, 558);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
@@ -427,7 +427,7 @@
             // TargetStateNameBox
             // 
             this.TargetStateNameBox.Location = new System.Drawing.Point(188, 304);
-            this.TargetStateNameBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TargetStateNameBox.Margin = new System.Windows.Forms.Padding(2);
             this.TargetStateNameBox.Name = "TargetStateNameBox";
             this.TargetStateNameBox.ReadOnly = true;
             this.TargetStateNameBox.Size = new System.Drawing.Size(104, 20);
@@ -437,7 +437,7 @@
             // RenameConditionBtn
             // 
             this.RenameConditionBtn.Location = new System.Drawing.Point(188, 162);
-            this.RenameConditionBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RenameConditionBtn.Margin = new System.Windows.Forms.Padding(2);
             this.RenameConditionBtn.Name = "RenameConditionBtn";
             this.RenameConditionBtn.Size = new System.Drawing.Size(104, 26);
             this.RenameConditionBtn.TabIndex = 13;
@@ -451,7 +451,7 @@
             this.EditorTitleBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.EditorTitleBox.Location = new System.Drawing.Point(8, 20);
-            this.EditorTitleBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.EditorTitleBox.Margin = new System.Windows.Forms.Padding(2);
             this.EditorTitleBox.Name = "EditorTitleBox";
             this.EditorTitleBox.ReadOnly = true;
             this.EditorTitleBox.Size = new System.Drawing.Size(276, 20);
@@ -462,7 +462,7 @@
             // 
             this.RevertBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.RevertBtn.Location = new System.Drawing.Point(287, 17);
-            this.RevertBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RevertBtn.Margin = new System.Windows.Forms.Padding(2);
             this.RevertBtn.Name = "RevertBtn";
             this.RevertBtn.Size = new System.Drawing.Size(112, 24);
             this.RevertBtn.TabIndex = 11;
@@ -472,13 +472,14 @@
             // 
             // saveLabel
             // 
-            this.saveLabel.AutoSize = true;
-            this.saveLabel.Location = new System.Drawing.Point(313, 53);
+            this.saveLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveLabel.Location = new System.Drawing.Point(173, 53);
             this.saveLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.saveLabel.Name = "saveLabel";
-            this.saveLabel.Size = new System.Drawing.Size(68, 13);
+            this.saveLabel.Size = new System.Drawing.Size(208, 13);
             this.saveLabel.TabIndex = 12;
             this.saveLabel.Text = "ESD SAVED";
+            this.saveLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.saveLabel.Visible = false;
             // 
             // groupBox2
@@ -491,9 +492,9 @@
             this.groupBox2.Controls.Add(this.EditorTitleBox);
             this.groupBox2.Controls.Add(this.editorControl);
             this.groupBox2.Location = new System.Drawing.Point(578, 25);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(406, 558);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
@@ -507,7 +508,7 @@
             this.editorControl.Controls.Add(this.stateTab);
             this.editorControl.Controls.Add(this.conditionTab);
             this.editorControl.Location = new System.Drawing.Point(2, 53);
-            this.editorControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.editorControl.Margin = new System.Windows.Forms.Padding(2);
             this.editorControl.Name = "editorControl";
             this.editorControl.SelectedIndex = 0;
             this.editorControl.Size = new System.Drawing.Size(402, 503);
@@ -518,9 +519,9 @@
             // 
             this.stateTab.Controls.Add(this.flowLayoutPanel1);
             this.stateTab.Location = new System.Drawing.Point(4, 22);
-            this.stateTab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.stateTab.Margin = new System.Windows.Forms.Padding(2);
             this.stateTab.Name = "stateTab";
-            this.stateTab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.stateTab.Padding = new System.Windows.Forms.Padding(2);
             this.stateTab.Size = new System.Drawing.Size(394, 477);
             this.stateTab.TabIndex = 0;
             this.stateTab.Text = "State";
@@ -533,7 +534,7 @@
             this.flowLayoutPanel1.Controls.Add(this.groupBox7);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(2, 2);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(390, 473);
             this.flowLayoutPanel1.TabIndex = 0;
@@ -543,9 +544,9 @@
             this.groupBox5.Controls.Add(this.EntryCmdBox);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox5.Location = new System.Drawing.Point(2, 2);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox5.Size = new System.Drawing.Size(446, 127);
             this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
@@ -575,7 +576,7 @@
             this.EntryCmdBox.IsReplaceMode = false;
             this.EntryCmdBox.LeftBracket = '(';
             this.EntryCmdBox.Location = new System.Drawing.Point(2, 15);
-            this.EntryCmdBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.EntryCmdBox.Margin = new System.Windows.Forms.Padding(2);
             this.EntryCmdBox.Name = "EntryCmdBox";
             this.EntryCmdBox.Paddings = new System.Windows.Forms.Padding(0);
             this.EntryCmdBox.RightBracket = ')';
@@ -591,9 +592,9 @@
             this.groupBox6.Controls.Add(this.ExitCmdBox);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox6.Location = new System.Drawing.Point(2, 133);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox6.Size = new System.Drawing.Size(446, 122);
             this.groupBox6.TabIndex = 10;
             this.groupBox6.TabStop = false;
@@ -623,7 +624,7 @@
             this.ExitCmdBox.IsReplaceMode = false;
             this.ExitCmdBox.LeftBracket = '(';
             this.ExitCmdBox.Location = new System.Drawing.Point(2, 15);
-            this.ExitCmdBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ExitCmdBox.Margin = new System.Windows.Forms.Padding(2);
             this.ExitCmdBox.Name = "ExitCmdBox";
             this.ExitCmdBox.Paddings = new System.Windows.Forms.Padding(0);
             this.ExitCmdBox.RightBracket = ')';
@@ -639,9 +640,9 @@
             this.groupBox7.Controls.Add(this.WhileCmdBox);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox7.Location = new System.Drawing.Point(2, 259);
-            this.groupBox7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox7.Size = new System.Drawing.Size(446, 127);
             this.groupBox7.TabIndex = 11;
             this.groupBox7.TabStop = false;
@@ -671,7 +672,7 @@
             this.WhileCmdBox.IsReplaceMode = false;
             this.WhileCmdBox.LeftBracket = '(';
             this.WhileCmdBox.Location = new System.Drawing.Point(2, 15);
-            this.WhileCmdBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.WhileCmdBox.Margin = new System.Windows.Forms.Padding(2);
             this.WhileCmdBox.Name = "WhileCmdBox";
             this.WhileCmdBox.Paddings = new System.Windows.Forms.Padding(0);
             this.WhileCmdBox.RightBracket = ')';
@@ -686,7 +687,7 @@
             // 
             this.conditionTab.Controls.Add(this.flowLayoutPanel3);
             this.conditionTab.Location = new System.Drawing.Point(4, 22);
-            this.conditionTab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.conditionTab.Margin = new System.Windows.Forms.Padding(2);
             this.conditionTab.Name = "conditionTab";
             this.conditionTab.Size = new System.Drawing.Size(394, 477);
             this.conditionTab.TabIndex = 3;
@@ -699,7 +700,7 @@
             this.flowLayoutPanel3.Controls.Add(this.groupBox4);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(394, 477);
             this.flowLayoutPanel3.TabIndex = 2;
@@ -708,9 +709,9 @@
             // 
             this.groupBox3.Controls.Add(this.EvaluatorBox);
             this.groupBox3.Location = new System.Drawing.Point(2, 2);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox3.Size = new System.Drawing.Size(488, 196);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
@@ -740,7 +741,7 @@
             this.EvaluatorBox.IsReplaceMode = false;
             this.EvaluatorBox.LeftBracket = '(';
             this.EvaluatorBox.Location = new System.Drawing.Point(2, 15);
-            this.EvaluatorBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.EvaluatorBox.Margin = new System.Windows.Forms.Padding(2);
             this.EvaluatorBox.Name = "EvaluatorBox";
             this.EvaluatorBox.Paddings = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.EvaluatorBox.RightBracket = ')';
@@ -757,9 +758,9 @@
             this.groupBox4.Controls.Add(this.PassCmdBox);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox4.Location = new System.Drawing.Point(2, 202);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox4.Size = new System.Drawing.Size(488, 262);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
@@ -778,7 +779,7 @@
         '\"',
         '\'',
         '\''};
-            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(23, 22);
+            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 22);
             this.PassCmdBox.BackBrush = null;
             this.PassCmdBox.CharHeight = 12;
             this.PassCmdBox.CharWidth = 6;
@@ -789,7 +790,7 @@
             this.PassCmdBox.IsReplaceMode = false;
             this.PassCmdBox.LeftBracket = '(';
             this.PassCmdBox.Location = new System.Drawing.Point(2, 15);
-            this.PassCmdBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PassCmdBox.Margin = new System.Windows.Forms.Padding(2);
             this.PassCmdBox.Name = "PassCmdBox";
             this.PassCmdBox.Paddings = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.PassCmdBox.RightBracket = ')';
@@ -803,7 +804,7 @@
             // AddGroupBtn
             // 
             this.AddGroupBtn.Location = new System.Drawing.Point(4, 60);
-            this.AddGroupBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddGroupBtn.Margin = new System.Windows.Forms.Padding(2);
             this.AddGroupBtn.Name = "AddGroupBtn";
             this.AddGroupBtn.Size = new System.Drawing.Size(52, 23);
             this.AddGroupBtn.TabIndex = 15;
@@ -814,7 +815,7 @@
             // DeleteGroupBtn
             // 
             this.DeleteGroupBtn.Location = new System.Drawing.Point(202, 60);
-            this.DeleteGroupBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DeleteGroupBtn.Margin = new System.Windows.Forms.Padding(2);
             this.DeleteGroupBtn.Name = "DeleteGroupBtn";
             this.DeleteGroupBtn.Size = new System.Drawing.Size(51, 23);
             this.DeleteGroupBtn.TabIndex = 16;
@@ -825,7 +826,7 @@
             // CloneGroupBtn
             // 
             this.CloneGroupBtn.Location = new System.Drawing.Point(62, 60);
-            this.CloneGroupBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CloneGroupBtn.Margin = new System.Windows.Forms.Padding(2);
             this.CloneGroupBtn.Name = "CloneGroupBtn";
             this.CloneGroupBtn.Size = new System.Drawing.Size(47, 23);
             this.CloneGroupBtn.TabIndex = 17;
@@ -837,7 +838,7 @@
             // 
             this.RenameStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.RenameStateBtn.Location = new System.Drawing.Point(112, 419);
-            this.RenameStateBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RenameStateBtn.Margin = new System.Windows.Forms.Padding(2);
             this.RenameStateBtn.Name = "RenameStateBtn";
             this.RenameStateBtn.Size = new System.Drawing.Size(65, 21);
             this.RenameStateBtn.TabIndex = 18;
@@ -848,7 +849,7 @@
             // RenameGroupBtn
             // 
             this.RenameGroupBtn.Location = new System.Drawing.Point(113, 60);
-            this.RenameGroupBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RenameGroupBtn.Margin = new System.Windows.Forms.Padding(2);
             this.RenameGroupBtn.Name = "RenameGroupBtn";
             this.RenameGroupBtn.Size = new System.Drawing.Size(85, 23);
             this.RenameGroupBtn.TabIndex = 19;
@@ -861,7 +862,7 @@
             this.StateGroupBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.StateGroupBox.FormattingEnabled = true;
             this.StateGroupBox.Location = new System.Drawing.Point(4, 26);
-            this.StateGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.StateGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.StateGroupBox.Name = "StateGroupBox";
             this.StateGroupBox.Size = new System.Drawing.Size(250, 21);
             this.StateGroupBox.TabIndex = 21;
@@ -875,9 +876,9 @@
             this.stateGroupLayoutBox.Controls.Add(this.RenameGroupBtn);
             this.stateGroupLayoutBox.Controls.Add(this.StateGroupBox);
             this.stateGroupLayoutBox.Location = new System.Drawing.Point(4, 25);
-            this.stateGroupLayoutBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.stateGroupLayoutBox.Margin = new System.Windows.Forms.Padding(2);
             this.stateGroupLayoutBox.Name = "stateGroupLayoutBox";
-            this.stateGroupLayoutBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.stateGroupLayoutBox.Padding = new System.Windows.Forms.Padding(2);
             this.stateGroupLayoutBox.Size = new System.Drawing.Size(258, 95);
             this.stateGroupLayoutBox.TabIndex = 22;
             this.stateGroupLayoutBox.TabStop = false;
@@ -893,9 +894,9 @@
             this.groupBox8.Controls.Add(this.CloneStateBtn);
             this.groupBox8.Controls.Add(this.DeleteStateBtn);
             this.groupBox8.Location = new System.Drawing.Point(4, 125);
-            this.groupBox8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox8.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox8.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox8.Size = new System.Drawing.Size(258, 453);
             this.groupBox8.TabIndex = 19;
             this.groupBox8.TabStop = false;
@@ -912,10 +913,11 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.MenuStrip);
             this.MainMenuStrip = this.MenuStrip;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(1009, 634);
             this.Name = "GUI";
             this.Text = "Zeditor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
             this.Resize += new System.EventHandler(this.GUI_Resize);
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
