@@ -735,8 +735,6 @@ namespace Zeditor
             SelectNode(path);
             ConditionTree.SelectedNode = ConditionTree.SelectedNode.PrevNode;
             ConditionTree.Focus();
-
-
         }
 
         private void MoveCndDownBtn_Click(object sender, EventArgs e)
@@ -847,11 +845,10 @@ namespace Zeditor
             if (!loaded) return;
             e.ChangedRange.ClearStyle(textStyles.Values.ToArray());
             e.ChangedRange.SetStyle(textStyles["separator"], "[$]");
-            e.ChangedRange.SetStyle(textStyles["command"], @"[A-Za-z_]+[(]");
             e.ChangedRange.SetStyle(textStyles["num"], @"[0-9]");
+            e.ChangedRange.SetStyle(textStyles["command"], @"[A-Za-z0-9_]+[(]");
             e.ChangedRange.SetStyle(textStyles["regular"], "[():;]");
             e.ChangedRange.SetStyle(textStyles["comment"], @"[/]{2}.*(\n|$)");
-
         }
 
         private void UpdateTitleBox(object sender, EventArgs e)
