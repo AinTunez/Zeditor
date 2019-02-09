@@ -883,7 +883,7 @@ namespace Zeditor
 
         private void ShowSuccessLabel(bool wasActuallySuccess)
         {
-            saveLabel.Text = wasActuallySuccess ? "ESD SAVED SUCCESSFULY" : "ESD SAVE FAILED";
+            saveLabel.Text = wasActuallySuccess ? "ESD SAVED SUCCESSFULLY" : "ESD SAVE FAILED";
             saveLabel.Visible = true;
             saveLabelTimer.Stop();
             saveLabelTimer.Start();
