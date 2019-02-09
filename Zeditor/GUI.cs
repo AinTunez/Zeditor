@@ -21,7 +21,7 @@ namespace Zeditor
             {
                 {(1, 0), "ChangeGeneralAnim" },
                 {(1, 1), "ChangeUpperBodyAnim" },
-                {(1, 2), "ChangeStandbyAnim" },
+                {(1, 2), "ChangeStayAnim" },
                 {(1, 3), "ChangeGeneralAnimCategorized" },
                 {(1, 4), "ChangeUpperBodyAnimCategorized" },
                 {(1, 5), "ChangeGeneralAnimAdditiveCategorized" },
@@ -44,6 +44,7 @@ namespace Zeditor
                 {(1, 108), "IssueMessageIDToEvents" },
                 {(1, 109), "SetAttackType" },
                 {(1, 110), "SetNoStaminaRecover" },
+                {(1, 111), "Command111" },
                 {(1, 112), "SetAIBusyDoingAction" },
                 {(1, 113), "BowTurn" },
                 {(1, 114), "SetIsHoldingBow" },
@@ -125,7 +126,7 @@ namespace Zeditor
                 {(1, 9002), "Test_SpEffectTypeSpecifyDelete" },
                 {(1, 9100), "Function9100" },
                 {(1, 9101), "RequestAIReprogramming" },
-                {(1, 9102), "MarkOfGreedyPersonSlipDamageDisable " },
+                {(1, 9102), "MarkOfGreedyPersonSlipDamageDisable" },
                 {(1, 9103), "ResetInputQueue" },
                 {(1, 9104), "SetIsEventAnim" },
                 {(1, 9105), "AIAttackState" },
@@ -844,7 +845,7 @@ namespace Zeditor
             if (!loaded) return;
             e.ChangedRange.ClearStyle(textStyles.Values.ToArray());
             e.ChangedRange.SetStyle(textStyles["separator"], "[$]");
-            e.ChangedRange.SetStyle(textStyles["command"], @"[A-Za-z]+[(]");
+            e.ChangedRange.SetStyle(textStyles["command"], @"[A-Za-z_]+[(]");
             e.ChangedRange.SetStyle(textStyles["num"], @"[0-9]");
             e.ChangedRange.SetStyle(textStyles["regular"], "[():;]");
             e.ChangedRange.SetStyle(textStyles["comment"], @"[/]{2}.*(\n|$)");
