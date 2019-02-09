@@ -844,8 +844,8 @@ namespace Zeditor
             if (!loaded) return;
             e.ChangedRange.ClearStyle(textStyles.Values.ToArray());
             e.ChangedRange.SetStyle(textStyles["separator"], "[$]");
-            e.ChangedRange.SetStyle(textStyles["num"], "[A-Za-z0-9]");
-            e.ChangedRange.SetStyle(textStyles["command"], @"\d+:\d+[(]");
+            e.ChangedRange.SetStyle(textStyles["command"], @"[A-Za-z]+[(]");
+            e.ChangedRange.SetStyle(textStyles["num"], @"[0-9]");
             e.ChangedRange.SetStyle(textStyles["regular"], "[():;]");
             e.ChangedRange.SetStyle(textStyles["comment"], @"[/]{2}.*(\n|$)");
 
