@@ -86,6 +86,7 @@
             this.StateGroupBox = new System.Windows.Forms.ComboBox();
             this.stateGroupLayoutBox = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.AddSiblingConditionBtn = new System.Windows.Forms.Button();
             this.MenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -292,7 +293,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(247, 350);
+            this.label1.Location = new System.Drawing.Point(248, 407);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(87, 17);
             this.label1.TabIndex = 6;
@@ -300,7 +301,7 @@
             // 
             // TargetStateBox
             // 
-            this.TargetStateBox.Location = new System.Drawing.Point(339, 346);
+            this.TargetStateBox.Location = new System.Drawing.Point(340, 403);
             this.TargetStateBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TargetStateBox.Name = "TargetStateBox";
             this.TargetStateBox.Size = new System.Drawing.Size(49, 22);
@@ -310,7 +311,7 @@
             // 
             // GoTargetBtn
             // 
-            this.GoTargetBtn.Location = new System.Drawing.Point(251, 402);
+            this.GoTargetBtn.Location = new System.Drawing.Point(252, 459);
             this.GoTargetBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GoTargetBtn.Name = "GoTargetBtn";
             this.GoTargetBtn.Size = new System.Drawing.Size(139, 34);
@@ -341,13 +342,13 @@
             this.AddConditionBtn.Size = new System.Drawing.Size(139, 32);
             this.AddConditionBtn.TabIndex = 9;
             this.AddConditionBtn.TabStop = false;
-            this.AddConditionBtn.Text = "Add Condition";
+            this.AddConditionBtn.Text = "New Primary CND";
             this.AddConditionBtn.UseVisualStyleBackColor = true;
             this.AddConditionBtn.Click += new System.EventHandler(this.AddConditionBtn_Click);
             // 
             // DeleteConditionBtn
             // 
-            this.DeleteConditionBtn.Location = new System.Drawing.Point(251, 161);
+            this.DeleteConditionBtn.Location = new System.Drawing.Point(252, 218);
             this.DeleteConditionBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.DeleteConditionBtn.Name = "DeleteConditionBtn";
             this.DeleteConditionBtn.Size = new System.Drawing.Size(139, 32);
@@ -359,7 +360,7 @@
             // 
             // MoveCndUpBtn
             // 
-            this.MoveCndUpBtn.Location = new System.Drawing.Point(251, 256);
+            this.MoveCndUpBtn.Location = new System.Drawing.Point(252, 313);
             this.MoveCndUpBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MoveCndUpBtn.Name = "MoveCndUpBtn";
             this.MoveCndUpBtn.Size = new System.Drawing.Size(75, 32);
@@ -371,7 +372,7 @@
             // 
             // MoveCndDownBtn
             // 
-            this.MoveCndDownBtn.Location = new System.Drawing.Point(251, 292);
+            this.MoveCndDownBtn.Location = new System.Drawing.Point(252, 349);
             this.MoveCndDownBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MoveCndDownBtn.Name = "MoveCndDownBtn";
             this.MoveCndDownBtn.Size = new System.Drawing.Size(75, 32);
@@ -383,13 +384,13 @@
             // 
             // AddSubconditionBtn
             // 
-            this.AddSubconditionBtn.Location = new System.Drawing.Point(251, 123);
+            this.AddSubconditionBtn.Location = new System.Drawing.Point(251, 122);
             this.AddSubconditionBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.AddSubconditionBtn.Name = "AddSubconditionBtn";
             this.AddSubconditionBtn.Size = new System.Drawing.Size(139, 32);
             this.AddSubconditionBtn.TabIndex = 12;
             this.AddSubconditionBtn.TabStop = false;
-            this.AddSubconditionBtn.Text = "Add Subcondition";
+            this.AddSubconditionBtn.Text = "New Child CND";
             this.AddSubconditionBtn.UseVisualStyleBackColor = true;
             this.AddSubconditionBtn.Click += new System.EventHandler(this.AddSubconditionBtn_Click);
             // 
@@ -397,6 +398,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.AddSiblingConditionBtn);
             this.groupBox1.Controls.Add(this.TargetStateNameBox);
             this.groupBox1.Controls.Add(this.RenameConditionBtn);
             this.groupBox1.Controls.Add(this.AddSubconditionBtn);
@@ -419,7 +421,7 @@
             // 
             // TargetStateNameBox
             // 
-            this.TargetStateNameBox.Location = new System.Drawing.Point(251, 374);
+            this.TargetStateNameBox.Location = new System.Drawing.Point(252, 431);
             this.TargetStateNameBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TargetStateNameBox.Name = "TargetStateNameBox";
             this.TargetStateNameBox.ReadOnly = true;
@@ -429,7 +431,7 @@
             // 
             // RenameConditionBtn
             // 
-            this.RenameConditionBtn.Location = new System.Drawing.Point(251, 199);
+            this.RenameConditionBtn.Location = new System.Drawing.Point(252, 256);
             this.RenameConditionBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.RenameConditionBtn.Name = "RenameConditionBtn";
             this.RenameConditionBtn.Size = new System.Drawing.Size(139, 32);
@@ -774,6 +776,18 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "States";
             // 
+            // AddSiblingConditionBtn
+            // 
+            this.AddSiblingConditionBtn.Location = new System.Drawing.Point(252, 159);
+            this.AddSiblingConditionBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.AddSiblingConditionBtn.Name = "AddSiblingConditionBtn";
+            this.AddSiblingConditionBtn.Size = new System.Drawing.Size(139, 32);
+            this.AddSiblingConditionBtn.TabIndex = 15;
+            this.AddSiblingConditionBtn.TabStop = false;
+            this.AddSiblingConditionBtn.Text = "New Sibling CND";
+            this.AddSiblingConditionBtn.UseVisualStyleBackColor = true;
+            this.AddSiblingConditionBtn.Click += new System.EventHandler(this.AddSiblingConditionBtn_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -875,6 +889,7 @@
         private ScintillaNET.Scintilla WhileCmdBox;
         private ScintillaNET.Scintilla EvaluatorBox;
         private ScintillaNET.Scintilla PassCmdBox;
+        private System.Windows.Forms.Button AddSiblingConditionBtn;
     }
 }
 

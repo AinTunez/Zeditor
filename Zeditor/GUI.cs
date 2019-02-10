@@ -32,13 +32,21 @@ namespace Zeditor
         private bool isCurrentlySaving = false;
 
 
-
+        ConditionHandler currentCH
+        {
+            get
+            {
+                if (ConditionTree.SelectedNode == null) return null;
+                return ConditionsFromNode(ConditionTree.SelectedNode);
+            }
+        }
         ESD.Condition currentCondition
         {
             get
             {
                 if (ConditionTree.SelectedNode == null) return null;
-                return ConditionsFromNode(ConditionTree.SelectedNode).Condition;
+                return currentCH.Condition;
+
             }
         }
         System.Timers.Timer saveLabelTimer = new System.Timers.Timer();
@@ -281,15 +289,50 @@ namespace Zeditor
             MessageBox.Show("Feature not yet implemented.");
         }
 
+        private void ExpandFromList(List<string> list)
+        {
+            var allNodes = ConditionTree.Nodes.Cast<TreeNode>().SelectMany(GetNodeBranch);
+            foreach (var treeNode in allNodes)
+            {
+                if (list.Contains(treeNode.Name))
+                {
+                    treeNode.Expand();
+                }
+            }
+        }
+
+        private List<string> ExpandedList()
+        {
+            List<string> list = new List<string>();
+            var allNodes = ConditionTree.Nodes.Cast<TreeNode>().SelectMany(GetNodeBranch);
+            foreach (var treeNode in allNodes)
+            {
+                if (treeNode.IsExpanded) list.Add(treeNode.Name);
+            }
+            return list;
+        }
+
+        private IEnumerable<TreeNode> GetNodeBranch(TreeNode node)
+        {
+            yield return node;
+            foreach (TreeNode child in node.Nodes)
+                foreach (var childChild in GetNodeBranch(child))
+                    yield return childChild;
+        }
+
         private void AddConditionBtn_Click(object sender, EventArgs e)
         {
+
             if (currentState == null) return;
             var cnd = new ESD.Condition();
             cnd.Evaluator = "";
             cnd.TargetState = 0;
             currentState.Conditions.Add(cnd);
+
+            var list = ExpandedList();
             StateBox_SelectedIndexChanged(sender, e);
             ConditionTree.SelectedNode = ConditionTree.Nodes[ConditionTree.Nodes.Count - 1];
+            ExpandFromList(list);
         }
 
         private void AddSubconditionBtn_Click(object sender, EventArgs e)
@@ -303,9 +346,31 @@ namespace Zeditor
             cnd.Evaluator = "";
             cnd.TargetState = state ?? (long)0;
             currentCondition.Subconditions.Add(cnd);
+
+            var list = ExpandedList();
             StateBox_SelectedIndexChanged(sender, e);
             SelectNode(path);
             ConditionTree.SelectedNode = ConditionTree.SelectedNode.LastNode;
+            ExpandFromList(list);
+        }
+
+        private void AddSiblingConditionBtn_Click(object sender, EventArgs e)
+        {
+            var h = currentCH;
+            if (currentCH == null) return;
+            var path = ConditionTree.SelectedNode.Name;
+            var state = currentCondition.TargetState;
+
+            var cnd = new ESD.Condition();
+            cnd.Evaluator = "";
+            cnd.TargetState = state ?? (long)0;
+
+            var list = ExpandedList();
+            h.ParentCollection.Insert(h.Index + 1, cnd);
+            StateBox_SelectedIndexChanged(sender, e);
+            SelectNode(path);
+            ConditionTree.SelectedNode = ConditionTree.SelectedNode.NextNode;
+            ExpandFromList(list);
         }
 
         private void DeleteConditionBtn_Click(object sender, EventArgs e)
@@ -315,8 +380,10 @@ namespace Zeditor
             if (DialogResult.OK == MessageBox.Show("Really delete " + name + "?", "Confirm", MessageBoxButtons.OKCancel))
             {
                 ConditionsFromNode(ConditionTree.SelectedNode).ParentCollection.Remove(currentCondition);
+                var list = ExpandedList();
                 StateBox_SelectedIndexChanged(sender, e);
-                ConditionTree.Focus();  
+                ConditionTree.Focus();
+                ExpandFromList(list);
             }
         }
 
@@ -341,6 +408,7 @@ namespace Zeditor
                 parent = cnd;
                 cnd = parent.Subconditions[n];
             }
+
             return new ConditionHandler(cnd, parent.Subconditions);
         }
 
