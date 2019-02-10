@@ -62,6 +62,7 @@
     </Compile>
     <EmbeddedResource Include="GUI.resx">
       <DependentUpon>GUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -89,9 +90,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="FastColoredTextBox\FastColoredTextBox\FastColoredTextBox.csproj">
-      <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
-      <Name>FastColoredTextBox</Name>
+    <ProjectReference Include="ScintillaNET\src\ScintillaNET\ScintillaNET.csproj">
+      <Project>{22ae2386-60f1-476e-9303-61cdb0aac4cf}</Project>
+      <Name>ScintillaNET</Name>
     </ProjectReference>
     <ProjectReference Include="SoulsFormats\SoulsFormats\SoulsFormats.csproj">
       <Project>{22c664bd-877b-44df-8ecf-2808522469a8}</Project>
