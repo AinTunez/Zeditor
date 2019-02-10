@@ -18,7 +18,7 @@ namespace Zeditor
     {
         static EzSembleContext ScriptingContext = EzSembleContext.LoadFromXml("ESDScriptingDocumentation.xml");
         public string CommandNames = SortedString(ScriptingContext.GetAllCommandNames());
-        public string FunctionNames = SortedString(ScriptingContext.GetAllFunctionNames());
+        public string FunctionNames = SortedString(ScriptingContext.GetAllFunctionNames()) + " SetREG0 SetREG1 SetREG2 SetREG3 SetREG4 SetREG5 SetREG6 SetREG7 GetREG0 GetREG1 GetREG2 GetREG3 GetREG4 GetREG5 GetREG6 GetREG7 AbortIfFalse";
         public string EnumNames = SortedString(ScriptingContext.GetAllEnumNames());
 
         string filePath = "";
@@ -488,7 +488,6 @@ namespace Zeditor
             {
 
                 //autocompletion
-                if (box == EvaluatorBox) box.CharAdded += Eval_CharAdded;
                 box.CharAdded += Box_CharAdded;
                 box.AutoCIgnoreCase = true;
 
@@ -507,13 +506,12 @@ namespace Zeditor
                 box.Styles[Style.Cpp.Word].ForeColor = IntToColor(0x0000FF); // commands
                 box.Styles[Style.Cpp.Word2].ForeColor = IntToColor(0x008888); // functions
                 box.Styles[Style.Cpp.Number].ForeColor = IntToColor(0xFF0088); // numbers
-                box.Styles[Style.Cpp.String].ForeColor = IntToColor(0xFF2222); //strings
+                box.Styles[Style.Cpp.String].ForeColor = IntToColor(0xFF2222); // strings
+                box.Styles[Style.Cpp.Comment].ForeColor = IntToColor(0x007700); // block comments
+                box.Styles[Style.Cpp.CommentLine].ForeColor = IntToColor(0x007700); // line comments
 
-                box.Styles[Style.Cpp.Comment].ForeColor = IntToColor(0x007700); //comments
-                box.Styles[Style.Cpp.CommentLine].ForeColor = IntToColor(0x007700); //comments
-
-                box.SetKeywords(0, string.Join(" ", ScriptingContext.GetAllCommandNames()));
-                box.SetKeywords(1, string.Join(" ", ScriptingContext.GetAllFunctionNames()));
+                box.SetKeywords(0, CommandNames);
+                box.SetKeywords(1, FunctionNames);
             }
         }
 
@@ -522,30 +520,29 @@ namespace Zeditor
             var scintilla = sender as Scintilla;
             var currentPos = scintilla.CurrentPosition;
             var wordStartPos = scintilla.WordStartPosition(currentPos, true);
-
-            // Display the autocompletion list
-            var lenEntered = currentPos - wordStartPos;
-            if (lenEntered > 0)
-            {
-                if (!scintilla.AutoCActive) scintilla.AutoCShow(lenEntered, CommandNames);
-            }
-        }
-
-        private void Eval_CharAdded(object sender, CharAddedEventArgs e)
-        {
-            var scintilla = sender as Scintilla;
-            var currentPos = scintilla.CurrentPosition;
-            var wordStartPos = scintilla.WordStartPosition(currentPos, true);
-
-            // Display the autocompletion list
             var lenEntered = currentPos - wordStartPos;
             if (lenEntered > 0)
             {
                 if (!scintilla.AutoCActive)
-                    scintilla.AutoCShow(lenEntered, FunctionNames);
+                {
+                    string autoCList = scintilla == EvaluatorBox || IsInParentheses(scintilla) ? FunctionNames : CommandNames;
+                    scintilla.AutoCShow(lenEntered, autoCList);
+                }
             }
         }
 
+        private bool IsInParentheses(Scintilla scintilla)
+        {
+            var currentPos = scintilla.CurrentPosition;
+            while (currentPos > 0)
+            {
+                currentPos--;
+                string s = scintilla.GetTextRange(currentPos, 1);
+                if (s == ")") return false;
+                if (s == "(") return true;
+            }
+            return false;
+        }
 
         private void UpdateTitleBox(object sender, EventArgs e)
         {
@@ -560,18 +557,13 @@ namespace Zeditor
         private void SaveEdit(object sender = null, EventArgs e = null)
         {
             if (currentState == null) return;
-            else if (editorControl.SelectedTab == stateTab)
-            {
-                currentState.EntryScript = EntryCmdBox.Text;
-                currentState.ExitScript = ExitCmdBox.Text;
-                currentState.WhileScript = WhileCmdBox.Text;
-            }
-            else if (editorControl.SelectedTab == conditionTab)
-            {
-                if (currentCondition == null) return;
-                currentCondition.PassScript = PassCmdBox.Text;
-                currentCondition.Evaluator = EvaluatorBox.Text;
-            }
+            currentState.EntryScript = EntryCmdBox.Text;
+            currentState.ExitScript = ExitCmdBox.Text;
+            currentState.WhileScript = WhileCmdBox.Text;
+
+            if (currentCondition == null) return;
+            currentCondition.PassScript = PassCmdBox.Text;
+            currentCondition.Evaluator = EvaluatorBox.Text;
         }
 
         private void ShowSuccessLabel(bool wasActuallySuccess)
@@ -1040,6 +1032,27 @@ namespace Zeditor
             if (!isClose)
             {
                 e.Cancel = true;
+            }
+        }
+
+        private void GUI_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.Space)
+            {
+                Scintilla[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
+                foreach (Scintilla scintilla in boxes)
+                {
+                    if (!scintilla.Focused) continue;
+                    var currentPos = scintilla.CurrentPosition;
+                    var wordStartPos = scintilla.WordStartPosition(currentPos, true);
+                    e.SuppressKeyPress = true;
+                    if (!scintilla.AutoCActive)
+                    {
+                        string autoCList = scintilla == EvaluatorBox || IsInParentheses(scintilla) ? FunctionNames : CommandNames;
+                        scintilla.AutoCShow(0, autoCList);
+                    }
+                    e.Handled = true;
+                }
             }
         }
     }

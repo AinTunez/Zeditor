@@ -784,12 +784,14 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.MenuStrip);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.MenuStrip;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MinimumSize = new System.Drawing.Size(1339, 769);
             this.Name = "GUI";
             this.Text = "Zeditor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GUI_KeyDown);
             this.Resize += new System.EventHandler(this.GUI_Resize);
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
