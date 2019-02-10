@@ -4,375 +4,22 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
 using System.Drawing;
 using System.Timers;
 using SoulsFormats.ESD;
 using System.Text.RegularExpressions;
 using SoulsFormats.ESD.EzSemble;
+using ScintillaNET;
+using System.Collections.ObjectModel;
 
 namespace Zeditor
 {
     public partial class GUI : Form
     {
-        public static EzSembleContext ScriptingContext = new EzSembleContext()
-        {
-            CommandNamesByID = new Dictionary<(int Bank, int ID), string>
-            {
-                {(1, 0), "ChangeGeneralAnim" },
-                {(1, 1), "ChangeUpperBodyAnim" },
-                {(1, 2), "ChangeStayAnim" },
-                {(1, 3), "ChangeGeneralAnimCategorized" },
-                {(1, 4), "ChangeUpperBodyAnimCategorized" },
-                {(1, 5), "ChangeGeneralAnimAdditiveCategorized" },
-                {(1, 6), "ChangeUpperBodyAnimAdditiveCategorized" },
-                {(1, 7), "ChangeGeneralAnimCategorizedMatchPlaybackTime" },
-                {(1, 8), "ChangeUpperBodyAnimCategorizedMatchPlaybackTime" },
-                {(1, 9), "SetAnimIDOffset" },
-                {(1, 10), "SetAdditiveBlendAnimation" },
-                {(1, 11), "SetAdditiveBlendAnimationSlotted" },
-                {(1, 12), "ChangeBlendAnimationCategorized" },
-                {(1, 13), "ChangeUpperAndLowerBodySyncedAnimCategorized" },
-                {(1, 100), "SwitchActiveActionState" },
-                {(1, 101), "SwitchMotion" },
-                {(1, 102), "SetThrowAttackTypePossible" },
-                {(1, 103), "SetThrowDefenseTypePossible" },
-                {(1, 104), "SwitchEquippedWeapon" },
-                {(1, 105), "SetReadyForAtkFinish" },
-                {(1, 106), "SetEquipmentChangeable" },
-                {(1, 107), "SetUnableToDrop" },
-                {(1, 108), "IssueMessageIDToEvents" },
-                {(1, 109), "SetAttackType" },
-                {(1, 110), "SetNoStaminaRecover" },
-                {(1, 111), "Command111" },
-                {(1, 112), "SetAIBusyDoingAction" },
-                {(1, 113), "BowTurn" },
-                {(1, 114), "SetIsHoldingBow" },
-                {(1, 115), "SwitchSpecificRangeMode" },
-                {(1, 116), "SwitchSpecialMotion" },
-                {(1, 117), "SetIsWeaponChanging" },
-                {(1, 118), "SetIsItemInUse" },
-                {(1, 119), "SetIsItemAnimPlaying" },
-                {(1, 120), "RemoveBinoculars" },
-                {(1, 121), "SetIsMagicInUse" },
-                {(1, 122), "IsHeadTurnPossible" },
-                {(1, 123), "ChangeHoveringState" },
-                {(1, 124), "ChangeToSpecialStandby" },
-                {(1, 125), "OpenMenuWhenUsingItem" },
-                {(1, 126), "OpenMenuWhenUsingMagic" },
-                {(1, 127), "BlowDamageTurn" },
-                {(1, 128), "SetDeathStandby" },
-                {(1, 129), "CloseMenuWhenUsingItem" },
-                {(1, 130), "CloseMenuWhenUsingMagic" },
-                {(1, 131), "AdditionNoTurning" },
-                {(1, 132), "WhiffPossibility" },
-                {(1, 133), "ChangeFlightStatus" },
-                {(1, 134), "SetStatsNotMetAnimID" },
-                {(1, 135), "ShowFixedYAxisDirectionDisplay" },
-                {(1, 136), "SetLadderActionState" },
-                {(1, 137), "ForceCancelThrowAnim" },
-                {(1, 138), "SetThrowState" },
-                {(1, 139), "LadderSlideStart" },
-                {(1, 140), "SetIsEventActionPossible" },
-                {(1, 141), "RequestThrowAnimInterrupt" },
-                {(1, 142), "SetHandStateOfLadder" },
-                {(1, 143), "SetDamageAnimType" },
-                {(1, 144), "SlideTurn" },
-                {(1, 145), "InterruptAttack" },
-                {(1, 146), "MidairDeathWarp" },
-                {(1, 147), "ClearSlopeInfo" },
-                {(1, 148), "StateInputRecieve" },
-                {(1, 149), "EquipmentChangeableFromMenu" },
-                {(1, 200), "SetVariable" },
-                {(1, 151), "AimAtSelfPosition" },
-                {(1, 152), "StateIdentifier" },
-                {(1, 153), "DoAIReplanningAtCancelTiming" },
-                {(1, 154), "DenyEventAnimPlaybackDemand" },
-                {(1, 155), "InvokeBackstab" },
-                {(1, 156), "WeaponParamReferent" },
-                {(1, 157), "AINotifyAttackType" },
-                {(1, 158), "SetAutoTrapTarget" },
-                {(1, 159), "ClearAutoTrapTarget" },
-                {(1, 1000), "AddHP" },
-                {(1, 1001), "AddStamina" },
-                {(1, 1100), "SyncAtInit_Active" },
-                {(1, 1101), "SyncAtInit_Passive" },
-                {(1, 2000), "SetIsTurnAnimInProgress" },
-                {(1, 2001), "CalculateTurnAnimCorrectionFactor" },
-                {(1, 2002), "SetStealthState" },
-                {(1, 2003), "SetMoveMult" },
-                {(1, 2004), "SpEffectAccomodation" },
-                {(1, 2005), "StealthyHighSpeedThrowEffective" },
-                {(1, 2006), "SetTurnSpeed" },
-                {(1, 2007), "SetCeremonyState" },
-                {(1, 2008), "SetDamageMotionBlendRatio" },
-                {(1, 2009), "SetForceTurnTarget" },
-                {(1, 2010), "InSpecialGuard" },
-                {(1, 2011), "SetWeaponCancelType" },
-                {(1, 2012), "IsPreciseShootingPossible" },
-                {(1, 2013), "ChooseBowAndArrowSlot" },
-                {(1, 2014), "Set4DirectionMovementThreshold" },
-                {(1, 2015), "LockonSystemUnableToTurnAngle" },
-                {(1, 2016), "ReserveArtsPointsUse" },
-                {(1, 2017), "SetArtsPointFEDisplayState" },
-                {(1, 2018), "LockonFixedAngleCancel" },
-                {(1, 2019), "TurnToLockonTargetImmediately" },
-                {(1, 2020), "SetSpecialInterpolation" },
-                {(1, 2021), "LadderSlideDownCancel" },
-                {(1, 2022), "DisableMagicIDSwitching" },
-                {(1, 2023), "DisableToolIDSwitching" },
-                {(1, 9000), "DebugLogOutput" },
-                {(1, 9001), "Test_SpEffectDelete" },
-                {(1, 9002), "Test_SpEffectTypeSpecifyDelete" },
-                {(1, 9100), "Function9100" },
-                {(1, 9101), "RequestAIReprogramming" },
-                {(1, 9102), "MarkOfGreedyPersonSlipDamageDisable" },
-                {(1, 9103), "ResetInputQueue" },
-                {(1, 9104), "SetIsEventAnim" },
-                {(1, 9105), "AIAttackState" },
-            },
-                    FunctionNamesByID = new Dictionary<int, string>
-            {
-                { 0, "IsGeneralAnimEnd" },
-                { 1, "IsAttackAnimEnd" },
-                { 9, "AnimIDOffset" },
-                { 10, "AdditiveBlendAnim" },
-                { 11, "AdditiveBlendAnimOfSlot" },
-                { 100, "IsAtkRequest" },
-                { 101, "IsAtkReleaseRequest" },
-                { 102, "IsChainAtkRequest" },
-                { 103, "GetAtkDuration" },
-                { 104, "GetWeaponSwitchRequest" },
-                { 105, "GetCommandIDFromEvent" },
-                { 106, "GetAIActionType" },
-                { 107, "GetAIChainActionType" },
-                { 108, "GetChainEvadeRequest" },
-                { 109, "GetWeaponChangeRequest" },
-                { 110, "GetAnimIDFromMoveParam" },
-                { 111, "IsThereAnyAtkRequest" },
-                { 112, "IsThereAnyChainAtkRequest" },
-                { 113, "IsItemUseMenuOpening" },
-                { 114, "IsMagicUseMenuOpening" },
-                { 115, "IsItemUseMenuOpened" },
-                { 116, "IsMagicUseMenuOpened" },
-                { 117, "GetBlendAnimIDFromMoveParam" },
-                { 118, "GetAIChainStepType" },
-                { 119, "GetTransitionToSpecialStayAnimID" },
-                { 120, "GetAIAtkCancelType" },
-                { 121, "GetWeaponCancelType" },
-                { 122, "IsWeaponCancelPossible" },
-                { 123, "GetAIDefenseCancelType" },
-                { 124, "GetAIVersusBackstabCancelType" },
-                { 200, "IsFalling" },
-                { 201, "IsLanding" },
-                { 202, "GetReceivedDamageType" },
-                { 203, "IsActiveActionValid" },
-                { 204, "GetActionEventNumber" },
-                { 205, "IsNormalDmgPassThroughDuringThrow" },
-                { 206, "IsThrowing" },
-                { 207, "GetWeaponSwitchState" },
-                { 209, "IsEquipmentSwitchPossible" },
-                { 210, "IsAnimCancelPossibleInAtkRelease" },
-                { 211, "IsEmergencyStopAnimPlaying" },
-                { 212, "GetLockRangeState" },
-                { 213, "GetLockAngleState" },
-                { 214, "IsAnimCancelPossibleInDamageHit" },
-                { 215, "IsChangeToScrapeAtk" },
-                { 216, "IsChangeToDeflectAtk" },
-                { 217, "IsChangeToAfterParrySuccess" },
-                { 218, "IsChangeFromNormalToBigAtk" },
-                { 219, "GetMovementType" },
-                { 220, "IsLargeAtkComboPossible" },
-                { 221, "IsMapActionPossible" },
-                { 222, "GetReceivedDamageDirection" },
-                { 223, "GetMapActionID" },
-                { 224, "GetFallHeight" },
-                { 225, "GetEquipWeaponCategory" },
-                { 226, "IsHoldingBow" },
-                { 227, "GetMagicAnimType" },
-                { 228, "WasNotLargeAtk" },
-                { 229, "IsBackAtkPossible" },
-                { 230, "IsAfterParryAtkPossible" },
-                { 231, "GetItemAnimType" },
-                { 232, "IsMagicUseable" },
-                { 233, "IsItemUseable" },
-                { 234, "IsPrecisionShoot" },
-                { 235, "IsFireDamaged" },
-                { 236, "GetDamageLevel" },
-                { 237, "GetGuardLevelAction" },
-                { 238, "IsNewLeftHandAtkValidFromStay" },
-                { 239, "IsParryAtkValidFromStay" },
-                { 240, "IsGuardValidFromStay" },
-                { 241, "IsNewLeftHandAtkValidFromAtkCancel" },
-                { 242, "IsParryAtkValidFromAtkCancel" },
-                { 243, "IsGuardValidFromAtkCancel" },
-                { 244, "IsTiedUp" },
-                { 245, "IsOutOfArrows" },
-                { 246, "IsUseCatLanding" },
-                { 247, "GetHoverMoveState" },
-                { 248, "IsTruelyLanding" },
-                { 249, "IsRightHandMagic" },
-                { 250, "IsChangeToSpecialStayAnim" },
-                { 251, "GetSpecialStayAnimID" },
-                { 252, "AcquireSpecialDamageAnimationID" },
-                { 253, "IsRunTurnAnimPlaying" },
-                { 254, "IsGenerateAction" },
-                { 255, "GetSpecialStayCancelAnimID" },
-                { 256, "HasReceivedAnyDamage" },
-                { 257, "GetMoveAnimParamID" },
-                { 258, "GetGuardLevel" },
-                { 259, "IsRequestTurnAnimStart" },
-                { 260, "IsTurningWithAnim" },
-                { 261, "IsFlying" },
-                { 262, "IsAbilityInsufficient" },
-                { 263, "GetEquipWeightRatioForFalling" },
-                { 264, "GetFlightMotionState" },
-                { 265, "GetIsWeakPoint" },
-                { 266, "GetMoveAnimBlendRatio" },
-                { 267, "GetLadderActionState" },
-                { 268, "IsInDisguise" },
-                { 269, "IsCoopWait" },
-                { 270, "IsCoop" },
-                { 271, "IsSpecialTransitionPossible" },
-                { 272, "GetLandingAnimBlendRatio" },
-                { 273, "GetThrowAnimID" },
-                { 274, "DidOpponentDieFromThrow" },
-                { 275, "HasThrowEnded" },
-                { 276, "IsThrowSelfDeath" },
-                { 277, "IsThrowSuccess" },
-                { 278, "GetGuardMotionCategory" },
-                { 279, "IsBeingThrown" },
-                { 280, "IsSelfThrow" },
-                { 281, "IsThrowDeathState" },
-                { 282, "GetNewLockState" },
-                { 283, "IsOnLadder" },
-                { 284, "GetPhysicalAttribute" },
-                { 285, "GetSpecialAttribute" },
-                { 286, "GetSpecialStayDeathAnimID" },
-                { 287, "HasReceivedAnyDamage_AnimEnd" },
-                { 288, "EggGrowth_IsHeadScratch" },
-                { 289, "EggGrowth_IsBecomeEggHead" },
-                { 290, "IsStop" },
-                { 291, "IsSomeoneOnLadder" },
-                { 292, "IsSomeoneUnderLadder" },
-                { 293, "GetLadderHandState" },
-                { 294, "DoesLadderHaveCharacters" },
-                { 295, "IsLadderRightHandStayState" },
-                { 296, "DescendingToFloor" },
-                { 297, "IsInputDirectionMatch" },
-                { 298, "IsSpecialTransition2Possible" },
-                { 299, "IsVersusDivineDamage" },
-                { 300, "IsGeneralAnimCancelPossible" },
-                { 301, "GetEventEzStateFlag" },
-                { 302, "IsLadderEventEnd" },
-                { 303, "IsReachBottomOfLadder" },
-                { 304, "IsReachTopOfLadder" },
-                { 305, "GetStateChangeType" },
-                { 306, "IsOnLastRungOfLadder" },
-                { 311, "GetWeaponDurability" },
-                { 312, "IsWeaponBroken" },
-                { 313, "IsAnimEndBySkillCancel" },
-                { 314, "EggGrowth_IsBecomeEgghead_SecondStage" },
-                { 315, "IsHamariFallDeath" },
-                { 316, "IsClient" },
-                { 317, "IsSlope" },
-                { 318, "IsSwitchState" },
-                { 319, "IsPressUpKey" },
-                { 320, "IsSpecialTurning" },
-                { 321, "GetIntValueForTest" },
-                { 322, "IsObjActInterpolatedMotion" },
-                { 323, "GetObjActTargetDirection" },
-                { 324, "GetObjActRemainingInterpolateTime" },
-                { 325, "IsGap" },
-                { 326, "GetWeaponID" },
-                { 327, "IsMovingLaterally" },
-                { 328, "IsNet" },
-                { 329, "HasBrokenSA" },
-                { 330, "IsEmergencyQuickTurnActivated" },
-                { 331, "IsDoubleChantPossible" },
-                { 332, "IsAnimOver" },
-                { 333, "ObtainedDT" },
-                { 334, "GetBehaviorID" },
-                { 335, "IsTwoHandPossible" },
-                { 336, "IsPartDamageAdditiveBlendInvalid" },
-                { 337, "IsThrowPosRealign" },
-                { 338, "GetBoltLoadingState" },
-                { 339, "IsAnimEnd" },
-                { 340, "IsTwinSwords" },
-                { 341, "遅延旋回用TurnAngle取得" },
-                { 342, "投げ抜け抵抗回数取得" },
-                { 343, "緊急回避可能か" },
-                { 344, "アーツポイント足りるか" },
-                { 345, "装備武器特殊カテゴリ番号取得" },
-                { 346, "イベントアニメ再生要求があるか" },
-                { 347, "女性か" },
-                { 348, "遅延旋回角度差取得" },
-                { 349, "ダメージモーション無効か" },
-                { 350, "武器能力開放ステータス値到達か" },
-                { 351, "上腕制御外側角度" },
-                { 352, "上腕制御上下角度" },
-                { 353, "はしご滑り降り完了" },
-                { 354, "はしご段数取得" },
-                { 355, "滑り降り停止先のはしご段数取得" },
-                { 356, "弓矢スロット取得" },
-                { 357, "武器格納場所タイプ取得" },
-                { 358, "待機アニメカテゴリ取得" },
-                { 359, "GetWeaponSwitchStateDS3" },
-                { 360, "装備メニュー開いているか" },
-                { 361, "矢の残弾数取得" },
-                { 1000, "GetHP" },
-                { 1001, "GetStamina" },
-                { 1002, "IsGhost" },
-                { 1003, "GetRandomInt" },
-                { 1004, "GetRandomFloat" },
-                { 1005, "IsUnableToDie" },
-                { 1006, "IsResurrectionPossible" },
-                { 1007, "IsCOMPlayer" },
-                { 1008, "GetAITargetAwareState" },
-                { 1009, "IsAIChangeToAwareState" },
-                { 1010, "GetAITargetAwareStatePreviousFrame" },
-                { 1100, "GetTestDamageAnimID" },
-                { 1101, "IsInvincibleDebugMode" },
-                { 1102, "WasGameLaunchedInPGTestMode" },
-                { 1103, "IsTiltingStick" },
-                { 1104, "GetGestureRequestNumber" },
-                { 1105, "待機ステートか" },
-                { 1106, "アクションリクエスト" },
-                { 1107, "アクション解除リクエスト" },
-                { 1108, "アクション継続時間" },
-                { 1109, "何かアクションリクエストがあるか" },
-                { 1110, "移動リクエスト" },
-                { 1111, "移動リクエスト継続時間" },
-                { 1112, "投げ要求か" },
-                { 1113, "ガードキャンセル可能か" },
-                { 1114, "アニメが存在するか" },
-                { 1115, "AI移動タイプ取得" },
-                { 1116, "特殊効果IDを取得" },
-                { 1117, "会話が終了したか" },
-                { 1118, "ロック中か" },
-                { 1119, "攻撃方向取得" },
-                { 1120, "部位グループ取得" },
-                { 1121, "ノックバック距離取得" },
-                { 2000, "移動キャンセル可能か" },
-                { 2002, "特殊移動タイプ取得" },
-                { 2003, "TAE汎用フラグ取得" },
-                { 2004, "振りが当たっているか" },
-                { 2005, "儀式状態を取得" },
-                { 2006, "連続ガード回数を取得" },
-                { 2007, "最小よろけ値を取得" },
-                { 2008, "蓄積よろけ値を取得" },
-                { 2009, "最大よろけ値を取得" },
-                { 2010, "最大スタミナ取得" },
-                { 2011, "MSB汎用パラメータ取得" },
-                { 2012, "壁に当たっているか" },
-                { 2013, "安全方向取得" },
-                { 2014, "儀式中か" },
-                { 2015, "死体運びキーフレーム化するか" },
-                { 2016, "MP取得" },
-                { 2017, "儀式完了か" },
-                { 2018, "儀式中断か" },
-            },
-        };
+        static EzSembleContext ScriptingContext = EzSembleContext.LoadFromXml("ESDScriptingDocumentation.xml");
+        public string CommandNames = SortedString(ScriptingContext.GetAllCommandNames());
+        public string FunctionNames = SortedString(ScriptingContext.GetAllFunctionNames()) + " SetREG0 SetREG1 SetREG2 SetREG3 SetREG4 SetREG5 SetREG6 SetREG7 GetREG0 GetREG1 GetREG2 GetREG3 GetREG4 GetREG5 GetREG6 GetREG7 AbortIfFalse";
+        public string EnumNames = SortedString(ScriptingContext.GetAllEnumNames());
 
         string filePath = "";
         public static ESD currentESD = null;
@@ -384,6 +31,8 @@ namespace Zeditor
 
         private bool isCurrentlySaving = false;
 
+
+
         ESD.Condition currentCondition
         {
             get
@@ -392,8 +41,6 @@ namespace Zeditor
                 return ConditionsFromNode(ConditionTree.SelectedNode).Condition;
             }
         }
-        Dictionary<string, TextStyle> textStyles = new Dictionary<string, TextStyle>();
-        bool loaded = false;
         System.Timers.Timer saveLabelTimer = new System.Timers.Timer();
 
         public GUI()
@@ -401,7 +48,6 @@ namespace Zeditor
             InitializeComponent();
             SetTextBoxOptions();
             OnResize();
-            loaded = true;
 
             void hide(Object source, ElapsedEventArgs e)
             {
@@ -418,6 +64,13 @@ namespace Zeditor
             saveLabelTimer.Interval = 5000;
             saveLabelTimer.Elapsed += hide;
             saveLabelTimer.AutoReset = false;
+        }
+
+        public static string SortedString(List<string> strings)
+        {
+            var list = strings.ToList();
+            list.Sort();
+            return Regex.Replace(string.Join(" ", list), "\\s+", " ");
         }
 
         public class StateGroupHandler
@@ -548,19 +201,16 @@ namespace Zeditor
 
         private void WriteCommands(string plainText, ref List<ESD.CommandCall> target)
         {
-            string current = "";
+   
             try
             {
-                current = "EntryScript";
                 currentState.EntryScript = EntryCmdBox.Text.Trim();
-                current = "ExitScript";
                 currentState.ExitScript = ExitCmdBox.Text.Trim();
-                current = "WhileScript";
                 currentState.WhileScript = WhileCmdBox.Text.Trim();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error parsing " + current + "\n\n" + ex.ToString());
+                MessageBox.Show(ex.ToString());
 
             }
         }
@@ -825,30 +475,73 @@ namespace Zeditor
 
         private void SetTextBoxOptions()
         {
-            FastColoredTextBox[] boxes = { PassCmdBox, EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox };
+            Color IntToColor(int rgb) => Color.FromArgb(255, (byte)(rgb >> 16), (byte)(rgb >> 8), (byte)rgb);
+
+            var c = ScriptingContext.GetAllCommandNames();
+            c.Sort();
+            CommandNames = string.Join(" ", CommandNames);
+            var f = ScriptingContext.GetAllFunctionNames();
+            FunctionNames = string.Join(" ", FunctionNames);
+
+            Scintilla[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
             foreach (var box in boxes)
             {
-                box.ChangeFontSize(3);
-                box.AllowSeveralTextStyleDrawing = true;
-                box.WordWrap = true;
-            }
 
-            textStyles["separator"] = new TextStyle(Brushes.Red, Brushes.White, FontStyle.Regular);
-            textStyles["command"] = new TextStyle(Brushes.Blue, Brushes.White, FontStyle.Regular);
-            textStyles["num"] = new TextStyle(Brushes.DarkMagenta, Brushes.White, FontStyle.Bold);
-            textStyles["regular"] = new TextStyle(Brushes.Black, Brushes.White, FontStyle.Bold);
-            textStyles["comment"] = new TextStyle(Brushes.DarkGreen, Brushes.White, FontStyle.Regular);
+                //autocompletion
+                box.CharAdded += Box_CharAdded;
+                box.AutoCIgnoreCase = true;
+
+                box.Text = "";
+                box.HScrollBar = false;
+                box.WrapMode = WrapMode.Word;
+                box.BorderStyle = BorderStyle.None;
+                foreach (var margin in box.Margins) margin.Width = 1;
+
+                box.StyleResetDefault();
+                box.Styles[Style.Default].Font = "Consolas";
+                box.Styles[Style.Default].Size = 10;
+                box.StyleClearAll();
+
+                box.Lexer = Lexer.Cpp;
+                box.Styles[Style.Cpp.Word].ForeColor = IntToColor(0x0000FF); // commands
+                box.Styles[Style.Cpp.Word2].ForeColor = IntToColor(0x008888); // functions
+                box.Styles[Style.Cpp.Number].ForeColor = IntToColor(0xFF0088); // numbers
+                box.Styles[Style.Cpp.String].ForeColor = IntToColor(0xFF2222); // strings
+                box.Styles[Style.Cpp.Comment].ForeColor = IntToColor(0x007700); // block comments
+                box.Styles[Style.Cpp.CommentLine].ForeColor = IntToColor(0x007700); // line comments
+
+                box.SetKeywords(0, CommandNames);
+                box.SetKeywords(1, FunctionNames);
+            }
         }
 
-        private void BoxTextChanged(object sender, TextChangedEventArgs e)
+        private void Box_CharAdded(object sender, CharAddedEventArgs e)
         {
-            if (!loaded) return;
-            e.ChangedRange.ClearStyle(textStyles.Values.ToArray());
-            e.ChangedRange.SetStyle(textStyles["separator"], "[$]");
-            e.ChangedRange.SetStyle(textStyles["num"], @"[0-9]");
-            e.ChangedRange.SetStyle(textStyles["command"], @"[A-Za-z0-9_]+[(]");
-            e.ChangedRange.SetStyle(textStyles["regular"], "[():;]");
-            e.ChangedRange.SetStyle(textStyles["comment"], @"[/]{2}.*(\n|$)");
+            var scintilla = sender as Scintilla;
+            var currentPos = scintilla.CurrentPosition;
+            var wordStartPos = scintilla.WordStartPosition(currentPos, true);
+            var lenEntered = currentPos - wordStartPos;
+            if (lenEntered > 0)
+            {
+                if (!scintilla.AutoCActive)
+                {
+                    string autoCList = scintilla == EvaluatorBox || IsInParentheses(scintilla) ? FunctionNames : CommandNames;
+                    scintilla.AutoCShow(lenEntered, autoCList);
+                }
+            }
+        }
+
+        private bool IsInParentheses(Scintilla scintilla)
+        {
+            var currentPos = scintilla.CurrentPosition;
+            while (currentPos > 0)
+            {
+                currentPos--;
+                string s = scintilla.GetTextRange(currentPos, 1);
+                if (s == ")") return false;
+                if (s == "(") return true;
+            }
+            return false;
         }
 
         private void UpdateTitleBox(object sender, EventArgs e)
@@ -864,18 +557,13 @@ namespace Zeditor
         private void SaveEdit(object sender = null, EventArgs e = null)
         {
             if (currentState == null) return;
-            else if (editorControl.SelectedTab == stateTab)
-            {
-                currentState.EntryScript = EntryCmdBox.Text;
-                currentState.ExitScript = ExitCmdBox.Text;
-                currentState.WhileScript = WhileCmdBox.Text;
-            }
-            else if (editorControl.SelectedTab == conditionTab)
-            {
-                if (currentCondition == null) return;
-                currentCondition.PassScript = PassCmdBox.Text;
-                currentCondition.Evaluator = EvaluatorBox.Text;
-            }
+            currentState.EntryScript = EntryCmdBox.Text;
+            currentState.ExitScript = ExitCmdBox.Text;
+            currentState.WhileScript = WhileCmdBox.Text;
+
+            if (currentCondition == null) return;
+            currentCondition.PassScript = PassCmdBox.Text;
+            currentCondition.Evaluator = EvaluatorBox.Text;
         }
 
         private void ShowSuccessLabel(bool wasActuallySuccess)
@@ -1258,12 +946,6 @@ namespace Zeditor
 
                 ActiveForm.UseWaitCursor = true;
                 ActiveForm.Enabled = false;
-                //saveEditorContentToolStripMenuItem.Enabled = false;
-                //saveESDToolStripMenuItem.Enabled = false;
-                //openESDToolStripMenuItem.Enabled = false;
-                //exportESDToolStripMenuItem.Enabled = false;
-
-                
             }));
 
             BeginInvoke(new Action(() =>
@@ -1283,10 +965,6 @@ namespace Zeditor
                     Invoke(new Action(() =>
                     {
                         ActiveForm.UseWaitCursor = false;
-                        //saveEditorContentToolStripMenuItem.Enabled = true;
-                        //saveESDToolStripMenuItem.Enabled = true;
-                        //openESDToolStripMenuItem.Enabled = true;
-                        //exportESDToolStripMenuItem.Enabled = true;
                         ActiveForm.Enabled = true;
                         isCurrentlySaving = false;
 
@@ -1356,5 +1034,27 @@ namespace Zeditor
                 e.Cancel = true;
             }
         }
+
+        private void GUI_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.Space)
+            {
+                Scintilla[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
+                foreach (Scintilla scintilla in boxes)
+                {
+                    if (!scintilla.Focused) continue;
+                    var currentPos = scintilla.CurrentPosition;
+                    var wordStartPos = scintilla.WordStartPosition(currentPos, true);
+                    e.SuppressKeyPress = true;
+                    if (!scintilla.AutoCActive)
+                    {
+                        string autoCList = scintilla == EvaluatorBox || IsInParentheses(scintilla) ? FunctionNames : CommandNames;
+                        scintilla.AutoCShow(0, autoCList);
+                    }
+                    e.Handled = true;
+                }
+            }
+        }
     }
+
 }
