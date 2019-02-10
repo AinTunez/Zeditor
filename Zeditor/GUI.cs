@@ -488,7 +488,9 @@ namespace Zeditor
             {
 
                 //autocompletion
+                if (box == EvaluatorBox) box.CharAdded += Eval_CharAdded;
                 box.CharAdded += Box_CharAdded;
+                box.AutoCIgnoreCase = true;
 
                 box.Text = "";
                 box.HScrollBar = false;
@@ -529,8 +531,9 @@ namespace Zeditor
             }
         }
 
-        private void Eval_CharAdded(Scintilla scintilla)
+        private void Eval_CharAdded(object sender, CharAddedEventArgs e)
         {
+            var scintilla = sender as Scintilla;
             var currentPos = scintilla.CurrentPosition;
             var wordStartPos = scintilla.WordStartPosition(currentPos, true);
 
