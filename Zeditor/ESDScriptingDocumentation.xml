@@ -4,7 +4,7 @@
         <Command Bank="1" ID="0" Name="ChangeGeneralAnim" Description=""/>
         <Command Bank="1" ID="1" Name="ChangeUpperBodyAnim" Description=""/>
         <Command Bank="1" ID="2" Name="ChangeStayAnim" Description=""/>
-        <Command Bank="1" ID="3" Name="ChangeGeneralAnimCategorized" Description="">
+        <Command Bank="1" ID="3" Name="ChangeGeneralAnimCategorized" Description="I'm a monkey.">
             <Arg Name="AnimCategory" ValueType="AnimCategory" Description="Category of animation ID to choose from."/>
             <Arg Name="AnimID" ValueType="Number" Description="Animation ID. Uses the Category to determine which exact animation ID to play."/>
             <Arg Name="LayerIndex" ValueType="AnimLayerIndex" Description="Animation Mediator Layer in which to play the animation."/>

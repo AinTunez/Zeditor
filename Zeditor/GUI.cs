@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using SoulsFormats.ESD.EzSemble;
 using ScintillaNET;
 using System.Collections.ObjectModel;
+using System.Text;
 
 namespace Zeditor
 {
@@ -20,6 +21,10 @@ namespace Zeditor
         public string CommandNames = SortedString(ScriptingContext.GetAllCommandNames());
         public string FunctionNames = SortedString(ScriptingContext.GetAllFunctionNames()) + " SetREG0 SetREG1 SetREG2 SetREG3 SetREG4 SetREG5 SetREG6 SetREG7 GetREG0 GetREG1 GetREG2 GetREG3 GetREG4 GetREG5 GetREG6 GetREG7 AbortIfFalse";
         public string EnumNames = SortedString(ScriptingContext.GetAllEnumNames());
+        public static Dictionary<string, string> ToolTips = new Dictionary<string, string>();
+        public static ToolTip GlobalToolTip = new ToolTip();
+        public static string currentWord = "";
+
 
         string filePath = "";
         public static ESD currentESD = null;
@@ -30,7 +35,6 @@ namespace Zeditor
         ESD.State currentState => currentSH == null ? null : currentSH.State;
 
         private bool isCurrentlySaving = false;
-
 
         ConditionHandler currentCH
         {
@@ -54,24 +58,56 @@ namespace Zeditor
         public GUI()
         {
             InitializeComponent();
+            InitToolTips();
             SetTextBoxOptions();
             OnResize();
 
             void hide(Object source, ElapsedEventArgs e)
             {
-                if (saveLabel.InvokeRequired)
-                {
-                    saveLabel.Invoke(new Action(() => saveLabel.Visible = false));
-                }
-                else
-                {
-                    saveLabel.Visible = false;
-                }
-
+                if (saveLabel.InvokeRequired) saveLabel.Invoke(new Action(() => saveLabel.Visible = false));
+                else saveLabel.Visible = false;
             }
+
             saveLabelTimer.Interval = 5000;
             saveLabelTimer.Elapsed += hide;
             saveLabelTimer.AutoReset = false;
+        }
+
+        public static void InitToolTips()
+        {
+            foreach (string cmdName in ScriptingContext.GetAllCommandNames())
+            {
+                var id = ScriptingContext.GetCommandID(cmdName);
+                var cmd = ScriptingContext.GetCommandInfo(id.Bank, id.ID);
+
+                var sb = new StringBuilder(cmdName);
+                sb.AppendLine(cmd.Args.Count > 0 ? "(args[])" : "()");
+                sb.AppendLine(cmd.Description + "\n");
+
+                foreach (var arg in cmd.Args)
+                {
+                    sb.AppendLine($"\t[{arg.ValueType} {arg.Name}]\n\t\t{arg.Description}");
+                }
+
+                ToolTips[cmdName] = sb.ToString().Trim();
+            }
+
+            foreach (string functionName in ScriptingContext.GetAllFunctionNames())
+            {
+                var id = ScriptingContext.GetFunctionID(functionName);
+                var fn = ScriptingContext.GetFunctionInfo(id);
+
+                var sb = new StringBuilder(functionName);
+                sb.AppendLine(fn.Args.Count > 0 ? "(args[])" : "()");
+                sb.AppendLine(fn.Description + "\n");
+
+                foreach (var arg in fn.Args)
+                {
+                    sb.AppendLine($"\t[{arg.ValueType} {arg.Name}]\n\t\t{arg.Description}");
+                }
+
+                ToolTips[functionName] = sb.ToString().Trim();
+            }
         }
 
         public static string SortedString(List<string> strings)
@@ -398,7 +434,7 @@ namespace Zeditor
 
         private ConditionHandler ConditionsFromNode(TreeNode node)
         {
-            var nodePath = node.Name.Split('-').Select(i => Int32.Parse(i)).ToList();
+            var nodePath = node.Name.Split('-').Select(i => int.Parse(i)).ToList();
             if (node.Parent == null) return new ConditionHandler(currentState.Conditions[nodePath[0]], currentState.Conditions);
 
             ESD.Condition parent = null;
@@ -558,6 +594,9 @@ namespace Zeditor
                 //autocompletion
                 box.CharAdded += Box_CharAdded;
                 box.AutoCIgnoreCase = true;
+                box.MouseDwellTime = 250;
+                box.DwellStart += Box_DwellStart;
+                box.DwellEnd += Box_DwellEnd;
 
                 box.Text = "";
                 box.HScrollBar = false;
@@ -568,6 +607,7 @@ namespace Zeditor
                 box.StyleResetDefault();
                 box.Styles[Style.Default].Font = "Consolas";
                 box.Styles[Style.Default].Size = 10;
+                box.Styles[Style.CallTip].ForeColor = IntToColor(0x000000);
                 box.StyleClearAll();
 
                 box.Lexer = Lexer.Cpp;
@@ -577,10 +617,43 @@ namespace Zeditor
                 box.Styles[Style.Cpp.String].ForeColor = IntToColor(0xFF2222); // strings
                 box.Styles[Style.Cpp.Comment].ForeColor = IntToColor(0x007700); // block comments
                 box.Styles[Style.Cpp.CommentLine].ForeColor = IntToColor(0x007700); // line comments
-
                 box.SetKeywords(0, CommandNames);
                 box.SetKeywords(1, FunctionNames);
             }
+        }
+
+        private void Box_DwellEnd(object sender, DwellEventArgs e)
+        {
+            Scintilla scn = sender as Scintilla;
+            int pos = scn.CharPositionFromPoint(e.X, e.Y);
+            string word = scn.GetWordFromPosition(pos);
+            if (word != currentWord) scn.CallTipCancel();
+        }
+
+        private void Box_DwellStart(object sender, DwellEventArgs e)
+        {
+            Scintilla scn = sender as Scintilla;
+            int pos = scn.CharPositionFromPoint(e.X, e.Y);
+            string word = scn.GetWordFromPosition(pos);
+            if (ToolTips.Keys.Contains(word))
+            {
+                currentWord = word;
+                var hit = GetHit(scn, pos);
+                scn.CallTipSetHlt(hit.Start, hit.End);
+                scn.CallTipShow(e.Position, ToolTips[word]);
+            }
+        }
+
+        private (int Start, int End) GetHit(Scintilla scn, int pos)
+        {
+            string word = scn.GetWordFromPosition(pos);
+            int start = pos;
+            int end = pos;
+
+            while (start >= 0 && scn.GetWordFromPosition(start) == word) start--;
+            while (end < scn.TextLength && scn.GetWordFromPosition(start) == word) end++;
+
+            return (Start: start + 1, End: end - 1);
         }
 
         private void Box_CharAdded(object sender, CharAddedEventArgs e)
@@ -1122,6 +1195,21 @@ namespace Zeditor
                     e.Handled = true;
                 }
             }
+        }
+    }
+
+    public class ToolTipHandler
+    {
+
+        private EzSembleContext.EzSembleMethodInfo MethodInfo;
+        public string Name => MethodInfo.Name;
+        public string Text { get; }
+
+        public ToolTipHandler (EzSembleContext.EzSembleMethodInfo info)
+        {
+            MethodInfo = info;
+
+
         }
     }
 
