@@ -25,7 +25,6 @@ namespace Zeditor
         public static ToolTip GlobalToolTip = new ToolTip();
         public static string currentWord = "";
 
-
         string filePath = "";
         public static ESD currentESD = null;
         StateGroupHandler currentSGH => (StateGroupHandler)StateGroupBox.SelectedItem ?? null;
@@ -62,7 +61,7 @@ namespace Zeditor
             SetTextBoxOptions();
             OnResize();
 
-            void hide(Object source, ElapsedEventArgs e)
+            void hide(object source, ElapsedEventArgs e)
             {
                 if (saveLabel.InvokeRequired) saveLabel.Invoke(new Action(() => saveLabel.Visible = false));
                 else saveLabel.Visible = false;
@@ -380,7 +379,7 @@ namespace Zeditor
 
             var cnd = new ESD.Condition();
             cnd.Evaluator = "";
-            cnd.TargetState = state ?? (long)0;
+            cnd.TargetState = state ?? 0;
             currentCondition.Subconditions.Add(cnd);
 
             var list = ExpandedList();
