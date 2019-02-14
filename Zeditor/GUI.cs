@@ -17,12 +17,12 @@ namespace Zeditor
 {
     public partial class GUI : Form
     {
-        static EzSembleContext ScriptingContext = EzSembleContext.LoadFromXml("ESDScriptingDocumentation.xml");
-        public string CommandNames = SortedString(ScriptingContext.GetAllCommandNames());
-        public string FunctionNames = SortedString(ScriptingContext.GetAllFunctionNames()) + " SetREG0 SetREG1 SetREG2 SetREG3 SetREG4 SetREG5 SetREG6 SetREG7 GetREG0 GetREG1 GetREG2 GetREG3 GetREG4 GetREG5 GetREG6 GetREG7 AbortIfFalse";
-        public string EnumNames = SortedString(ScriptingContext.GetAllEnumNames());
+        static EzSembleContext ScriptingContext;
+        static string CommandNames;
+        static string FunctionNames;
+        static string EnumNames;
+
         public static Dictionary<string, string> ToolTips = new Dictionary<string, string>();
-        public static ToolTip GlobalToolTip = new ToolTip();
         public static string currentWord = "";
 
         string filePath = "";
@@ -57,8 +57,6 @@ namespace Zeditor
         public GUI()
         {
             InitializeComponent();
-            InitToolTips();
-            SetTextBoxOptions();
             OnResize();
 
             void hide(object source, ElapsedEventArgs e)
@@ -72,8 +70,28 @@ namespace Zeditor
             saveLabelTimer.AutoReset = false;
         }
 
-        public static void InitToolTips()
+        public void InitContext()
         {
+            ScriptingContext = new EzSembleContext();
+            ToolTips = new Dictionary<string, string>();
+            CommandNames = "";
+            FunctionNames = "";
+            EnumNames = "";
+
+
+            var result = MessageBox.Show("Load scripting documentation? (not valid for TalkESDs)", "Context", MessageBoxButtons.YesNo);
+            if (result != DialogResult.Yes)
+            {
+                SetTextBoxOptions();
+                return;
+            }
+
+
+            ScriptingContext = EzSembleContext.LoadFromXml("ESDScriptingDocumentation.xml");
+            CommandNames = SortedString(ScriptingContext.GetAllCommandNames());
+            FunctionNames = SortedString(ScriptingContext.GetAllFunctionNames()) + " SetREG0 SetREG1 SetREG2 SetREG3 SetREG4 SetREG5 SetREG6 SetREG7 GetREG0 GetREG1 GetREG2 GetREG3 GetREG4 GetREG5 GetREG6 GetREG7 AbortIfFalse";
+            EnumNames = SortedString(ScriptingContext.GetAllEnumNames());
+
             foreach (string cmdName in ScriptingContext.GetAllCommandNames())
             {
                 var id = ScriptingContext.GetCommandID(cmdName);
@@ -107,6 +125,8 @@ namespace Zeditor
 
                 ToolTips[functionName] = sb.ToString().Trim();
             }
+
+            SetTextBoxOptions();
         }
 
         public static string SortedString(List<string> strings)
@@ -148,6 +168,7 @@ namespace Zeditor
                 try
                 {
                     ActiveForm.UseWaitCursor = true;
+                    InitContext();
                     currentESD = ESD.ReadWithMetadata(ofd.FileName, true, false, ScriptingContext);
                     ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
                     RefreshStateGroupBox();
@@ -156,7 +177,7 @@ namespace Zeditor
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR: Invalid ESD file." + Environment.NewLine + "---------" + Environment.NewLine + ex.ToString());
+                    MessageBox.Show("ERROR: Unable to load ESD." + Environment.NewLine + "---------" + Environment.NewLine + ex.ToString());
                     openESDToolStripMenuItem_Click(sender, e);
                     ActiveForm.UseWaitCursor = false;
                 }
@@ -580,11 +601,8 @@ namespace Zeditor
         {
             Color IntToColor(int rgb) => Color.FromArgb(255, (byte)(rgb >> 16), (byte)(rgb >> 8), (byte)rgb);
 
-            var c = ScriptingContext.GetAllCommandNames();
-            c.Sort();
-            CommandNames = string.Join(" ", CommandNames);
-            var f = ScriptingContext.GetAllFunctionNames();
-            FunctionNames = string.Join(" ", FunctionNames);
+            var c = CommandNames;
+            var f = FunctionNames;
 
             Scintilla[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
             foreach (var box in boxes)
@@ -621,7 +639,7 @@ namespace Zeditor
             }
         }
 
-        private void Box_DwellEnd(object sender, DwellEventArgs e)
+        private static void Box_DwellEnd(object sender, DwellEventArgs e)
         {
             Scintilla scn = sender as Scintilla;
             int pos = scn.CharPositionFromPoint(e.X, e.Y);
@@ -629,7 +647,7 @@ namespace Zeditor
             if (word != currentWord) scn.CallTipCancel();
         }
 
-        private void Box_DwellStart(object sender, DwellEventArgs e)
+        private static void Box_DwellStart(object sender, DwellEventArgs e)
         {
             Scintilla scn = sender as Scintilla;
             int pos = scn.CharPositionFromPoint(e.X, e.Y);
@@ -643,7 +661,7 @@ namespace Zeditor
             }
         }
 
-        private (int Start, int End) GetHit(Scintilla scn, int pos)
+        private static (int Start, int End) GetHit(Scintilla scn, int pos)
         {
             string word = scn.GetWordFromPosition(pos);
             int start = pos;
