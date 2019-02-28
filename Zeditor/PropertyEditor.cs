@@ -23,6 +23,7 @@ namespace Zeditor
             InitializeComponent();
             compressionBox.DataSource = Enum.GetValues(typeof(DCX.Type)).Cast<DCX.Type>().ToList();
             compressionBox.SelectedItem = currentESD.Compression;
+            nameBox.Text = currentESD.Name;
 
             if (currentESD.DarkSoulsCount == 1) DS1_Btn.Checked = true;
             else if (currentESD.DarkSoulsCount == 2) DS2BB_Btn.Checked = true;

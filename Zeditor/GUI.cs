@@ -79,15 +79,43 @@ namespace Zeditor
             EnumNames = "";
 
 
-            var result = MessageBox.Show("Load scripting documentation? (not valid for TalkESDs)", "Context", MessageBoxButtons.YesNo);
+            var result = MessageBox.Show("Load scripting documentation XML?", "Context", MessageBoxButtons.YesNo);
             if (result != DialogResult.Yes)
             {
                 SetTextBoxOptions();
                 return;
             }
 
+            var contextBrowseDialog = new OpenFileDialog()
+            {
+                InitialDirectory = new FileInfo(typeof(GUI).Assembly.Location).DirectoryName,
+                FileName = "ESDScriptingDocumentation_Chr.xml",
+                Filter = "XML Files (*.XML)|*.XML",
+                Title = "Select Documentation XML"
+            };
 
-            ScriptingContext = EzSembleContext.LoadFromXml("ESDScriptingDocumentation.xml");
+            void BrowseForDocs()
+            {
+                if (contextBrowseDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ScriptingContext = EzSembleContext.LoadFromXml(contextBrowseDialog.FileName);
+                }
+                else
+                {
+                    if (MessageBox.Show("Load without any documentation? (Commands/Functions will be numbers)", "Load Without Documentation?,", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        SetTextBoxOptions();
+                        return;
+                    }
+                    else
+                    {
+                        BrowseForDocs();
+                    }
+                }
+            }
+
+            BrowseForDocs();
+
             CommandNames = SortedString(ScriptingContext.GetAllCommandNames());
             FunctionNames = SortedString(ScriptingContext.GetAllFunctionNames()) + " SetREG0 SetREG1 SetREG2 SetREG3 SetREG4 SetREG5 SetREG6 SetREG7 GetREG0 GetREG1 GetREG2 GetREG3 GetREG4 GetREG5 GetREG6 GetREG7 AbortIfFalse";
             EnumNames = SortedString(ScriptingContext.GetAllEnumNames());
@@ -115,7 +143,7 @@ namespace Zeditor
                 var fn = ScriptingContext.GetFunctionInfo(id);
 
                 var sb = new StringBuilder(functionName);
-                sb.AppendLine(fn.Args.Count > 0 ? "(args[])" : "()");
+                sb.AppendLine(fn.Args.Count > 0 ? $"({string.Join(", ", fn.Args.Select(a => a.Name))})" : "()");
                 sb.AppendLine(fn.Description + "\n");
 
                 foreach (var arg in fn.Args)
@@ -163,6 +191,16 @@ namespace Zeditor
         private void openESDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog();
+            if (!string.IsNullOrWhiteSpace(filePath))
+            {
+                var startDir = Path.GetDirectoryName(filePath);
+                if (Directory.Exists(startDir))
+                {
+                    ofd.InitialDirectory = startDir;
+                    if (File.Exists(filePath))
+                       ofd.FileName = Path.GetFileName(filePath);
+                }
+            }
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -378,7 +416,6 @@ namespace Zeditor
 
         private void AddConditionBtn_Click(object sender, EventArgs e)
         {
-
             if (currentState == null) return;
             var cnd = new ESD.Condition();
             cnd.Evaluator = "";
@@ -547,7 +584,6 @@ namespace Zeditor
                 filePath = sfd.FileName;
                 Form.ActiveForm.Text = "Zeditor - " + Path.GetFileName(sfd.FileName);
                 ActiveForm.UseWaitCursor = false;
-
             }
         }
 
@@ -825,7 +861,10 @@ namespace Zeditor
 
         private void noHelpForYouToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("created by AinTunez");
+            MessageBox.Show("-GUI created by AinTunez\n" +
+                "-ESD serialization backend created by TKGP\n" +
+                "-ESD script documentation and compiler created by Meowmaritus", 
+                "About Zeditor", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void AddGroupBtn_Click(object sender, EventArgs e)
