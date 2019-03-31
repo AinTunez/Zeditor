@@ -208,6 +208,7 @@ namespace Zeditor
                     ActiveForm.UseWaitCursor = true;
                     InitContext();
                     currentESD = ESD.ReadWithMetadata(ofd.FileName, true, false, ScriptingContext);
+                    LongFormatBox.Checked = currentESD.FormatType == ESDFormatType.LittleEndian64Bit; 
                     ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
                     RefreshStateGroupBox();
                     filePath = ofd.FileName;
@@ -1251,6 +1252,15 @@ namespace Zeditor
                     e.Handled = true;
                 }
             }
+        }
+
+        private void LongFormatBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (currentESD == null) return;
+            currentESD.FormatType = LongFormatBox.Checked ?
+                ESDFormatType.LittleEndian64Bit : 
+                ESDFormatType.LittleEndian32Bit;
+
         }
     }
 
