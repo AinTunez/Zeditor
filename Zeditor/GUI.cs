@@ -216,7 +216,7 @@ namespace Zeditor
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("ERROR: Unable to load ESD." + Environment.NewLine + "---------" + Environment.NewLine + ex.ToString());
+                    UTIL.LogException("Unable to load ESD.", ex);
                     openESDToolStripMenuItem_Click(sender, e);
                     ActiveForm.UseWaitCursor = false;
                 }
@@ -313,7 +313,7 @@ namespace Zeditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                UTIL.LogException("Error writing commands", ex);
 
             }
         }
@@ -402,7 +402,8 @@ namespace Zeditor
             var allNodes = ConditionTree.Nodes.Cast<TreeNode>().SelectMany(GetNodeBranch);
             foreach (var treeNode in allNodes)
             {
-                if (treeNode.IsExpanded) list.Add(treeNode.Name);
+                if (treeNode.IsExpanded)
+                    list.Add(treeNode.Name);
             }
             return list;
         }
@@ -580,11 +581,18 @@ namespace Zeditor
             sfd.FileName = Path.GetFileName(filePath);
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                ActiveForm.UseWaitCursor = true;
-                currentESD.WriteWithMetadata(sfd.FileName, true, ScriptingContext);
-                filePath = sfd.FileName;
-                Form.ActiveForm.Text = "Zeditor - " + Path.GetFileName(sfd.FileName);
-                ActiveForm.UseWaitCursor = false;
+                try
+                {
+                    ActiveForm.UseWaitCursor = true;
+                    currentESD.WriteWithMetadata(sfd.FileName, true, ScriptingContext);
+                    filePath = sfd.FileName;
+                    Form.ActiveForm.Text = "Zeditor - " + Path.GetFileName(sfd.FileName);
+                    ActiveForm.UseWaitCursor = false;
+                } catch (Exception ex)
+                {
+                    UTIL.LogException("Error saving ESD", ex);
+                }
+
             }
         }
 
@@ -819,7 +827,6 @@ namespace Zeditor
             newState.EntryScript = source.EntryScript;
             newState.ExitScript = source.ExitScript;
             newState.WhileScript = source.WhileScript;
-
 
             if (groupID == null || groupID == currentSGH.ID) newState.ID = currentStateGroup.Max(p => p.Key) + 1;
             else newState.ID = source.ID;
@@ -1155,7 +1162,7 @@ namespace Zeditor
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.ToString());
+                    UTIL.LogException("Error saving ESD", ex);
                     ShowSuccessLabel(false);
                 }
                 finally
@@ -1262,6 +1269,37 @@ namespace Zeditor
                 ESDFormatType.LittleEndian32Bit;
 
         }
+
+        private void GUI_Load(object sender, EventArgs e)
+        {
+
+        }
+    }
+
+    public static class UTIL
+    {
+
+        public static void LogException(string message, Exception ex)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("* " + message + " *" + Environment.NewLine + ex.Message);
+
+            var trace = ex.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            for (int i = 0; i < trace.Count(); i++)
+            {
+                var line = trace[i];
+                int sfIndex = line.LastIndexOf("SoulsFormats");
+                int edIndex = line.LastIndexOf("Zeditor");
+                if (sfIndex > -1) sb.AppendLine("  at " + line.Substring(sfIndex));
+                else if (edIndex > -1) sb.AppendLine("  at " + line.Substring(edIndex));
+                else sb.AppendLine("  at " + line);
+            }
+
+            var v = new ErrorViewer();
+            v.errorBox.Text = sb.ToString();
+            v.ShowDialog();
+        }
+
     }
 
     public class ToolTipHandler
