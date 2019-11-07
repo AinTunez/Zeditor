@@ -12,15 +12,20 @@ using SoulsFormats.ESD.EzSemble;
 using ScintillaNET;
 using System.Collections.ObjectModel;
 using System.Text;
+using FastColoredTextBoxNS;
 
 namespace Zeditor
 {
     public partial class GUI : Form
     {
+
         static EzSembleContext ScriptingContext;
         static string CommandNames;
         static string FunctionNames;
         static string EnumNames;
+
+        static List<string> CommandList = new List<string>();
+        static List<string> FunctionList = new List<string>();
 
         public static Dictionary<string, string> ToolTips = new Dictionary<string, string>();
         public static string currentWord = "";
@@ -125,8 +130,7 @@ namespace Zeditor
                 var id = ScriptingContext.GetCommandID(cmdName);
                 var cmd = ScriptingContext.GetCommandInfo(id.Bank, id.ID);
 
-                var sb = new StringBuilder(cmdName);
-                sb.AppendLine(cmd.Args.Count > 0 ? "(args[])" : "()");
+                var sb = new StringBuilder();
                 sb.AppendLine(cmd.Description + "\n");
 
                 foreach (var arg in cmd.Args)
@@ -142,7 +146,7 @@ namespace Zeditor
                 var id = ScriptingContext.GetFunctionID(functionName);
                 var fn = ScriptingContext.GetFunctionInfo(id);
 
-                var sb = new StringBuilder(functionName);
+                var sb = new StringBuilder();
                 sb.AppendLine(fn.Args.Count > 0 ? $"({string.Join(", ", fn.Args.Select(a => a.Name))})" : "()");
                 sb.AppendLine(fn.Description + "\n");
 
@@ -207,7 +211,7 @@ namespace Zeditor
                 {
                     ActiveForm.UseWaitCursor = true;
                     InitContext();
-                    currentESD = ESD.ReadWithMetadata(ofd.FileName, true, false, ScriptingContext);
+                    currentESD = ESD.ReadWithMetadata(ofd.FileName, false, false, ScriptingContext);
                     LongFormatBox.Checked = currentESD.FormatType == ESDFormatType.LittleEndian64Bit; 
                     ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
                     RefreshStateGroupBox();
@@ -584,7 +588,7 @@ namespace Zeditor
                 try
                 {
                     ActiveForm.UseWaitCursor = true;
-                    currentESD.WriteWithMetadata(sfd.FileName, true, ScriptingContext);
+                    currentESD.WriteWithMetadata(sfd.FileName, false, ScriptingContext);
                     filePath = sfd.FileName;
                     Form.ActiveForm.Text = "Zeditor - " + Path.GetFileName(sfd.FileName);
                     ActiveForm.UseWaitCursor = false;
@@ -592,7 +596,6 @@ namespace Zeditor
                 {
                     UTIL.LogException("Error saving ESD", ex);
                 }
-
             }
         }
 
@@ -642,111 +645,67 @@ namespace Zeditor
             }
         }
 
+
         private void SetTextBoxOptions()
         {
             Color IntToColor(int rgb) => Color.FromArgb(255, (byte)(rgb >> 16), (byte)(rgb >> 8), (byte)rgb);
 
-            var c = CommandNames;
-            var f = FunctionNames;
+            CommandList = ScriptingContext.GetAllCommandNames();
+            FunctionList = ScriptingContext.GetAllFunctionNames();
 
-            Scintilla[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
+            IEnumerable<AutocompleteItem> functions = FunctionList.Select(str =>
+            {
+                int id = ScriptingContext.GetFunctionID(str);
+                EzSembleContext.EzSembleMethodInfo info = ScriptingContext.GetFunctionInfo(id);
+                string argString = string.Join(", ", info.Args.Select(arg => $"{arg.ValueType} {arg.Name}"));
+                if (argString.Length == 2) argString = "No documented arguments.";
+                ToolTips[str] = argString;
+                return new AutocompleteItem(str + "(", -1, str, info.Description, argString);
+            });
+
+            IEnumerable<AutocompleteItem> commands = CommandList.Select(str =>
+            {
+                (int bank, int id) = ScriptingContext.GetCommandID(str);
+                EzSembleContext.EzSembleMethodInfo info = ScriptingContext.GetCommandInfo(bank, id);
+                string argString = "(" + string.Join(", ", info.Args.Select(arg => $"{arg.ValueType} {arg.Name}")) + ")";
+                if (argString.Length == 2) argString = "No documented arguments.";
+                ToolTips[str] = argString;
+                return new AutocompleteItem(str + "(", -1, str, info.Description, argString);
+            });
+
+            FastColoredTextBox[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
             foreach (var box in boxes)
             {
-
-                //autocompletion
-                box.CharAdded += Box_CharAdded;
-                box.AutoCIgnoreCase = true;
-                box.MouseDwellTime = 250;
-                box.DwellStart += Box_DwellStart;
-                box.DwellEnd += Box_DwellEnd;
-
-                box.Text = "";
-                box.HScrollBar = false;
-                box.WrapMode = WrapMode.Word;
-                box.BorderStyle = BorderStyle.None;
-                foreach (var margin in box.Margins) margin.Width = 1;
-
-                box.StyleResetDefault();
-                box.Styles[Style.Default].Font = "Consolas";
-                box.Styles[Style.Default].Size = 10;
-                box.Styles[Style.CallTip].ForeColor = IntToColor(0x000000);
-                box.StyleClearAll();
-
-                box.Lexer = Lexer.Cpp;
-                box.Styles[Style.Cpp.Word].ForeColor = IntToColor(0x0000FF); // commands
-                box.Styles[Style.Cpp.Word2].ForeColor = IntToColor(0x008888); // functions
-                box.Styles[Style.Cpp.Number].ForeColor = IntToColor(0xFF0088); // numbers
-                box.Styles[Style.Cpp.String].ForeColor = IntToColor(0xFF2222); // strings
-                box.Styles[Style.Cpp.Comment].ForeColor = IntToColor(0x007700); // block comments
-                box.Styles[Style.Cpp.CommentLine].ForeColor = IntToColor(0x007700); // line comments
-                box.SetKeywords(0, CommandNames);
-                box.SetKeywords(1, FunctionNames);
-            }
-        }
-
-        private static void Box_DwellEnd(object sender, DwellEventArgs e)
-        {
-            Scintilla scn = sender as Scintilla;
-            int pos = scn.CharPositionFromPoint(e.X, e.Y);
-            string word = scn.GetWordFromPosition(pos);
-            if (word != currentWord) scn.CallTipCancel();
-        }
-
-        private static void Box_DwellStart(object sender, DwellEventArgs e)
-        {
-            Scintilla scn = sender as Scintilla;
-            int pos = scn.CharPositionFromPoint(e.X, e.Y);
-            string word = scn.GetWordFromPosition(pos);
-            if (ToolTips.Keys.Contains(word))
-            {
-                currentWord = word;
-                var hit = GetHit(scn, pos);
-                scn.CallTipSetHlt(hit.Start, hit.End);
-                scn.CallTipShow(e.Position, ToolTips[word]);
-            }
-        }
-
-        private static (int Start, int End) GetHit(Scintilla scn, int pos)
-        {
-            string word = scn.GetWordFromPosition(pos);
-            int start = pos;
-            int end = pos;
-
-            while (start >= 0 && scn.GetWordFromPosition(start) == word) start--;
-            while (end < scn.TextLength && scn.GetWordFromPosition(start) == word) end++;
-
-            return (Start: start + 1, End: end - 1);
-        }
-
-        private void Box_CharAdded(object sender, CharAddedEventArgs e)
-        {
-            var scintilla = sender as Scintilla;
-            var currentPos = scintilla.CurrentPosition;
-            var wordStartPos = scintilla.WordStartPosition(currentPos, true);
-            var lenEntered = currentPos - wordStartPos;
-            if (lenEntered > 0)
-            {
-                if (!scintilla.AutoCActive)
+                box.Language = Language.JS;
+                AutocompleteMenu menu = new AutocompleteMenu(box);
+                box.ToolTipNeeded += Box_ToolTipNeeded;
+                if (box == EvaluatorBox)
                 {
-                    string autoCList = scintilla == EvaluatorBox || IsInParentheses(scintilla) ? FunctionNames : CommandNames;
-                    scintilla.AutoCShow(lenEntered, autoCList);
+                    menu.Items.SetAutocompleteItems(functions);
+                } else
+                {
+                    menu.Items.SetAutocompleteItems(commands);
                 }
+
+                menu.Items.MaximumSize = new Size(400, 300);
+                menu.Items.Width = 250;
+                menu.AllowTabKey = true;
+                menu.AlwaysShowTooltip = true;
+                menu.ToolTipDuration = 1;
+                menu.AppearInterval = 250;
             }
         }
 
-        private bool IsInParentheses(Scintilla scintilla)
+        private void Box_ToolTipNeeded(object sender, ToolTipNeededEventArgs e)
         {
-            var currentPos = scintilla.CurrentPosition;
-            while (currentPos > 0)
+            if (ToolTips.Keys.Contains(e.HoveredWord))
             {
-                currentPos--;
-                string s = scintilla.GetTextRange(currentPos, 1);
-                if (s == ")") return false;
-                if (s == "(") return true;
+                e.ToolTipTitle = e.HoveredWord;
+                e.ToolTipText = ToolTips[e.HoveredWord];
             }
-            return false;
         }
 
+    
         private void UpdateTitleBox(object sender, EventArgs e)
         {
             UpdateTitleBox();
@@ -1157,7 +1116,7 @@ namespace Zeditor
             {
                 try
                 {
-                    currentESD.WriteWithMetadata(filePath, true, ScriptingContext);
+                    currentESD.WriteWithMetadata(filePath, false, ScriptingContext);
                     ShowSuccessLabel(true);
                 }
                 catch (Exception ex)
@@ -1244,22 +1203,16 @@ namespace Zeditor
         {
             if (e.Control && e.KeyCode == Keys.Space)
             {
-                Scintilla[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
-                foreach (Scintilla scintilla in boxes)
+                FastColoredTextBox[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
+                foreach (var textBox in boxes)
                 {
-                    if (!scintilla.Focused) continue;
-                    var currentPos = scintilla.CurrentPosition;
-                    var wordStartPos = scintilla.WordStartPosition(currentPos, true);
+                    if (!textBox.Focused) continue;
                     e.SuppressKeyPress = true;
-                    if (!scintilla.AutoCActive)
-                    {
-                        string autoCList = scintilla == EvaluatorBox || IsInParentheses(scintilla) ? FunctionNames : CommandNames;
-                        scintilla.AutoCShow(0, autoCList);
-                    }
                     e.Handled = true;
                 }
             }
         }
+
 
         private void LongFormatBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -1271,6 +1224,21 @@ namespace Zeditor
         }
 
         private void GUI_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void WhileCmdBox_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ExitCmdBox_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PassCmdBox_Click(object sender, EventArgs e)
         {
 
         }
