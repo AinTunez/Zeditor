@@ -32,6 +32,7 @@ namespace Zeditor
 
         string filePath = "";
         public static ESD currentESD = null;
+        
         StateGroupHandler currentSGH => (StateGroupHandler)StateGroupBox.SelectedItem ?? null;
         Dictionary<long, ESD.State> currentStateGroup => currentSGH == null ? null : currentSGH.Group;
 
@@ -679,6 +680,7 @@ namespace Zeditor
                 box.Language = Language.JS;
                 AutocompleteMenu menu = new AutocompleteMenu(box);
                 box.ToolTipNeeded += Box_ToolTipNeeded;
+                box.TextChanged += Box_TextChanged;
                 if (box == EvaluatorBox)
                 {
                     menu.Items.SetAutocompleteItems(functions);
@@ -694,6 +696,36 @@ namespace Zeditor
                 menu.ToolTipDuration = 1;
                 menu.AppearInterval = 250;
             }
+        }
+
+        private static List<TextStyle> Styles = new List<TextStyle>();
+
+        private static class TextStyles
+        {
+            public static TextStyle String = MakeStyle(214, 157, 133);
+            public static TextStyle Keyword = MakeStyle(86, 156, 214);
+            public static TextStyle ToolTipKeyword = MakeStyle(106, 176, 234);
+            public static TextStyle Property = MakeStyle(255, 150, 239);
+            public static TextStyle EnumConstant = MakeStyle(78, 201, 176);
+            public static TextStyle Number = MakeStyle(181, 206, 168);
+            public static TextStyle SlightlyDarker = MakeStyle(180, 180, 180);
+        }
+
+        public static TextStyle MakeStyle(int r, int g, int b, FontStyle f = FontStyle.Regular)
+        {
+            var color = Color.FromArgb(r, g, b);
+            return MakeStyle(new SolidBrush(color), f);
+        }
+
+        private static TextStyle MakeStyle(Brush b, FontStyle f = FontStyle.Regular)
+        {
+            Styles.Add(new TextStyle(b, Brushes.Transparent, f));
+            return Styles.Last();
+        }
+
+        private void Box_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //e.ChangedRange.ClearStyle(Styles.ToArray());
         }
 
         private void Box_ToolTipNeeded(object sender, ToolTipNeededEventArgs e)
