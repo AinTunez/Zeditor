@@ -209,20 +209,20 @@ namespace Zeditor
             {
                 try
                 {
-                    ActiveForm.UseWaitCursor = true;
+                    UseWaitCursor = true;
                     InitContext();
                     currentESD = ESD.ReadWithMetadata(ofd.FileName, false, false, ScriptingContext);
-                    LongFormatBox.Checked = currentESD.FormatType == ESDFormatType.LittleEndian64Bit; 
-                    ActiveForm.Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
+                    LongFormatBox.Checked = currentESD.LongFormat;
+                    Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
                     RefreshStateGroupBox();
                     filePath = ofd.FileName;
-                    ActiveForm.UseWaitCursor = false;
+                    UseWaitCursor = false;
                 }
                 catch (Exception ex)
                 {
                     UTIL.LogException("Unable to load ESD.", ex);
                     openESDToolStripMenuItem_Click(sender, e);
-                    ActiveForm.UseWaitCursor = false;
+                    UseWaitCursor = false;
                 }
             }
         }
@@ -587,11 +587,11 @@ namespace Zeditor
             {
                 try
                 {
-                    ActiveForm.UseWaitCursor = true;
+                    UseWaitCursor = true;
                     currentESD.WriteWithMetadata(sfd.FileName, false, ScriptingContext);
                     filePath = sfd.FileName;
-                    Form.ActiveForm.Text = "Zeditor - " + Path.GetFileName(sfd.FileName);
-                    ActiveForm.UseWaitCursor = false;
+                    Text = "Zeditor - " + Path.GetFileName(sfd.FileName);
+                    UseWaitCursor = false;
                 } catch (Exception ex)
                 {
                     UTIL.LogException("Error saving ESD", ex);
@@ -1108,8 +1108,8 @@ namespace Zeditor
                 saveLabel.Visible = true;
                 saveLabelTimer.Stop();
 
-                ActiveForm.UseWaitCursor = true;
-                ActiveForm.Enabled = false;
+                UseWaitCursor = true;
+                Enabled = false;
             }));
 
             BeginInvoke(new Action(() =>
@@ -1128,8 +1128,8 @@ namespace Zeditor
                 {
                     Invoke(new Action(() =>
                     {
-                        ActiveForm.UseWaitCursor = false;
-                        ActiveForm.Enabled = true;
+                        UseWaitCursor = false;
+                        Enabled = true;
                         isCurrentlySaving = false;
 
                     }));
@@ -1217,10 +1217,7 @@ namespace Zeditor
         private void LongFormatBox_CheckedChanged(object sender, EventArgs e)
         {
             if (currentESD == null) return;
-            currentESD.FormatType = LongFormatBox.Checked ?
-                ESDFormatType.LittleEndian64Bit : 
-                ESDFormatType.LittleEndian32Bit;
-
+            currentESD.LongFormat = LongFormatBox.Checked;
         }
 
         private void GUI_Load(object sender, EventArgs e)
