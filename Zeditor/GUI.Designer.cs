@@ -72,11 +72,15 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.EntryCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.ExitCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.WhileCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.conditionTab = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.EvaluatorBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.PassCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.AddGroupBtn = new System.Windows.Forms.Button();
             this.DeleteGroupBtn = new System.Windows.Forms.Button();
             this.CloneGroupBtn = new System.Windows.Forms.Button();
@@ -86,10 +90,6 @@
             this.stateGroupLayoutBox = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.LongFormatBox = new System.Windows.Forms.CheckBox();
-            this.ExitCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.WhileCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.EvaluatorBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.PassCmdBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.MenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -99,17 +99,17 @@
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EntryCmdBox)).BeginInit();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ExitCmdBox)).BeginInit();
             this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).BeginInit();
             this.conditionTab.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).BeginInit();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).BeginInit();
             this.stateGroupLayoutBox.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ExitCmdBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).BeginInit();
             this.SuspendLayout();
             // 
             // StateBox
@@ -580,13 +580,14 @@
         '\"',
         '\'',
         '\''};
-            this.EntryCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            this.EntryCmdBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
             this.EntryCmdBox.BackBrush = null;
             this.EntryCmdBox.CharHeight = 14;
-            this.EntryCmdBox.CharWidth = 8;
+            this.EntryCmdBox.CharWidth = 7;
             this.EntryCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.EntryCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.EntryCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EntryCmdBox.Font = new System.Drawing.Font("Consolas", 9F);
             this.EntryCmdBox.IsReplaceMode = false;
             this.EntryCmdBox.Location = new System.Drawing.Point(2, 15);
             this.EntryCmdBox.Name = "EntryCmdBox";
@@ -610,6 +611,38 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Exit Commands";
             // 
+            // ExitCmdBox
+            // 
+            this.ExitCmdBox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.ExitCmdBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.ExitCmdBox.BackBrush = null;
+            this.ExitCmdBox.CharHeight = 14;
+            this.ExitCmdBox.CharWidth = 7;
+            this.ExitCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ExitCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.ExitCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ExitCmdBox.Font = new System.Drawing.Font("Consolas", 9F);
+            this.ExitCmdBox.IsReplaceMode = false;
+            this.ExitCmdBox.Location = new System.Drawing.Point(2, 15);
+            this.ExitCmdBox.Name = "ExitCmdBox";
+            this.ExitCmdBox.Paddings = new System.Windows.Forms.Padding(0);
+            this.ExitCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.ExitCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("ExitCmdBox.ServiceColors")));
+            this.ExitCmdBox.Size = new System.Drawing.Size(334, 110);
+            this.ExitCmdBox.TabIndex = 1;
+            this.ExitCmdBox.Zoom = 100;
+            this.ExitCmdBox.Load += new System.EventHandler(this.ExitCmdBox_Load);
+            // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.WhileCmdBox);
@@ -622,6 +655,37 @@
             this.groupBox7.TabIndex = 11;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "While Commands";
+            // 
+            // WhileCmdBox
+            // 
+            this.WhileCmdBox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.WhileCmdBox.BackBrush = null;
+            this.WhileCmdBox.CharHeight = 14;
+            this.WhileCmdBox.CharWidth = 7;
+            this.WhileCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.WhileCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.WhileCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.WhileCmdBox.Font = new System.Drawing.Font("Consolas", 9F);
+            this.WhileCmdBox.IsReplaceMode = false;
+            this.WhileCmdBox.Location = new System.Drawing.Point(2, 15);
+            this.WhileCmdBox.Name = "WhileCmdBox";
+            this.WhileCmdBox.Paddings = new System.Windows.Forms.Padding(0);
+            this.WhileCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.WhileCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("WhileCmdBox.ServiceColors")));
+            this.WhileCmdBox.Size = new System.Drawing.Size(334, 110);
+            this.WhileCmdBox.TabIndex = 2;
+            this.WhileCmdBox.Zoom = 100;
             // 
             // conditionTab
             // 
@@ -657,6 +721,37 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Evaluator";
             // 
+            // EvaluatorBox
+            // 
+            this.EvaluatorBox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.EvaluatorBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.EvaluatorBox.BackBrush = null;
+            this.EvaluatorBox.CharHeight = 14;
+            this.EvaluatorBox.CharWidth = 7;
+            this.EvaluatorBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.EvaluatorBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.EvaluatorBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EvaluatorBox.Font = new System.Drawing.Font("Consolas", 9F);
+            this.EvaluatorBox.IsReplaceMode = false;
+            this.EvaluatorBox.Location = new System.Drawing.Point(2, 15);
+            this.EvaluatorBox.Name = "EvaluatorBox";
+            this.EvaluatorBox.Paddings = new System.Windows.Forms.Padding(0);
+            this.EvaluatorBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.EvaluatorBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("EvaluatorBox.ServiceColors")));
+            this.EvaluatorBox.Size = new System.Drawing.Size(296, 227);
+            this.EvaluatorBox.TabIndex = 2;
+            this.EvaluatorBox.Zoom = 100;
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.PassCmdBox);
@@ -669,6 +764,37 @@
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Pass Commands";
+            // 
+            // PassCmdBox
+            // 
+            this.PassCmdBox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.PassCmdBox.BackBrush = null;
+            this.PassCmdBox.CharHeight = 14;
+            this.PassCmdBox.CharWidth = 7;
+            this.PassCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.PassCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.PassCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PassCmdBox.Font = new System.Drawing.Font("Consolas", 9F);
+            this.PassCmdBox.IsReplaceMode = false;
+            this.PassCmdBox.Location = new System.Drawing.Point(2, 15);
+            this.PassCmdBox.Name = "PassCmdBox";
+            this.PassCmdBox.Paddings = new System.Windows.Forms.Padding(0);
+            this.PassCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.PassCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("PassCmdBox.ServiceColors")));
+            this.PassCmdBox.Size = new System.Drawing.Size(296, 227);
+            this.PassCmdBox.TabIndex = 2;
+            this.PassCmdBox.Zoom = 100;
             // 
             // AddGroupBtn
             // 
@@ -782,127 +908,6 @@
             this.LongFormatBox.UseVisualStyleBackColor = true;
             this.LongFormatBox.CheckedChanged += new System.EventHandler(this.LongFormatBox_CheckedChanged);
             // 
-            // ExitCmdBox
-            // 
-            this.ExitCmdBox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.ExitCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
-            this.ExitCmdBox.BackBrush = null;
-            this.ExitCmdBox.CharHeight = 14;
-            this.ExitCmdBox.CharWidth = 8;
-            this.ExitCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.ExitCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.ExitCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ExitCmdBox.IsReplaceMode = false;
-            this.ExitCmdBox.Location = new System.Drawing.Point(2, 15);
-            this.ExitCmdBox.Name = "ExitCmdBox";
-            this.ExitCmdBox.Paddings = new System.Windows.Forms.Padding(0);
-            this.ExitCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.ExitCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("ExitCmdBox.ServiceColors")));
-            this.ExitCmdBox.Size = new System.Drawing.Size(334, 110);
-            this.ExitCmdBox.TabIndex = 1;
-            this.ExitCmdBox.Zoom = 100;
-            this.ExitCmdBox.Load += new System.EventHandler(this.ExitCmdBox_Load);
-            // 
-            // WhileCmdBox
-            // 
-            this.WhileCmdBox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
-            this.WhileCmdBox.BackBrush = null;
-            this.WhileCmdBox.CharHeight = 14;
-            this.WhileCmdBox.CharWidth = 8;
-            this.WhileCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.WhileCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.WhileCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.WhileCmdBox.IsReplaceMode = false;
-            this.WhileCmdBox.Location = new System.Drawing.Point(2, 15);
-            this.WhileCmdBox.Name = "WhileCmdBox";
-            this.WhileCmdBox.Paddings = new System.Windows.Forms.Padding(0);
-            this.WhileCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.WhileCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("WhileCmdBox.ServiceColors")));
-            this.WhileCmdBox.Size = new System.Drawing.Size(334, 110);
-            this.WhileCmdBox.TabIndex = 2;
-            this.WhileCmdBox.Zoom = 100;
-            // 
-            // EvaluatorBox
-            // 
-            this.EvaluatorBox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.EvaluatorBox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
-            this.EvaluatorBox.BackBrush = null;
-            this.EvaluatorBox.CharHeight = 14;
-            this.EvaluatorBox.CharWidth = 8;
-            this.EvaluatorBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.EvaluatorBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.EvaluatorBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.EvaluatorBox.IsReplaceMode = false;
-            this.EvaluatorBox.Location = new System.Drawing.Point(2, 15);
-            this.EvaluatorBox.Name = "EvaluatorBox";
-            this.EvaluatorBox.Paddings = new System.Windows.Forms.Padding(0);
-            this.EvaluatorBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.EvaluatorBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("EvaluatorBox.ServiceColors")));
-            this.EvaluatorBox.Size = new System.Drawing.Size(296, 227);
-            this.EvaluatorBox.TabIndex = 2;
-            this.EvaluatorBox.Zoom = 100;
-            // 
-            // PassCmdBox
-            // 
-            this.PassCmdBox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
-            this.PassCmdBox.BackBrush = null;
-            this.PassCmdBox.CharHeight = 14;
-            this.PassCmdBox.CharWidth = 8;
-            this.PassCmdBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.PassCmdBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.PassCmdBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PassCmdBox.IsReplaceMode = false;
-            this.PassCmdBox.Location = new System.Drawing.Point(2, 15);
-            this.PassCmdBox.Name = "PassCmdBox";
-            this.PassCmdBox.Paddings = new System.Windows.Forms.Padding(0);
-            this.PassCmdBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.PassCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("PassCmdBox.ServiceColors")));
-            this.PassCmdBox.Size = new System.Drawing.Size(296, 227);
-            this.PassCmdBox.TabIndex = 2;
-            this.PassCmdBox.Zoom = 100;
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -936,17 +941,17 @@
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.EntryCmdBox)).EndInit();
             this.groupBox6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ExitCmdBox)).EndInit();
             this.groupBox7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).EndInit();
             this.conditionTab.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).EndInit();
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).EndInit();
             this.stateGroupLayoutBox.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ExitCmdBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WhileCmdBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.EvaluatorBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PassCmdBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -676,7 +676,8 @@ namespace Zeditor
             FastColoredTextBox[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
             foreach (var box in boxes)
             {
-                box.Language = Language.JS;
+                box.Language = Language.Custom;
+                //box.Font = new Font("Consolas", 11f);
                 AutocompleteMenu menu = new AutocompleteMenu(box);
                 box.ToolTipNeeded += Box_ToolTipNeeded;
                 box.TextChanged += Box_TextChanged;
@@ -701,13 +702,9 @@ namespace Zeditor
 
         private static class TextStyles
         {
-            public static TextStyle String = MakeStyle(214, 157, 133);
-            public static TextStyle Keyword = MakeStyle(86, 156, 214);
-            public static TextStyle ToolTipKeyword = MakeStyle(106, 176, 234);
-            public static TextStyle Property = MakeStyle(255, 150, 239);
-            public static TextStyle EnumConstant = MakeStyle(78, 201, 176);
-            public static TextStyle Number = MakeStyle(181, 206, 168);
-            public static TextStyle SlightlyDarker = MakeStyle(180, 180, 180);
+            public static TextStyle Number = MakeStyle(Brushes.Orchid, FontStyle.Bold);
+            public static TextStyle Grey = MakeStyle(Brushes.Gray);
+            public static TextStyle Operator = MakeStyle(Brushes.Blue, FontStyle.Bold);
         }
 
         public static TextStyle MakeStyle(int r, int g, int b, FontStyle f = FontStyle.Regular)
@@ -724,7 +721,10 @@ namespace Zeditor
 
         private void Box_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //e.ChangedRange.ClearStyle(Styles.ToArray());
+            e.ChangedRange.ClearStyle(Styles.ToArray());
+            e.ChangedRange.SetStyle(TextStyles.Number, @"\b\d+\b");
+            e.ChangedRange.SetStyle(TextStyles.Grey, @"[();]");
+            e.ChangedRange.SetStyle(TextStyles.Operator, @"[^A-Za-z0-9();]+");
         }
 
         private void Box_ToolTipNeeded(object sender, ToolTipNeededEventArgs e)
