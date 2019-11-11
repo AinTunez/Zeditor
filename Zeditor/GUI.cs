@@ -9,8 +9,6 @@ using System.Timers;
 using SoulsFormats.ESD;
 using System.Text.RegularExpressions;
 using SoulsFormats.ESD.EzSemble;
-using ScintillaNET;
-using System.Collections.ObjectModel;
 using System.Text;
 using FastColoredTextBoxNS;
 
@@ -20,6 +18,7 @@ namespace Zeditor
     {
 
         static EzSembleContext ScriptingContext;
+        
         static string CommandNames;
         static string FunctionNames;
         static string EnumNames;
