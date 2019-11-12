@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using static SoulsFormats.ESD.EzSemble.Common;
+using System.Text.RegularExpressions;
 
 namespace SoulsFormats.ESD.EzSemble
 {
@@ -106,9 +107,10 @@ namespace SoulsFormats.ESD.EzSemble
         /// <summary>
         /// Assembles a plain text "EzLanguage" script into a list of CommandCall's.
         /// </summary>
-        public static List<SoulsFormats.ESD.ESD.CommandCall> AssembleCommandScript(EzSembleContext context, string plaintext)
+        public static List<ESD.CommandCall> AssembleCommandScript(EzSembleContext context, string plaintext)
         {
-            var result = new List<SoulsFormats.ESD.ESD.CommandCall>();
+            plaintext = Regex.Replace(plaintext, @"\/\/.*(\n|$)", "");
+            List<ESD.CommandCall> result = new List<ESD.CommandCall>();
             foreach (var cmdTxt in plaintext.Split(';').Select(x =>
             {
                 var cmdLine = x.Replace("\r", "").Trim(' ', '\n');

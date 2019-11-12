@@ -676,11 +676,11 @@ namespace Zeditor
             FastColoredTextBox[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
             foreach (var box in boxes)
             {
-                box.Language = Language.Custom;
+                box.Language = Language.JS;
                 //box.Font = new Font("Consolas", 11f);
                 AutocompleteMenu menu = new AutocompleteMenu(box);
                 box.ToolTipNeeded += Box_ToolTipNeeded;
-                box.TextChanged += Box_TextChanged;
+                //box.TextChanged += Box_TextChanged;
                 if (box == EvaluatorBox)
                 {
                     menu.Items.SetAutocompleteItems(functions);
@@ -1256,19 +1256,18 @@ namespace Zeditor
 
         }
 
-        private void WhileCmdBox_Click(object sender, EventArgs e)
+        private void testEntryScriptToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void ExitCmdBox_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void PassCmdBox_Click(object sender, EventArgs e)
-        {
-
+            string plaintext = Regex.Replace(EntryCmdBox.Text, @"\/\/.*\n", "");
+            foreach (var cmdTxt in plaintext.Split(';'))
+            {
+                var cmdLine = cmdTxt.Replace("\r", "").Trim(' ', '\n');
+                if (cmdLine.Contains("//"))
+                {
+                    cmdLine = cmdLine.Substring(0, cmdLine.IndexOf("//"));
+                }
+                Console.WriteLine(cmdLine);
+            }
         }
     }
 

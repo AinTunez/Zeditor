@@ -46,6 +46,7 @@
             this.deleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noHelpForYouToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testEntryScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddStateBtn = new System.Windows.Forms.Button();
             this.DeleteStateBtn = new System.Windows.Forms.Button();
             this.CloneStateBtn = new System.Windows.Forms.Button();
@@ -249,7 +250,8 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.noHelpForYouToolStripMenuItem});
+            this.noHelpForYouToolStripMenuItem,
+            this.testEntryScriptToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -257,9 +259,17 @@
             // noHelpForYouToolStripMenuItem
             // 
             this.noHelpForYouToolStripMenuItem.Name = "noHelpForYouToolStripMenuItem";
-            this.noHelpForYouToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.noHelpForYouToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.noHelpForYouToolStripMenuItem.Text = "About";
             this.noHelpForYouToolStripMenuItem.Click += new System.EventHandler(this.noHelpForYouToolStripMenuItem_Click);
+            // 
+            // testEntryScriptToolStripMenuItem
+            // 
+            this.testEntryScriptToolStripMenuItem.Name = "testEntryScriptToolStripMenuItem";
+            this.testEntryScriptToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.testEntryScriptToolStripMenuItem.Text = "Test Entry Script";
+            this.testEntryScriptToolStripMenuItem.Visible = false;
+            this.testEntryScriptToolStripMenuItem.Click += new System.EventHandler(this.testEntryScriptToolStripMenuItem_Click);
             // 
             // AddStateBtn
             // 
@@ -641,7 +651,6 @@
             this.ExitCmdBox.Size = new System.Drawing.Size(334, 110);
             this.ExitCmdBox.TabIndex = 1;
             this.ExitCmdBox.Zoom = 100;
-            this.ExitCmdBox.Load += new System.EventHandler(this.ExitCmdBox_Load);
             // 
             // groupBox7
             // 
@@ -734,7 +743,7 @@
         '\"',
         '\'',
         '\''};
-            this.EvaluatorBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.EvaluatorBox.AutoScrollMinSize = new System.Drawing.Size(2, 14);
             this.EvaluatorBox.BackBrush = null;
             this.EvaluatorBox.CharHeight = 14;
             this.EvaluatorBox.CharWidth = 7;
@@ -778,7 +787,7 @@
         '\"',
         '\'',
         '\''};
-            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 14);
             this.PassCmdBox.BackBrush = null;
             this.PassCmdBox.CharHeight = 14;
             this.PassCmdBox.CharWidth = 7;
@@ -1018,6 +1027,7 @@
         private FastColoredTextBoxNS.FastColoredTextBox WhileCmdBox;
         private FastColoredTextBoxNS.FastColoredTextBox EvaluatorBox;
         private FastColoredTextBoxNS.FastColoredTextBox PassCmdBox;
+        private System.Windows.Forms.ToolStripMenuItem testEntryScriptToolStripMenuItem;
     }
 }
 
