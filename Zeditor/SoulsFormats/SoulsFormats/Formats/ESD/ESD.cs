@@ -150,7 +150,14 @@ namespace SoulsFormats.ESD
                 BinaryWriterEx bw = new BinaryWriterEx(false, corruptPreventStream);
                 WriteWithContext(bw, context);
 
-                File.WriteAllBytes(path, DCX.Compress(bw.FinishBytes(), Compression));
+                if (Compression == DCX.Type.None)
+                {
+                    File.WriteAllBytes(path, bw.FinishBytes());
+                }
+                else
+                {
+                    File.WriteAllBytes(path, DCX.Compress(bw.FinishBytes(), Compression));
+                }
             }
 
             SaveMetadataFile(path + ".meta", isBinaryMetadata);
