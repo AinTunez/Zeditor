@@ -151,13 +151,9 @@ namespace SoulsFormats.ESD
                 WriteWithContext(bw, context);
 
                 if (Compression == DCX.Type.None)
-                {
                     File.WriteAllBytes(path, bw.FinishBytes());
-                }
                 else
-                {
                     File.WriteAllBytes(path, DCX.Compress(bw.FinishBytes(), Compression));
-                }
             }
 
             SaveMetadataFile(path + ".meta", isBinaryMetadata);
