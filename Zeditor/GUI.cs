@@ -253,8 +253,11 @@ namespace Zeditor
 
             if (ConditionTree.Nodes.Count > 0) ConditionTree.SelectedNode = ConditionTree.Nodes[0];
             EntryCmdBox.Text = currentState.EntryScript;
+            EntryCmdBox.ClearUndo();
             ExitCmdBox.Text = currentState.ExitScript;
+            ExitCmdBox.ClearUndo();
             WhileCmdBox.Text = currentState.WhileScript;
+            WhileCmdBox.ClearUndo();
             AfterSelect();
             UpdateTitleBox();
         }
@@ -797,7 +800,7 @@ namespace Zeditor
             RefreshStateBox(newState.ID);
         }
 
-        private ESD.State CloneState(ESD.State source, long? groupID = null)
+        private ESD.State CloneState(ESD.State source, long? groupID = null, long? stateID = null)
         {
             var newState = new ESD.State();
 
@@ -818,11 +821,13 @@ namespace Zeditor
             newState.ExitScript = source.ExitScript;
             newState.WhileScript = source.WhileScript;
 
-            if (groupID == null || groupID == currentSGH.ID) newState.ID = currentStateGroup.Max(p => p.Key) + 1;
-            else newState.ID = source.ID;
+            if (stateID == null)
+                newState.ID = currentStateGroup.Max(p => p.Key) + 1;
+            else
+                newState.ID = stateID.Value;
 
-            if (Regex.IsMatch(source.Name, @"^State\d+\-\d+$")) newState.Name = "State" + groupID + "-" + newState.ID;
-            else newState.Name = source.Name;
+            if (Regex.IsMatch(source.Name, @"^State\d+\-\d+$")) newState.Name = "State" + currentSGH.ID + "-" + newState.ID;
+            else newState.Name = source.Name + " (1)";
 
             return newState;
         }
@@ -1267,6 +1272,20 @@ namespace Zeditor
                     cmdLine = cmdLine.Substring(0, cmdLine.IndexOf("//"));
                 }
                 Console.WriteLine(cmdLine);
+            }
+        }
+
+        private void cloneToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentState == null) return;
+            CloneHelper cloneTo = new CloneHelper();
+            if (cloneTo.ShowDialog() == DialogResult.OK)
+            {
+                ESD.State newState = CloneState(currentState, null, cloneTo.TargetID);
+                if (currentStateGroup.ContainsKey(newState.ID))
+                    currentStateGroup.Remove(newState.ID);
+                currentStateGroup[newState.ID] = newState;
+                RefreshStateBox(newState.ID);
             }
         }
     }
