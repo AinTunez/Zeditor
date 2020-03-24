@@ -45,6 +45,9 @@
             this.cloneStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cloneToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchPrecedingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bulkTargetSwitchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noHelpForYouToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testEntryScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,12 +89,13 @@
             this.AddGroupBtn = new System.Windows.Forms.Button();
             this.DeleteGroupBtn = new System.Windows.Forms.Button();
             this.CloneGroupBtn = new System.Windows.Forms.Button();
-            this.RenameStateBtn = new System.Windows.Forms.Button();
+            this.editStateBtn = new System.Windows.Forms.Button();
             this.RenameGroupBtn = new System.Windows.Forms.Button();
             this.StateGroupBox = new System.Windows.Forms.ComboBox();
             this.stateGroupLayoutBox = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.LongFormatBox = new System.Windows.Forms.CheckBox();
+            this.CloneCndBtn = new System.Windows.Forms.Button();
             this.MenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -136,6 +140,7 @@
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
             this.stateToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
@@ -220,7 +225,8 @@
             this.addNewStateToolStripMenuItem,
             this.cloneStateToolStripMenuItem,
             this.deleteStateToolStripMenuItem,
-            this.cloneToToolStripMenuItem});
+            this.cloneToToolStripMenuItem,
+            this.searchPrecedingToolStripMenuItem});
             this.stateToolStripMenuItem.Name = "stateToolStripMenuItem";
             this.stateToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.stateToolStripMenuItem.Text = "States";
@@ -255,6 +261,28 @@
             this.cloneToToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.cloneToToolStripMenuItem.Text = "Clone State To";
             this.cloneToToolStripMenuItem.Click += new System.EventHandler(this.cloneToToolStripMenuItem_Click);
+            // 
+            // searchPrecedingToolStripMenuItem
+            // 
+            this.searchPrecedingToolStripMenuItem.Name = "searchPrecedingToolStripMenuItem";
+            this.searchPrecedingToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.searchPrecedingToolStripMenuItem.Text = "Search Preceding";
+            this.searchPrecedingToolStripMenuItem.Click += new System.EventHandler(this.searchPrecedingToolStripMenuItem_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bulkTargetSwitchToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // bulkTargetSwitchToolStripMenuItem
+            // 
+            this.bulkTargetSwitchToolStripMenuItem.Name = "bulkTargetSwitchToolStripMenuItem";
+            this.bulkTargetSwitchToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.bulkTargetSwitchToolStripMenuItem.Text = "Bulk Target Switch";
+            this.bulkTargetSwitchToolStripMenuItem.Click += new System.EventHandler(this.bulkTargetSwitchToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -319,7 +347,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(184, 331);
+            this.label1.Location = new System.Drawing.Point(184, 362);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 13);
@@ -328,7 +356,7 @@
             // 
             // TargetStateBox
             // 
-            this.TargetStateBox.Location = new System.Drawing.Point(253, 327);
+            this.TargetStateBox.Location = new System.Drawing.Point(253, 358);
             this.TargetStateBox.Margin = new System.Windows.Forms.Padding(2);
             this.TargetStateBox.Name = "TargetStateBox";
             this.TargetStateBox.Size = new System.Drawing.Size(38, 20);
@@ -338,7 +366,7 @@
             // 
             // GoTargetBtn
             // 
-            this.GoTargetBtn.Location = new System.Drawing.Point(187, 373);
+            this.GoTargetBtn.Location = new System.Drawing.Point(187, 404);
             this.GoTargetBtn.Margin = new System.Windows.Forms.Padding(2);
             this.GoTargetBtn.Name = "GoTargetBtn";
             this.GoTargetBtn.Size = new System.Drawing.Size(104, 28);
@@ -375,7 +403,7 @@
             // 
             // DeleteConditionBtn
             // 
-            this.DeleteConditionBtn.Location = new System.Drawing.Point(189, 177);
+            this.DeleteConditionBtn.Location = new System.Drawing.Point(189, 208);
             this.DeleteConditionBtn.Margin = new System.Windows.Forms.Padding(2);
             this.DeleteConditionBtn.Name = "DeleteConditionBtn";
             this.DeleteConditionBtn.Size = new System.Drawing.Size(104, 26);
@@ -387,7 +415,7 @@
             // 
             // MoveCndUpBtn
             // 
-            this.MoveCndUpBtn.Location = new System.Drawing.Point(189, 254);
+            this.MoveCndUpBtn.Location = new System.Drawing.Point(189, 285);
             this.MoveCndUpBtn.Margin = new System.Windows.Forms.Padding(2);
             this.MoveCndUpBtn.Name = "MoveCndUpBtn";
             this.MoveCndUpBtn.Size = new System.Drawing.Size(56, 26);
@@ -399,7 +427,7 @@
             // 
             // MoveCndDownBtn
             // 
-            this.MoveCndDownBtn.Location = new System.Drawing.Point(189, 284);
+            this.MoveCndDownBtn.Location = new System.Drawing.Point(189, 315);
             this.MoveCndDownBtn.Margin = new System.Windows.Forms.Padding(2);
             this.MoveCndDownBtn.Name = "MoveCndDownBtn";
             this.MoveCndDownBtn.Size = new System.Drawing.Size(56, 26);
@@ -425,6 +453,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.CloneCndBtn);
             this.groupBox1.Controls.Add(this.AddSiblingConditionBtn);
             this.groupBox1.Controls.Add(this.TargetStateNameBox);
             this.groupBox1.Controls.Add(this.RenameConditionBtn);
@@ -460,7 +489,7 @@
             // 
             // TargetStateNameBox
             // 
-            this.TargetStateNameBox.Location = new System.Drawing.Point(187, 350);
+            this.TargetStateNameBox.Location = new System.Drawing.Point(187, 381);
             this.TargetStateNameBox.Margin = new System.Windows.Forms.Padding(2);
             this.TargetStateNameBox.Name = "TargetStateNameBox";
             this.TargetStateNameBox.ReadOnly = true;
@@ -470,7 +499,7 @@
             // 
             // RenameConditionBtn
             // 
-            this.RenameConditionBtn.Location = new System.Drawing.Point(189, 208);
+            this.RenameConditionBtn.Location = new System.Drawing.Point(189, 239);
             this.RenameConditionBtn.Margin = new System.Windows.Forms.Padding(2);
             this.RenameConditionBtn.Name = "RenameConditionBtn";
             this.RenameConditionBtn.Size = new System.Drawing.Size(104, 26);
@@ -752,7 +781,7 @@
         '\"',
         '\'',
         '\''};
-            this.EvaluatorBox.AutoScrollMinSize = new System.Drawing.Size(2, 14);
+            this.EvaluatorBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
             this.EvaluatorBox.BackBrush = null;
             this.EvaluatorBox.CharHeight = 14;
             this.EvaluatorBox.CharWidth = 7;
@@ -769,6 +798,7 @@
             this.EvaluatorBox.Size = new System.Drawing.Size(296, 227);
             this.EvaluatorBox.TabIndex = 2;
             this.EvaluatorBox.Zoom = 100;
+            this.EvaluatorBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.EvaluatorBox_TextChanged);
             // 
             // groupBox4
             // 
@@ -796,7 +826,7 @@
         '\"',
         '\'',
         '\''};
-            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(2, 14);
+            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
             this.PassCmdBox.BackBrush = null;
             this.PassCmdBox.CharHeight = 14;
             this.PassCmdBox.CharWidth = 7;
@@ -847,17 +877,17 @@
             this.CloneGroupBtn.UseVisualStyleBackColor = true;
             this.CloneGroupBtn.Click += new System.EventHandler(this.CloneGroupBtn_Click);
             // 
-            // RenameStateBtn
+            // editStateBtn
             // 
-            this.RenameStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.RenameStateBtn.Location = new System.Drawing.Point(112, 397);
-            this.RenameStateBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.RenameStateBtn.Name = "RenameStateBtn";
-            this.RenameStateBtn.Size = new System.Drawing.Size(65, 21);
-            this.RenameStateBtn.TabIndex = 18;
-            this.RenameStateBtn.Text = "Rename";
-            this.RenameStateBtn.UseVisualStyleBackColor = true;
-            this.RenameStateBtn.Click += new System.EventHandler(this.RenameStateBtn_Click);
+            this.editStateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.editStateBtn.Location = new System.Drawing.Point(112, 397);
+            this.editStateBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.editStateBtn.Name = "editStateBtn";
+            this.editStateBtn.Size = new System.Drawing.Size(65, 21);
+            this.editStateBtn.TabIndex = 18;
+            this.editStateBtn.Text = "Edit";
+            this.editStateBtn.UseVisualStyleBackColor = true;
+            this.editStateBtn.Click += new System.EventHandler(this.RenameStateBtn_Click);
             // 
             // RenameGroupBtn
             // 
@@ -902,7 +932,7 @@
             this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox8.Controls.Add(this.StateBox);
-            this.groupBox8.Controls.Add(this.RenameStateBtn);
+            this.groupBox8.Controls.Add(this.editStateBtn);
             this.groupBox8.Controls.Add(this.AddStateBtn);
             this.groupBox8.Controls.Add(this.CloneStateBtn);
             this.groupBox8.Controls.Add(this.DeleteStateBtn);
@@ -925,6 +955,18 @@
             this.LongFormatBox.Text = "Save in 64-bit mode (uncheck for PTDE)";
             this.LongFormatBox.UseVisualStyleBackColor = true;
             this.LongFormatBox.CheckedChanged += new System.EventHandler(this.LongFormatBox_CheckedChanged);
+            // 
+            // CloneCndBtn
+            // 
+            this.CloneCndBtn.Location = new System.Drawing.Point(189, 162);
+            this.CloneCndBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.CloneCndBtn.Name = "CloneCndBtn";
+            this.CloneCndBtn.Size = new System.Drawing.Size(104, 26);
+            this.CloneCndBtn.TabIndex = 16;
+            this.CloneCndBtn.TabStop = false;
+            this.CloneCndBtn.Text = "Deep Clone CND";
+            this.CloneCndBtn.UseVisualStyleBackColor = true;
+            this.CloneCndBtn.Click += new System.EventHandler(this.CloneCndBtn_Click);
             // 
             // GUI
             // 
@@ -1018,7 +1060,7 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.TabPage conditionTab;
         private System.Windows.Forms.Button RenameConditionBtn;
-        private System.Windows.Forms.Button RenameStateBtn;
+        private System.Windows.Forms.Button editStateBtn;
         private System.Windows.Forms.ToolStripMenuItem saveESDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.Button RenameGroupBtn;
@@ -1038,6 +1080,10 @@
         private FastColoredTextBoxNS.FastColoredTextBox PassCmdBox;
         private System.Windows.Forms.ToolStripMenuItem testEntryScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cloneToToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem searchPrecedingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bulkTargetSwitchToolStripMenuItem;
+        private System.Windows.Forms.Button CloneCndBtn;
     }
 }
 

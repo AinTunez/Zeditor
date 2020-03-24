@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Zeditor
 {
-    public partial class ErrorViewer : Form
+    public partial class MsgViewer : Form
     {
-        public ErrorViewer()
+        public MsgViewer()
         {
             InitializeComponent();
         }

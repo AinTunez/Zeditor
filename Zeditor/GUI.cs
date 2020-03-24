@@ -242,7 +242,7 @@ namespace Zeditor
             UpdateTitleBox();
         }
 
-        private void StateBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void RefreshConditionBox()
         {
             ConditionTree.Nodes.Clear();
             if (currentState == null) return;
@@ -261,13 +261,18 @@ namespace Zeditor
             AfterSelect();
             UpdateTitleBox();
         }
+        private void StateBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshConditionBox();
+
+        }
 
         private string ConditionDisplay(ESD.Condition condition)
         {
             if (condition == null) return null;
-            if (Regex.IsMatch(condition.Name, @"^Condition\[[A-Za-z0-9]+\]$"))
+            if (Regex.IsMatch(condition.Name, @"^Condition\[[A-Za-z0-9]+\]\s*(\(\d+\))?$"))
             {
-                string conditionDisplay = condition.Name.Substring(10).TrimEnd(new char[] { '[', ']' });
+                string conditionDisplay = condition.Name.Substring(10).Replace("[", "").Replace("]", "");
                 conditionDisplay = Regex.Replace(conditionDisplay ?? "", "^[0]+", "");
                 return conditionDisplay;
             }
@@ -378,7 +383,10 @@ namespace Zeditor
                 } else
                 {
                     TargetStateBox.Text = t.ToString();
-                    TargetStateNameBox.Text = currentStateGroup[(long)t].Name;
+                    if (currentStateGroup.ContainsKey((long)t))
+                        TargetStateNameBox.Text = currentStateGroup[(long)t].Name;
+                    else
+                        TargetStateNameBox.Text = "???";
                 }
                 EvaluatorBox.Text = currentCondition.Evaluator;
                 PassCmdBox.Text = currentCondition.PassScript;
@@ -456,36 +464,57 @@ namespace Zeditor
             ExpandFromList(list);
         }
 
-        private void AddSiblingConditionBtn_Click(object sender, EventArgs e)
+        private void AddSubcondition(ESD.Condition cnd, ESD.Condition parent)
         {
             var h = currentCH;
             if (currentCH == null) return;
             var path = ConditionTree.SelectedNode.Name;
             var state = currentCondition.TargetState;
 
-            var cnd = new ESD.Condition();
-            cnd.Evaluator = "";
-            cnd.TargetState = state ?? (long)0;
-
             var list = ExpandedList();
             h.ParentCollection.Insert(h.Index + 1, cnd);
-            StateBox_SelectedIndexChanged(sender, e);
+            
             SelectNode(path);
             ConditionTree.SelectedNode = ConditionTree.SelectedNode.NextNode;
             ExpandFromList(list);
         }
 
+        private void AddSibling(ESD.Condition sibling)
+        {
+            var h = currentCH;
+            if (currentCH == null) return;
+            var path = ConditionTree.SelectedNode.Name;
+            var state = currentCondition.TargetState;
+
+            var list = ExpandedList();
+            h.ParentCollection.Insert(h.Index + 1, sibling);
+            RefreshConditionBox();
+            SelectNode(path);
+            ConditionTree.SelectedNode = ConditionTree.SelectedNode.NextNode;
+            ExpandFromList(list);
+        }
+
+        private void AddSiblingConditionBtn_Click(object sender, EventArgs e)
+        {
+            var cnd = new ESD.Condition();
+            cnd.Evaluator = "";
+            cnd.PassScript = "";
+            cnd.TargetState = 0;
+        }
+
         private void DeleteConditionBtn_Click(object sender, EventArgs e)
         {
             if (currentCondition == null) return;
+            var sibling = ConditionTree.SelectedNode.NextNode;
             var name = ConditionTree.SelectedNode.Text;
             if (DialogResult.OK == MessageBox.Show("Really delete " + name + "?", "Confirm", MessageBoxButtons.OKCancel))
             {
                 ConditionsFromNode(ConditionTree.SelectedNode).ParentCollection.Remove(currentCondition);
                 var list = ExpandedList();
-                StateBox_SelectedIndexChanged(sender, e);
+                RefreshConditionBox();
                 ConditionTree.Focus();
                 ExpandFromList(list);
+                ConditionTree.SelectedNode = sibling;
             }
         }
 
@@ -633,19 +662,29 @@ namespace Zeditor
                 {
                     MessageBox.Show("Invalid target state.");
                     TargetStateBox.Text = cnd.TargetState.ToString();
+                    ConditionTree.SelectedNode.Text = ConditionDisplay(cnd);
                 }
                 else if (cnd.Subconditions.Count > 0)
                 {
                     MessageBox.Show("Conditions with subconditions can't have target states.");
                     TargetStateBox.Text = cnd.TargetState.ToString();
+                    ConditionTree.SelectedNode.Text = ConditionDisplay(cnd);
+
                 }
                 else
                 {
+
                     currentCondition.TargetState = (long)newValue;
                     ConditionTree.SelectedNode.Text = ConditionDisplay(cnd);
-                    TargetStateNameBox.Text = currentStateGroup[(long)newValue].Name;
+                    if (currentStateGroup.ContainsKey(newValue))
+                        TargetStateNameBox.Text = currentStateGroup[(long)newValue].Name;
+                    else
+                        TargetStateNameBox.Text = "???";
                 }
             }
+            var path = ConditionTree.SelectedNode.Name;
+            RefreshConditionBox();
+            SelectNode(path);
         }
 
 
@@ -800,23 +839,44 @@ namespace Zeditor
             RefreshStateBox(newState.ID);
         }
 
+        private ESD.Condition CloneCondition(ESD.Condition src, string postfix = " (1)")
+        {
+
+            ESD.Condition newCondition = new ESD.Condition();
+            var match = Regex.Match(src.Name, @"\(\d+\)$");
+            if (match.Success)
+            {
+                string s = match.Value.Trim('(', ')');
+                int val = int.Parse(s);
+                postfix = "(" + (val + 1) + ")";
+                newCondition.Name = Regex.Replace(src.Name, @"\(\d+\)$", postfix);
+            } else
+            {
+                newCondition.Name = src.Name + postfix;
+            }
+            newCondition.TargetState = src.TargetState;
+            newCondition.Evaluator = src.Evaluator;
+            newCondition.PassScript = src.PassScript;
+            foreach (var sub in src.Subconditions)
+            {
+                newCondition.Subconditions.Add(CloneCondition(sub));
+            }
+            return newCondition;
+        }
+
+        private ESD.Condition CloneCondition(ESD.Condition src, ESD.State parent)
+        {
+            ESD.Condition cnd = CloneCondition(src);
+            parent.Conditions.Add(cnd);
+            return cnd;
+        }
+
         private ESD.State CloneState(ESD.State source, long? groupID = null, long? stateID = null)
         {
             var newState = new ESD.State();
 
-            void CloneCondition(ESD.Condition srcCondition, ESD.Condition parentCondition = null)
-            {
-                var newCondition = new ESD.Condition();
-                newCondition.Name = srcCondition.Name;
-                newCondition.TargetState = srcCondition.TargetState;
-                newCondition.Evaluator = srcCondition.Evaluator;
-                foreach (var sub in srcCondition.Subconditions) CloneCondition(sub, newCondition);
-                newCondition.PassScript = srcCondition.PassScript;
-                if (parentCondition == null) newState.Conditions.Add(newCondition);
-                else parentCondition.Subconditions.Add(newCondition);
-            }
+            foreach (var condition in source.Conditions) newState.Conditions.Add(CloneCondition(condition));
 
-            foreach (var condition in source.Conditions) CloneCondition(condition);
             newState.EntryScript = source.EntryScript;
             newState.ExitScript = source.ExitScript;
             newState.WhileScript = source.WhileScript;
@@ -1033,23 +1093,23 @@ namespace Zeditor
         private void RenameStateBtn_Click(object sender, EventArgs e)
         {
             if (currentState == null) return;
-            int index = StateBox.SelectedIndex;
-            string name = currentState.Name;
-            var box = InputBox("Rename State", "Enter a new name for the state: ", ref name);
-            if (box == DialogResult.OK)
+            var editState = currentState;
+            var editor = new StateDataEditor(editState);
+            if (editor.ShowDialog() == DialogResult.OK)
             {
-                string newName = "";
-                if (string.IsNullOrWhiteSpace(name))
+                if (!currentStateGroup.ContainsKey(editor.StateID) || currentStateGroup[editor.StateID] == editState)
                 {
-                    newName = "State" + (long)StateGroupBox.SelectedItem + "-" + currentState.ID;
-                }
-                else
+                    currentStateGroup.Remove(editState.ID);
+                    editState.ID = editor.StateID;
+                    currentStateGroup[editState.ID] = editState;
+                    editState.Name = editor.StateName;
+                    RefreshStateBox(editState.ID);
+                } else if (editor.StateID != editState.ID)
                 {
-                    newName = name.Trim();
+                    MessageBox.Show("ERROR: State ID already exists.");
+                    RenameStateBtn_Click(sender, e);
                 }
-                currentState.Name = newName;
-                RefreshStateBox();
-                StateBox.SelectedIndex = index;
+
             }
         }
 
@@ -1288,6 +1348,95 @@ namespace Zeditor
                 RefreshStateBox(newState.ID);
             }
         }
+
+        private void searchPrecedingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentState == null) return;
+            long target = currentState.ID;
+            Dictionary<ESD.Condition, List<long>> results = new Dictionary<ESD.Condition, List<long>>();
+            foreach (ESD.State state in currentStateGroup.Values)
+            {
+                foreach (ESD.Condition cnd in state.Conditions)
+                {
+                    CheckForStargetState(state, cnd, target, results);
+                }
+            }
+
+            var viewer = new SearchResultViewer(results);
+            viewer.ShowDialog();
+        }
+
+        private void CheckForStargetState(ESD.State state, ESD.Condition cnd, long target, Dictionary<ESD.Condition, List<long>> results)
+        {
+            if (cnd.TargetState.HasValue)
+            {
+                if (cnd.TargetState == target)
+                {
+                    if (!results.ContainsKey(cnd))
+                        results[cnd] = new List<long>();
+                    results[cnd].Add(state.ID);
+                }
+            } else
+            {
+                foreach (var sub in cnd.Subconditions)
+                {
+                    CheckForStargetState(state, sub, target, results);
+                }
+            }
+        }
+
+        private bool HasTargetState(ESD.Condition cnd, long target)
+        {
+            if (cnd.TargetState.HasValue)
+                return cnd.TargetState.Value == target;
+            
+            foreach (ESD.Condition sub in cnd.Subconditions)
+                    if (HasTargetState(sub, target))
+                        return true;
+
+            return false;
+        }
+
+        private void ReplaceTargetState(ESD.Condition cnd, long changeFrom, long changeTo)
+        {
+            if (cnd.TargetState.HasValue)
+            {
+                if (cnd.TargetState == changeFrom)
+                {
+                    cnd.TargetState = changeTo;
+                    cnd.Name = ConditionDisplay(cnd);
+                }
+            } else
+            {
+                foreach (ESD.Condition sub in cnd.Subconditions)
+                    ReplaceTargetState(sub, changeFrom, changeTo);
+            }
+        }
+
+        private void bulkTargetSwitchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var switcher = new BulkTargetSwitch();
+            if (switcher.ShowDialog() == DialogResult.OK)
+            {
+                foreach (ESD.State state in currentStateGroup.Values)
+                {
+                    foreach (ESD.Condition cnd in state.Conditions)
+                        ReplaceTargetState(cnd, switcher.ChangeFrom, switcher.ChangeTo);
+                }
+            }
+        }
+
+        private void EvaluatorBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (currentCondition == null) return;
+            currentCondition.Evaluator = EvaluatorBox.Text;
+        }
+
+        private void CloneCndBtn_Click(object sender, EventArgs e)
+        {
+            if (currentCondition == null) return;
+            AddSibling(CloneCondition(currentCondition));
+        }
     }
 
     public static class UTIL
@@ -1309,8 +1458,8 @@ namespace Zeditor
                 else sb.AppendLine("  at " + line);
             }
 
-            var v = new ErrorViewer();
-            v.errorBox.Text = sb.ToString();
+            var v = new MsgViewer();
+            v.msgBox.Text = sb.ToString();
             v.ShowDialog();
         }
 

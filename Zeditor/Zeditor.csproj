@@ -50,17 +50,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BulkTargetSwitch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BulkTargetSwitch.Designer.cs">
+      <DependentUpon>BulkTargetSwitch.cs</DependentUpon>
+    </Compile>
     <Compile Include="CloneHelper.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CloneHelper.Designer.cs">
       <DependentUpon>CloneHelper.cs</DependentUpon>
     </Compile>
-    <Compile Include="ErrorViewer.cs">
+    <Compile Include="MsgViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ErrorViewer.Designer.cs">
-      <DependentUpon>ErrorViewer.cs</DependentUpon>
+    <Compile Include="MsgViewer.Designer.cs">
+      <DependentUpon>MsgViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI.cs">
       <SubType>Form</SubType>
@@ -76,11 +82,26 @@
     <Compile Include="PropertyEditor.Designer.cs">
       <DependentUpon>PropertyEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="SearchResultViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchResultViewer.Designer.cs">
+      <DependentUpon>SearchResultViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StateDataEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StateDataEditor.Designer.cs">
+      <DependentUpon>StateDataEditor.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BulkTargetSwitch.resx">
+      <DependentUpon>BulkTargetSwitch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CloneHelper.resx">
       <DependentUpon>CloneHelper.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ErrorViewer.resx">
-      <DependentUpon>ErrorViewer.cs</DependentUpon>
+    <EmbeddedResource Include="MsgViewer.resx">
+      <DependentUpon>MsgViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI.resx">
       <DependentUpon>GUI.cs</DependentUpon>
@@ -97,6 +118,12 @@
     </Compile>
     <EmbeddedResource Include="PropertyEditor.resx">
       <DependentUpon>PropertyEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchResultViewer.resx">
+      <DependentUpon>SearchResultViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StateDataEditor.resx">
+      <DependentUpon>StateDataEditor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
