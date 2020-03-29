@@ -391,6 +391,8 @@ namespace Zeditor
                 EvaluatorBox.Text = currentCondition.Evaluator;
                 PassCmdBox.Text = currentCondition.PassScript;
             }
+            EvaluatorBox.ClearUndo();
+            PassCmdBox.ClearUndo();
             UpdateTitleBox();
         }
 
