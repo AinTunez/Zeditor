@@ -61,6 +61,7 @@ namespace Zeditor
 
         public GUI()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             InitializeComponent();
             OnResize();
 

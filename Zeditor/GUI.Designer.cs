@@ -64,6 +64,7 @@
             this.MoveCndDownBtn = new System.Windows.Forms.Button();
             this.AddSubconditionBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CloneCndBtn = new System.Windows.Forms.Button();
             this.AddSiblingConditionBtn = new System.Windows.Forms.Button();
             this.TargetStateNameBox = new System.Windows.Forms.TextBox();
             this.RenameConditionBtn = new System.Windows.Forms.Button();
@@ -95,7 +96,6 @@
             this.stateGroupLayoutBox = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.LongFormatBox = new System.Windows.Forms.CheckBox();
-            this.CloneCndBtn = new System.Windows.Forms.Button();
             this.MenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -475,6 +475,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Conditions";
             // 
+            // CloneCndBtn
+            // 
+            this.CloneCndBtn.Location = new System.Drawing.Point(189, 162);
+            this.CloneCndBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.CloneCndBtn.Name = "CloneCndBtn";
+            this.CloneCndBtn.Size = new System.Drawing.Size(104, 26);
+            this.CloneCndBtn.TabIndex = 16;
+            this.CloneCndBtn.TabStop = false;
+            this.CloneCndBtn.Text = "Deep Clone CND";
+            this.CloneCndBtn.UseVisualStyleBackColor = true;
+            this.CloneCndBtn.Click += new System.EventHandler(this.CloneCndBtn_Click);
+            // 
             // AddSiblingConditionBtn
             // 
             this.AddSiblingConditionBtn.Location = new System.Drawing.Point(189, 129);
@@ -628,7 +640,7 @@
         '\"',
         '\'',
         '\''};
-            this.EntryCmdBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.EntryCmdBox.AutoScrollMinSize = new System.Drawing.Size(0, 14);
             this.EntryCmdBox.BackBrush = null;
             this.EntryCmdBox.CharHeight = 14;
             this.EntryCmdBox.CharWidth = 7;
@@ -644,6 +656,7 @@
             this.EntryCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("EntryCmdBox.ServiceColors")));
             this.EntryCmdBox.Size = new System.Drawing.Size(334, 110);
             this.EntryCmdBox.TabIndex = 0;
+            this.EntryCmdBox.WordWrap = true;
             this.EntryCmdBox.Zoom = 100;
             // 
             // groupBox6
@@ -672,7 +685,7 @@
         '\"',
         '\'',
         '\''};
-            this.ExitCmdBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.ExitCmdBox.AutoScrollMinSize = new System.Drawing.Size(0, 14);
             this.ExitCmdBox.BackBrush = null;
             this.ExitCmdBox.CharHeight = 14;
             this.ExitCmdBox.CharWidth = 7;
@@ -688,6 +701,7 @@
             this.ExitCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("ExitCmdBox.ServiceColors")));
             this.ExitCmdBox.Size = new System.Drawing.Size(334, 110);
             this.ExitCmdBox.TabIndex = 1;
+            this.ExitCmdBox.WordWrap = true;
             this.ExitCmdBox.Zoom = 100;
             // 
             // groupBox7
@@ -716,7 +730,7 @@
         '\"',
         '\'',
         '\''};
-            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.WhileCmdBox.AutoScrollMinSize = new System.Drawing.Size(0, 14);
             this.WhileCmdBox.BackBrush = null;
             this.WhileCmdBox.CharHeight = 14;
             this.WhileCmdBox.CharWidth = 7;
@@ -732,6 +746,7 @@
             this.WhileCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("WhileCmdBox.ServiceColors")));
             this.WhileCmdBox.Size = new System.Drawing.Size(334, 110);
             this.WhileCmdBox.TabIndex = 2;
+            this.WhileCmdBox.WordWrap = true;
             this.WhileCmdBox.Zoom = 100;
             // 
             // conditionTab
@@ -781,7 +796,7 @@
         '\"',
         '\'',
         '\''};
-            this.EvaluatorBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.EvaluatorBox.AutoScrollMinSize = new System.Drawing.Size(0, 14);
             this.EvaluatorBox.BackBrush = null;
             this.EvaluatorBox.CharHeight = 14;
             this.EvaluatorBox.CharWidth = 7;
@@ -797,6 +812,7 @@
             this.EvaluatorBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("EvaluatorBox.ServiceColors")));
             this.EvaluatorBox.Size = new System.Drawing.Size(296, 227);
             this.EvaluatorBox.TabIndex = 2;
+            this.EvaluatorBox.WordWrap = true;
             this.EvaluatorBox.Zoom = 100;
             this.EvaluatorBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.EvaluatorBox_TextChanged);
             // 
@@ -826,7 +842,7 @@
         '\"',
         '\'',
         '\''};
-            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(25, 14);
+            this.PassCmdBox.AutoScrollMinSize = new System.Drawing.Size(0, 14);
             this.PassCmdBox.BackBrush = null;
             this.PassCmdBox.CharHeight = 14;
             this.PassCmdBox.CharWidth = 7;
@@ -842,6 +858,7 @@
             this.PassCmdBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("PassCmdBox.ServiceColors")));
             this.PassCmdBox.Size = new System.Drawing.Size(296, 227);
             this.PassCmdBox.TabIndex = 2;
+            this.PassCmdBox.WordWrap = true;
             this.PassCmdBox.Zoom = 100;
             // 
             // AddGroupBtn
@@ -955,18 +972,6 @@
             this.LongFormatBox.Text = "Save in 64-bit mode (uncheck for PTDE)";
             this.LongFormatBox.UseVisualStyleBackColor = true;
             this.LongFormatBox.CheckedChanged += new System.EventHandler(this.LongFormatBox_CheckedChanged);
-            // 
-            // CloneCndBtn
-            // 
-            this.CloneCndBtn.Location = new System.Drawing.Point(189, 162);
-            this.CloneCndBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.CloneCndBtn.Name = "CloneCndBtn";
-            this.CloneCndBtn.Size = new System.Drawing.Size(104, 26);
-            this.CloneCndBtn.TabIndex = 16;
-            this.CloneCndBtn.TabStop = false;
-            this.CloneCndBtn.Text = "Deep Clone CND";
-            this.CloneCndBtn.UseVisualStyleBackColor = true;
-            this.CloneCndBtn.Click += new System.EventHandler(this.CloneCndBtn_Click);
             // 
             // GUI
             // 
