@@ -77,9 +77,35 @@ namespace SoulsFormats.ESD.EzSemble
             internal List<CommandCall> WhileCommands;
             internal CompiledState(EzSembleContext context, State s)
             {
-                EntryCommands = EzSembler.AssembleCommandScript(context, s.EntryScript);
-                ExitCommands = EzSembler.AssembleCommandScript(context, s.ExitScript);
-                WhileCommands = EzSembler.AssembleCommandScript(context, s.WhileScript);
+                try
+                {
+                    EntryCommands = EzSembler.AssembleCommandScript(context, s.EntryScript);
+                }
+                catch (Exception ex)
+                {
+                    context.Debug_StateSaveError(ex, "Failed to compile state entry script.");
+                }
+
+                try
+                {
+                    ExitCommands = EzSembler.AssembleCommandScript(context, s.ExitScript);
+                }
+                catch (Exception ex)
+                {
+                    context.Debug_StateSaveError(ex, "Failed to compile state exit script.");
+                }
+
+                try
+                {
+                    WhileCommands = EzSembler.AssembleCommandScript(context, s.WhileScript);
+                }
+                catch (Exception ex)
+                {
+                    context.Debug_StateSaveError(ex, "Failed to compile state while script.");
+                }
+
+               
+                
             }
         }
 
@@ -136,6 +162,32 @@ namespace SoulsFormats.ESD.EzSemble
             CompiledStatesForSaving = new Dictionary<State, CompiledState>();
             CompiledConditionsForSaving = new Dictionary<Condition, CompiledCondition>();
             EnumInfo = new Dictionary<string, List<EzSembleEnumEntry>>();
+        }
+
+        public long Debug_CurrentStateGroup = -1;
+        public State Debug_CurrentState = null;
+        public string Debug_CurrentConditionStackTrace = null;
+
+        public void Debug_EnterState(long stateGroupID, State state)
+        {
+            Debug_CurrentStateGroup = stateGroupID;
+            Debug_CurrentState = state;
+            Debug_CurrentConditionStackTrace = $"StateGroup{Debug_CurrentStateGroup}/{Debug_CurrentState.ID}: {Debug_CurrentState.Name}";
+        }
+
+        public void Debug_EnterCondition(string stackTrace)
+        {
+            Debug_CurrentConditionStackTrace = stackTrace;
+        }
+
+        public void Debug_StateSaveError(Exception ex, string errorMsg)
+        {
+            throw new Exception($"ESD State Write Error at StateGroup{Debug_CurrentStateGroup}/{Debug_CurrentState.ID}: {Debug_CurrentState.Name}: {errorMsg} -> {ex.Message}", ex);
+        }
+
+        public void Debug_ConditionSaveError(Exception ex, string errorMsg)
+        {
+            throw new Exception($"ESD Condition Write Error at {Debug_CurrentConditionStackTrace}: {errorMsg} -> {ex.Message}", ex);
         }
 
         public EzSembleMethodInfo GetCommandInfo(int bank, int id)

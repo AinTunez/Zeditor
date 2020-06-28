@@ -6,14 +6,17 @@ using System.Windows.Forms;
 
 namespace Zeditor
 {
-    static class Program
+    public static class Program
     {
+        public static string[] ARGS = null;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            ARGS = args;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new GUI());

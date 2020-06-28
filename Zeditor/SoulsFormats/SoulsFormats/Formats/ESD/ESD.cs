@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace SoulsFormats.ESD
 {
@@ -392,6 +393,7 @@ namespace SoulsFormats.ESD
                 foreach (long stateID in stateIDs[groupID])
                 {
                     stateOffsets[groupID][stateID] = bw.Position - dataStart;
+                    context.Debug_EnterState(groupID, StateGroups[groupID][stateID]);
                     StateGroups[groupID][stateID].WriteHeader(context, bw, LongFormat, groupID, stateID);
                 }
                 if (StateGroups[groupID].Count > 1)
@@ -403,24 +405,50 @@ namespace SoulsFormats.ESD
 
             // Make a list of every unique condition
             var conditions = new Dictionary<long, List<Condition>>();
+            var conditions_DebugCndStack = new Dictionary<long, List<string>>();
+
+            string DbgGetCndStackString(Stack<Condition> dbgCndStack)
+            {
+                var sb = new StringBuilder();
+                var stk = dbgCndStack.ToList();
+
+                for (int i = 0; i < stk.Count; i++)
+                {
+                    if (i > 0)
+                        sb.Append("/");
+
+                    sb.Append(stk[i].Name);
+                }
+
+                return sb.ToString();
+            }
+
             foreach (long groupID in stateGroupIDs)
             {
                 conditions[groupID] = new List<Condition>();
-                void addCondition(Condition cond)
+                conditions_DebugCndStack[groupID] = new List<string>();
+
+                Stack<Condition> debug_cndStack = new Stack<Condition>();
+
+                void addCondition(State state, Condition cond)
                 {
                     if (!conditions[groupID].Any(c => ReferenceEquals(cond, c)))
                     {
                         conditions[groupID].Add(cond);
+                        debug_cndStack.Push(cond);
+                        conditions_DebugCndStack[groupID].Add($"StateGroup{groupID}/{state.ID}: {state.Name}/" + DbgGetCndStackString(debug_cndStack));
                         foreach (Condition subCond in cond.Subconditions)
-                            addCondition(subCond);
+                            addCondition(state, subCond);
+                        debug_cndStack.Pop();
                     }
                 }
 
                 foreach (State state in StateGroups[groupID].Values)
                 {
+                    context.Debug_EnterState(groupID, state);
                     foreach (Condition cond in state.Conditions)
                     {
-                        addCondition(cond);
+                        addCondition(state, cond);
                     }
                 }
             }
@@ -434,6 +462,7 @@ namespace SoulsFormats.ESD
                 {
                     Condition cond = conditions[groupID][i];
                     cond.MetaRefID = conditionOffsets[cond] = bw.Position - dataStart;
+                    context.Debug_EnterCondition(conditions_DebugCndStack[groupID][i]);
                     cond.WriteHeader(context, bw, LongFormat, groupID, i, stateOffsets[groupID]);
                 }
             }
@@ -443,10 +472,12 @@ namespace SoulsFormats.ESD
             {
                 foreach (long stateID in stateIDs[groupID])
                 {
+                    context.Debug_EnterState(groupID, StateGroups[groupID][stateID]);
                     StateGroups[groupID][stateID].WriteCommandCalls(context, bw, LongFormat, groupID, stateID, dataStart, commands);
                 }
                 for (int i = 0; i < conditions[groupID].Count; i++)
                 {
+                    context.Debug_EnterCondition(conditions_DebugCndStack[groupID][i]);
                     conditions[groupID][i].WriteCommandCalls(context, bw, LongFormat, groupID, i, dataStart, commands);
                 }
             }
@@ -464,6 +495,7 @@ namespace SoulsFormats.ESD
             {
                 foreach (long stateID in stateIDs[groupID])
                 {
+                    context.Debug_EnterState(groupID, StateGroups[groupID][stateID]);
                     conditionOffsetsCount += StateGroups[groupID][stateID].WriteConditionOffsets(bw, LongFormat, groupID, stateID, dataStart, conditionOffsets);
                 }
                 for (int i = 0; i < conditions[groupID].Count; i++)
@@ -477,6 +509,7 @@ namespace SoulsFormats.ESD
             {
                 for (int i = 0; i < conditions[groupID].Count; i++)
                 {
+                    context.Debug_EnterCondition(conditions_DebugCndStack[groupID][i]);
                     conditions[groupID][i].WriteEvaluator(context, bw, LongFormat, groupID, i, dataStart);
                 }
             }
@@ -943,36 +976,62 @@ namespace SoulsFormats.ESD
                 else
                     WriteVarint(bw, longFormat, -1);
 
-                var PassCommands = EzSembler.AssembleCommandScript(context, PassScript);
+                try
+                {
+                    var PassCommands = EzSembler.AssembleCommandScript(context, PassScript);
+                    ReserveVarint(bw, longFormat, $"Condition{groupID}-{index}:PassCommandsOffset");
+                    WriteVarint(bw, longFormat, PassCommands.Count);
+                }
+                catch (Exception ex)
+                {
+                    context.Debug_ConditionSaveError(ex, "Failed to compile pass script.");
+                }
 
-                ReserveVarint(bw, longFormat, $"Condition{groupID}-{index}:PassCommandsOffset");
-                WriteVarint(bw, longFormat, PassCommands.Count);
                 ReserveVarint(bw, longFormat, $"Condition{groupID}-{index}:ConditionsOffset");
                 WriteVarint(bw, longFormat, Subconditions.Count);
                 ReserveVarint(bw, longFormat, $"Condition{groupID}-{index}:EvaluatorOffset");
-                WriteVarint(bw, longFormat, context.GetCompiledCondition(this).Evaluator.Length);
+                
+
+                try
+                {
+                    WriteVarint(bw, longFormat, context.GetCompiledCondition(this).Evaluator.Length);
+                }
+                catch (Exception ex)
+                {
+                    context.Debug_ConditionSaveError(ex, "Failed to compile evaluator.");
+                }
             }
 
             internal void WriteCommandCalls(EzSembleContext context, BinaryWriterEx bw, bool longFormat, long groupID, int index, long dataStart, List<CommandCall> commands)
             {
-                var PassCommands = context.GetCompiledCondition(this).PassCommands;
-                if (PassCommands.Count == 0)
+                try
                 {
-                    FillVarint(bw, longFormat, $"Condition{groupID}-{index}:PassCommandsOffset", -1);
-                }
-                else
-                {
-                    FillVarint(bw, longFormat, $"Condition{groupID}-{index}:PassCommandsOffset", bw.Position - dataStart);
-                    foreach (CommandCall command in PassCommands)
+                    var PassCommands = context.GetCompiledCondition(this).PassCommands;
+                    if (PassCommands.Count == 0)
                     {
-                        command.WriteHeader(bw, longFormat, commands.Count);
-                        commands.Add(command);
+                        FillVarint(bw, longFormat, $"Condition{groupID}-{index}:PassCommandsOffset", -1);
+                    }
+                    else
+                    {
+                        FillVarint(bw, longFormat, $"Condition{groupID}-{index}:PassCommandsOffset", bw.Position - dataStart);
+                        foreach (CommandCall command in PassCommands)
+                        {
+                            command.WriteHeader(bw, longFormat, commands.Count);
+                            commands.Add(command);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    context.Debug_ConditionSaveError(ex, "Failed to compile condition pass script.");
+                }
+
+                
             }
 
             internal int WriteConditionOffsets(BinaryWriterEx bw, bool longFormat, long groupID, int index, long dataStart, Dictionary<Condition, long> conditionOffsets)
             {
+
                 if (Subconditions.Count == 0)
                 {
                     FillVarint(bw, longFormat, $"Condition{groupID}-{index}:ConditionsOffset", -1);
@@ -988,8 +1047,16 @@ namespace SoulsFormats.ESD
 
             internal void WriteEvaluator(EzSembleContext context, BinaryWriterEx bw, bool longFormat, long groupID, int index, long dataStart)
             {
-                FillVarint(bw, longFormat, $"Condition{groupID}-{index}:EvaluatorOffset", bw.Position - dataStart);
-                bw.WriteBytes(context.GetCompiledCondition(this).Evaluator);
+                try
+                {
+                    FillVarint(bw, longFormat, $"Condition{groupID}-{index}:EvaluatorOffset", bw.Position - dataStart);
+                    bw.WriteBytes(context.GetCompiledCondition(this).Evaluator);
+                }
+                catch (Exception ex)
+                {
+                    context.Debug_ConditionSaveError(ex, "Failed to compile evaluator.");
+                }
+                
             }
 
             /// <summary>

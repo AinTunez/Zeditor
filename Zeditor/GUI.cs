@@ -16,6 +16,7 @@ namespace Zeditor
 {
     public partial class GUI : Form
     {
+        static string lastDirectoryEsdLoadedFrom = null;
 
         static EzSembleContext ScriptingContext;
         
@@ -31,6 +32,8 @@ namespace Zeditor
 
         string filePath = "";
         public static ESD currentESD = null;
+
+        private bool IsCurrentlyClearingBoxesDoNotUpdateScriptFields = false;
         
         StateGroupHandler currentSGH => (StateGroupHandler)StateGroupBox.SelectedItem ?? null;
         Dictionary<long, ESD.State> currentStateGroup => currentSGH == null ? null : currentSGH.Group;
@@ -193,6 +196,30 @@ namespace Zeditor
             public StateHandler(ESD.State state) => State = state;
         }
 
+        private bool DoEsdLoad(string esdPath)
+        {
+            try
+            {
+                UseWaitCursor = true;
+                InitContext();
+                currentESD = ESD.ReadWithMetadata(esdPath, false, false, ScriptingContext);
+                lastDirectoryEsdLoadedFrom = Path.GetDirectoryName(esdPath);
+                LongFormatBox.Checked = currentESD.LongFormat;
+                Text = Path.GetFileName(esdPath) + " - Zeditor";
+                RefreshStateGroupBox();
+                filePath = esdPath;
+                UseWaitCursor = false;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                UTIL.LogException("Unable to load ESD.", ex);
+                UseWaitCursor = false;
+            }
+
+            return false;
+        }
+
         private void openESDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog();
@@ -206,24 +233,16 @@ namespace Zeditor
                        ofd.FileName = Path.GetFileName(filePath);
                 }
             }
+            else if (lastDirectoryEsdLoadedFrom != null && Directory.Exists(lastDirectoryEsdLoadedFrom))
+            {
+                ofd.InitialDirectory = lastDirectoryEsdLoadedFrom;
+            }
+
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                try
+                if (!DoEsdLoad(ofd.FileName))
                 {
-                    UseWaitCursor = true;
-                    InitContext();
-                    currentESD = ESD.ReadWithMetadata(ofd.FileName, false, false, ScriptingContext);
-                    LongFormatBox.Checked = currentESD.LongFormat;
-                    Text = "Zeditor - " + Path.GetFileName(ofd.FileName);
-                    RefreshStateGroupBox();
-                    filePath = ofd.FileName;
-                    UseWaitCursor = false;
-                }
-                catch (Exception ex)
-                {
-                    UTIL.LogException("Unable to load ESD.", ex);
                     openESDToolStripMenuItem_Click(sender, e);
-                    UseWaitCursor = false;
                 }
             }
         }
@@ -499,10 +518,42 @@ namespace Zeditor
 
         private void AddSiblingConditionBtn_Click(object sender, EventArgs e)
         {
-            var cnd = new ESD.Condition();
-            cnd.Evaluator = "";
-            cnd.PassScript = "";
-            cnd.TargetState = 0;
+            var currentCnd = ConditionsFromNode(ConditionTree.SelectedNode).Condition;
+
+            var newCnd = new ESD.Condition();
+            newCnd.Evaluator = "";
+            newCnd.PassScript = "";
+            newCnd.TargetState = 0;
+            newCnd.Name = "PRE-" + currentCnd.Name;
+
+            var path = ConditionTree.SelectedNode.Name;
+            var list = ExpandedList();
+
+            foreach (var state in currentSGH.Group.Values)
+            {
+                void CheckConditionList(List<ESD.Condition> cndList)
+                {
+                    if (cndList.Contains(currentCnd) && !cndList.Contains(newCnd))
+                    {
+                        cndList.Insert(cndList.IndexOf(currentCnd), newCnd);
+                    }
+
+                    foreach (var subCnd in cndList)
+                    {
+                        if (subCnd.Subconditions != null)
+                        {
+                            CheckConditionList(subCnd.Subconditions);
+                        }
+                    }
+                }
+
+                CheckConditionList(state.Conditions);
+            }
+
+            RefreshConditionBox();
+            SelectNode(path);
+            ConditionTree.SelectedNode = ConditionTree.SelectedNode.PrevNode;
+            ExpandFromList(list);
         }
 
         private void DeleteConditionBtn_Click(object sender, EventArgs e)
@@ -716,7 +767,7 @@ namespace Zeditor
                 if (argString.Length == 2) argString = "No documented arguments.";
                 ToolTips[str] = argString;
                 return new AutocompleteItem(str + "(", -1, str, info.Description, argString);
-            });
+            }).Concat(functions);
 
             FastColoredTextBox[] boxes = { EntryCmdBox, ExitCmdBox, WhileCmdBox, EvaluatorBox, PassCmdBox };
             foreach (var box in boxes)
@@ -985,6 +1036,7 @@ namespace Zeditor
 
         private void ClearEditors()
         {
+            IsCurrentlyClearingBoxesDoNotUpdateScriptFields = true;
             ConditionTree.Nodes.Clear();
             EditorTitleBox.Text = "";
             PassCmdBox.Text = "";
@@ -993,6 +1045,7 @@ namespace Zeditor
             ExitCmdBox.Text = "";
             EvaluatorBox.Text = "";
             TargetStateBox.Text = "";
+            IsCurrentlyClearingBoxesDoNotUpdateScriptFields = false;
         }
 
         public long? GetNewKey()
@@ -1322,6 +1375,22 @@ namespace Zeditor
         private void GUI_Load(object sender, EventArgs e)
         {
 
+
+            bool isValidAutoFileOpen = false;
+            // In try catch because if invalid path was given I think File.Exists would just freak out
+            try
+            {
+                isValidAutoFileOpen = Program.ARGS != null && Program.ARGS.Length == 1 && File.Exists(Program.ARGS[0]);
+            }
+            catch
+            {
+
+            }
+
+            if (isValidAutoFileOpen)
+            {
+                DoEsdLoad(Program.ARGS[0]);
+            }
         }
 
         private void testEntryScriptToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1440,6 +1509,29 @@ namespace Zeditor
             if (currentCondition == null) return;
             AddSibling(CloneCondition(currentCondition));
         }
+
+        private void EntryCmdBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (currentState != null && !IsCurrentlyClearingBoxesDoNotUpdateScriptFields)
+                currentState.EntryScript = EntryCmdBox.Text;
+        }
+
+        private void ExitCmdBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (currentState != null && !IsCurrentlyClearingBoxesDoNotUpdateScriptFields)
+                currentState.ExitScript = ExitCmdBox.Text;
+        }
+
+        private void WhileCmdBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (currentState != null && !IsCurrentlyClearingBoxesDoNotUpdateScriptFields)
+                currentState.WhileScript = WhileCmdBox.Text;
+        }
+
+        private void TargetStateBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public static class UTIL
@@ -1463,7 +1555,7 @@ namespace Zeditor
 
             var v = new MsgViewer();
             v.msgBox.Text = sb.ToString();
-            v.ShowDialog();
+            v.Show();
         }
 
     }
