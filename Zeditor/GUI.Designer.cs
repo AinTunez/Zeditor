@@ -361,6 +361,7 @@
             this.TargetStateBox.Name = "TargetStateBox";
             this.TargetStateBox.Size = new System.Drawing.Size(38, 20);
             this.TargetStateBox.TabIndex = 5;
+            this.TargetStateBox.TextChanged += new System.EventHandler(this.TargetStateBox_TextChanged);
             this.TargetStateBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TargetStateBox_KeyDown);
             this.TargetStateBox.Leave += new System.EventHandler(this.TargetStateBox_Leave);
             // 
@@ -391,7 +392,7 @@
             // 
             // AddConditionBtn
             // 
-            this.AddConditionBtn.Location = new System.Drawing.Point(189, 69);
+            this.AddConditionBtn.Location = new System.Drawing.Point(187, 53);
             this.AddConditionBtn.Margin = new System.Windows.Forms.Padding(2);
             this.AddConditionBtn.Name = "AddConditionBtn";
             this.AddConditionBtn.Size = new System.Drawing.Size(104, 26);
@@ -439,7 +440,7 @@
             // 
             // AddSubconditionBtn
             // 
-            this.AddSubconditionBtn.Location = new System.Drawing.Point(189, 99);
+            this.AddSubconditionBtn.Location = new System.Drawing.Point(187, 83);
             this.AddSubconditionBtn.Margin = new System.Windows.Forms.Padding(2);
             this.AddSubconditionBtn.Name = "AddSubconditionBtn";
             this.AddSubconditionBtn.Size = new System.Drawing.Size(104, 26);
@@ -477,7 +478,7 @@
             // 
             // CloneCndBtn
             // 
-            this.CloneCndBtn.Location = new System.Drawing.Point(189, 162);
+            this.CloneCndBtn.Location = new System.Drawing.Point(187, 152);
             this.CloneCndBtn.Margin = new System.Windows.Forms.Padding(2);
             this.CloneCndBtn.Name = "CloneCndBtn";
             this.CloneCndBtn.Size = new System.Drawing.Size(104, 26);
@@ -489,13 +490,13 @@
             // 
             // AddSiblingConditionBtn
             // 
-            this.AddSiblingConditionBtn.Location = new System.Drawing.Point(189, 129);
+            this.AddSiblingConditionBtn.Location = new System.Drawing.Point(187, 113);
             this.AddSiblingConditionBtn.Margin = new System.Windows.Forms.Padding(2);
             this.AddSiblingConditionBtn.Name = "AddSiblingConditionBtn";
-            this.AddSiblingConditionBtn.Size = new System.Drawing.Size(104, 26);
+            this.AddSiblingConditionBtn.Size = new System.Drawing.Size(104, 35);
             this.AddSiblingConditionBtn.TabIndex = 15;
             this.AddSiblingConditionBtn.TabStop = false;
-            this.AddSiblingConditionBtn.Text = "New Sibling CND";
+            this.AddSiblingConditionBtn.Text = "New Linked Pre-Sibling CND";
             this.AddSiblingConditionBtn.UseVisualStyleBackColor = true;
             this.AddSiblingConditionBtn.Click += new System.EventHandler(this.AddSiblingConditionBtn_Click);
             // 
@@ -658,6 +659,7 @@
             this.EntryCmdBox.TabIndex = 0;
             this.EntryCmdBox.WordWrap = true;
             this.EntryCmdBox.Zoom = 100;
+            this.EntryCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.EntryCmdBox_TextChanged);
             // 
             // groupBox6
             // 
@@ -703,6 +705,7 @@
             this.ExitCmdBox.TabIndex = 1;
             this.ExitCmdBox.WordWrap = true;
             this.ExitCmdBox.Zoom = 100;
+            this.ExitCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.ExitCmdBox_TextChanged);
             // 
             // groupBox7
             // 
@@ -748,6 +751,7 @@
             this.WhileCmdBox.TabIndex = 2;
             this.WhileCmdBox.WordWrap = true;
             this.WhileCmdBox.Zoom = 100;
+            this.WhileCmdBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.WhileCmdBox_TextChanged);
             // 
             // conditionTab
             // 

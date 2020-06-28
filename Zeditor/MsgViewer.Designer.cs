@@ -44,7 +44,6 @@
             this.msgBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.msgBox.Size = new System.Drawing.Size(912, 535);
             this.msgBox.TabIndex = 0;
-            this.msgBox.WordWrap = false;
             // 
             // MsgViewer
             // 
@@ -52,7 +51,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(912, 535);
             this.Controls.Add(this.msgBox);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MsgViewer";
